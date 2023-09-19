@@ -25,13 +25,13 @@ import java.util.Locale;
 public class ItemAdapter extends ArrayAdapter<Item> {
 
     private Activity activity;
-    public static List<Item> itemList;
+//    public static List<Item> itemList;
 
 
     public ItemAdapter(Activity activity, List<Item> itemList) {
         super(activity, 0, itemList);
         this.activity = activity;
-        this.itemList = itemList;
+//        this.itemList = itemList;
     }
 
 
@@ -41,7 +41,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             convertView = LayoutInflater.from(activity).inflate(R.layout.item_list_item, parent, false);
         }
 
-        Item item = ItemAdapter.itemList.get(position);
+        Item item = itemArray.itemList.get(position);
 
 //        ImageView itemImageView = convertView.findViewById(R.id.itemImageView);
         TextView itemNameTextView = convertView.findViewById(R.id.itemNameTextView);
@@ -152,7 +152,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     // Handle image selection result
     public void handleImageSelectionResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode >= 0 && requestCode < ItemAdapter.itemList.size()) {
+            if (requestCode >= 0 && requestCode < itemArray.itemList.size()) {
                 Uri selectedImageUri = data.getData();
                 String imagePath = getPathFromUri(selectedImageUri);
 
@@ -179,5 +179,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         }
         return null;
     }
+
 }
 
