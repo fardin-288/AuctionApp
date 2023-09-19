@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Item {
@@ -66,4 +67,8 @@ public class Item {
 //        remainingTime = (startTime + 100000) - System.currentTimeMillis();
         remainingTime = remainingTime - 1;
     }
+}
+
+class itemArray{
+    public static List<Item> itemList = new ArrayList<Item>();
 }

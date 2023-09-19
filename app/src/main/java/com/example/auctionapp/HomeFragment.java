@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Initialize the adapter and ListView
-        adapter = new ItemAdapter(requireActivity(), ItemAdapter.itemList);
+        adapter = new ItemAdapter(requireActivity(), itemArray.itemList);
         listView = rootView.findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
                     // Create a new Item object and add it to the list
                     Item newItem = new Item(itemName,itemDescription, itemPriceFloat,currentTime); // Modify as needed
 
-                    ItemAdapter.itemList.add(newItem);
+                    itemArray.itemList.add(newItem);
                     adapter.notifyDataSetChanged();
                 }
                 dialog.dismiss();
