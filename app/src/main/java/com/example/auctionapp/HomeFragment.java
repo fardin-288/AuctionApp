@@ -25,6 +25,22 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        Thread backgroundThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    ItemAdapter.updateAllitem();
+                    getView();
+                    try {
+                        Thread.sleep(1000); // Sleep for 1 second (adjust as needed)
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        backgroundThread.start();
+
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Initialize the adapter and ListView

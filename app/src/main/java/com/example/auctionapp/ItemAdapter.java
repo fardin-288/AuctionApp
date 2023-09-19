@@ -41,6 +41,21 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             convertView = LayoutInflater.from(activity).inflate(R.layout.item_list_item, parent, false);
         }
 
+//        Thread backgroundThread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true) {
+//                    updateAllitem();
+//                    try {
+//                        Thread.sleep(1000); // Sleep for 1 second (adjust as needed)
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
+//        backgroundThread.start();
+
         Item item = itemArray.itemList.get(position);
 
 //        ImageView itemImageView = convertView.findViewById(R.id.itemImageView);
@@ -82,11 +97,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 //    public static final Handler handler = new Handler();
 //
-//    public static void updateAllitem(){
-//        for(Item a: itemList){
-//            a.updateRemainingTime();
-//        }
-//    }
+    public static void updateAllitem(){
+        for(Item a: itemArray.itemList){
+            a.updateRemainingTime();
+        }
+    }
 //
 //    static Runnable updateTimeRunnable = new Runnable() {
 //        @Override
