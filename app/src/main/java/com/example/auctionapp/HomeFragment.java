@@ -102,6 +102,8 @@ public class HomeFragment extends Fragment {
 
                     itemArray.itemList.add(newItem);
                     adapter.notifyDataSetChanged();
+
+                    itemArray.incrementTotal();
                 }
                 dialog.dismiss();
             }

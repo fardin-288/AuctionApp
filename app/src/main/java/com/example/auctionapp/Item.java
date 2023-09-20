@@ -20,9 +20,9 @@ public class Item {
     private long remainingTime; // Remaining time in milliseconds
     private Uri imgUri;
 
-    private String ownerID;
+    private FirebaseUser ownerID;
 
-    private String currentWinner;
+    private FirebaseUser currentWinner;
 
     public Item(String name, String description, double currentPrice, long startTime) {
         this.name = name;
@@ -33,7 +33,7 @@ public class Item {
         this.remainingTime = (startTime + 100000) - System.currentTimeMillis();
         this.pictureResource = 0;
         this.ownerID = getOwnerid();
-        this.currentWinner = ownerID;
+        this.currentWinner = null;
     }
 
     // Getter and Setter methods for the attributes
@@ -78,10 +78,10 @@ public class Item {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        this.ownerID = user.getUid();
+        this.ownerID = user;
     }
 
-    public String getOwnerid(){
+    public FirebaseUser getOwnerid(){
         return this.ownerID;
     }
 
@@ -89,19 +89,19 @@ public class Item {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        this.currentWinner = user.getUid();
+        this.currentWinner = user;
     }
 
-    public String getCurrentWinner(){
+    public FirebaseUser getCurrentWinner(){
         return this.currentWinner;
     }
+
     public String getCurrentWinnerName(){
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-
-        return user.getDisplayName();
+        if(currentWinner != null){
+            return currentWinner.getDisplayName();
+        }
+        return "";
     }
-
 
     public void updateRemainingTime(){
 //        remainingTime = (startTime + 100000) - System.currentTimeMillis();
@@ -110,6 +110,14 @@ public class Item {
 }
 
 class itemArray{
-    long total = 0;
+     static long total = 0;
     public static List<Item> itemList = new ArrayList<Item>();
+
+    public static void incrementTotal(){
+        total++;
+    }
+
+    public static long getTotal(){
+        return total;
+    }
 }
