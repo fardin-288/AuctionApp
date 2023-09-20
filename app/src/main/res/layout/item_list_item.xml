@@ -47,7 +47,14 @@
         android:id="@+id/itemTimeRemaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Price: $0.00"
+        android:text="time"
+        android:textSize="16sp"
+        />
+    <TextView
+        android:id="@+id/itemcurrentWinnerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time"
         android:textSize="16sp"
         />
 
@@ -56,4 +63,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change Price" />
+
+    <Button
+        android:id="@+id/removeItemButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="remove" />
 </LinearLayout>

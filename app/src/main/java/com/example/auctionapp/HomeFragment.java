@@ -3,11 +3,13 @@ package com.example.auctionapp;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -21,6 +23,7 @@ public class HomeFragment extends Fragment {
 //    private ArrayList<Item> itemList = new ArrayList<>();
     private ItemAdapter adapter;
     private ListView listView;
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +65,10 @@ public class HomeFragment extends Fragment {
 
     // Function to show the Add Item dialog
     private void showAddItemDialog() {
+//
+//        Intent intent = new Intent(requireContext(), addItemActivity.class);
+//        startActivity(intent);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Add Item");
 
@@ -70,6 +77,7 @@ public class HomeFragment extends Fragment {
         final EditText itemNameEditText = viewInflated.findViewById(R.id.editTextItemName);
         final EditText itemNameEditPrice = viewInflated.findViewById(R.id.editStartingPrice);
         final EditText itemDescriptionText = viewInflated.findViewById(R.id.editDescription);
+        Button buttonUploadPicture = viewInflated.findViewById(R.id.buttonUploadPicture);
         // Add more EditText fields for description, price, and picture URL if needed
 
         builder.setView(viewInflated);
@@ -90,6 +98,8 @@ public class HomeFragment extends Fragment {
                     // Create a new Item object and add it to the list
                     Item newItem = new Item(itemName,itemDescription, itemPriceFloat,currentTime); // Modify as needed
 
+                    newItem.setUserid();
+
                     itemArray.itemList.add(newItem);
                     adapter.notifyDataSetChanged();
                 }
@@ -101,6 +111,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
+            }
+        });
+
+        buttonUploadPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(requireContext(), "This is a Toast message", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
             }
         });
 

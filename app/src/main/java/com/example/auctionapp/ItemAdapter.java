@@ -19,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -63,6 +66,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         TextView itemDescriptionTextView = convertView.findViewById(R.id.itemDescriptionTextView);
         TextView itemPriceTextView = convertView.findViewById(R.id.itemPriceTextView);
         TextView itemTimeRemaining = convertView.findViewById(R.id.itemTimeRemaining);
+        TextView itemcurrentWinnerName = convertView.findViewById(R.id.itemcurrentWinnerName);
 
         // Set the item's attributes in the views
 //        itemImageView.setImageResource(item.getPictureResource());
@@ -70,6 +74,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         itemDescriptionTextView.setText(item.getDescription());
         itemPriceTextView.setText(String.format(Locale.US, "Tk%.2f", item.getCurrentPrice()));
         itemTimeRemaining.setText(String.format(Locale.US,"time %s", item.getRemainingTime() ));
+        itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
 
         // Changing the Price
         Button changePriceButton = convertView.findViewById(R.id.changePriceButton);
@@ -77,6 +82,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             @Override
             public void onClick(View view) {
                 showChangePriceDialog(position);
+            }
+        });
+
+        Button removeItemButton = convertView.findViewById(R.id.removeItemButton);
+        removeItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removebuttonwork(position);
             }
         });
 
@@ -117,6 +130,21 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 //        handler.post(updateTimeRunnable);
 //    }
 
+    private void removebuttonwork(final int position){
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
+        if(getItem(position).getOwnerid() == user.getUid() ){
+            itemArray.itemList.remove(position);
+            Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getContext(), "not owner", Toast.LENGTH_SHORT).show();
+        }
+
+        notifyDataSetChanged();
+    }
+
     private void showChangePriceDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("Change Price");
@@ -136,7 +164,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                     if (newPrice > getItem(position).getCurrentPrice()) {
                         // Update the item's price and notify the adapter
                         getItem(position).setCurrentPrice(newPrice);
+                        getItem(position).setCurrentWinner();
                         notifyDataSetChanged();
+
                     } else {
                         // Show an error toast if the new price is not greater
                         Toast.makeText(activity, "New price must be greater than the current price", Toast.LENGTH_SHORT).show();

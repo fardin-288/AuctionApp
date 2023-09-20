@@ -1,6 +1,10 @@
 package com.example.auctionapp;
 
+import android.net.Uri;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -14,6 +18,11 @@ public class Item {
     private double currentPrice;
     private long startTime; // End time in milliseconds
     private long remainingTime; // Remaining time in milliseconds
+    private Uri imgUri;
+
+    private String ownerID;
+
+    private String currentWinner;
 
     public Item(String name, String description, double currentPrice, long startTime) {
         this.name = name;
@@ -23,6 +32,8 @@ public class Item {
         this.startTime = startTime;
         this.remainingTime = (startTime + 100000) - System.currentTimeMillis();
         this.pictureResource = 0;
+        this.ownerID = getOwnerid();
+        this.currentWinner = ownerID;
     }
 
     // Getter and Setter methods for the attributes
@@ -63,6 +74,35 @@ public class Item {
         return remainingTime+"";
     }
 
+    public void setUserid(){
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
+        this.ownerID = user.getUid();
+    }
+
+    public String getOwnerid(){
+        return this.ownerID;
+    }
+
+    public void setCurrentWinner(){
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
+        this.currentWinner = user.getUid();
+    }
+
+    public String getCurrentWinner(){
+        return this.currentWinner;
+    }
+    public String getCurrentWinnerName(){
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
+        return user.getDisplayName();
+    }
+
+
     public void updateRemainingTime(){
 //        remainingTime = (startTime + 100000) - System.currentTimeMillis();
         remainingTime = remainingTime - 1;
@@ -70,5 +110,6 @@ public class Item {
 }
 
 class itemArray{
+    long total = 0;
     public static List<Item> itemList = new ArrayList<Item>();
 }

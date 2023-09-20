@@ -17,6 +17,7 @@
         android:id="@+id/editStartingPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:hint="Enter Starting Price" />
 
     <EditText
@@ -30,6 +31,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Upload Picture" />
+
+    <ImageView
+        android:id="@+id/productImgView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"/>
 </LinearLayout>
 
 
