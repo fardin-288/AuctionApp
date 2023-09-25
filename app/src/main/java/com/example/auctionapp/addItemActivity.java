@@ -2,8 +2,12 @@ package com.example.auctionapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,68 +15,69 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-//import androidx.fragment.app.FragmentManager;
-////import com.example.myapp.MyFragment;
 
 public class addItemActivity extends  AppCompatActivity{
-    private EditText productNameEditText;
-    private EditText descriptionEditText;
-    private EditText minimumBidEditText;
-    private Button uploadImageButton;
-    private Button addItemButton;
-    private Button cancelButton;
-    private ImageView selectedImageView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_item);
+    // Function to show the Add Item dialog
+    public static void showAddItemDialog(Context context) {
 
-//         Initialize UI elements
-        productNameEditText = findViewById(R.id.editTextProductName);
-        descriptionEditText = findViewById(R.id.editTextDescription);
-        minimumBidEditText = findViewById(R.id.editTextMinimumBid);
-        uploadImageButton = findViewById(R.id.buttonUploadImage);
-        selectedImageView = findViewById(R.id.imageViewSelectedImage);
-        addItemButton = findViewById(R.id.addItemButton);
-        cancelButton = findViewById(R.id.cancelButton);
-//
-////         Set a click listener for the upload button
-        addItemButton.setOnClickListener(new View.OnClickListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Add Item");
+
+        // Set up the layout for the dialog
+        View viewInflated = LayoutInflater.from(context).inflate(R.layout.dialogue_add_item, null);
+        final EditText itemNameEditText = viewInflated.findViewById(R.id.editTextItemName);
+        final EditText itemNameEditPrice = viewInflated.findViewById(R.id.editStartingPrice);
+        final EditText itemDescriptionText = viewInflated.findViewById(R.id.editDescription);
+        Button buttonUploadPicture = viewInflated.findViewById(R.id.buttonUploadPicture);
+        // Add more EditText fields for description, price, and picture URL if needed
+
+        builder.setView(viewInflated);
+
+        // Set up the buttons
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // Read values from EditText fields
-                String productName = productNameEditText.getText().toString();
-                String description = descriptionEditText.getText().toString();
-                String minimumBid = minimumBidEditText.getText().toString();
-                Float minimumBidFLoat = Float.valueOf(minimumBid);
+            public void onClick(DialogInterface dialog, int which) {
+                // Get the item details from the dialog
+                String itemName = itemNameEditText.getText().toString();
+                String itemPriceString = itemNameEditPrice.getText().toString();
+                Float itemPriceFloat = Float.valueOf(itemPriceString);
+                String itemDescription = itemDescriptionText.getText().toString();
+                long currentTime = System.currentTimeMillis();
+                // Add more code to retrieve description, price, and picture URL
 
-                Item newItem = new Item(productName,description, minimumBidFLoat,System.currentTimeMillis()); // Modify as needed
+                if (!itemName.isEmpty()) {
+                    // Create a new Item object and add it to the list
+                    Item newItem = new Item(itemName,itemDescription, itemPriceFloat,currentTime); // Modify as needed
 
-                itemArray.itemList.add(newItem);
+                    newItem.setUserid();
 
-//                HomeFragment.adapter.notifyDataSetChanged();
+                    itemArray.itemList.add(newItem);
+                    HomeFragment.adapter.notifyDataSetChanged();
 
-                Intent intent = new Intent(addItemActivity.this, HomeFragment.class);
-                startActivity(intent);
-            }
-        });
-//
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(addItemActivity.this, HomeFragment.class);
-                startActivity(intent);
+                    itemArray.incrementTotal();
+                }
+                dialog.dismiss();
             }
         });
 
-        uploadImageButton.setOnClickListener(new View.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Input Picture", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(addItemActivity.this, HomeFragment.class);
-//                startActivity(intent);
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
             }
         });
+
+        // Add picture here
+        buttonUploadPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "This is a Toast message", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(context, HomeFragment.PICK_IMAGE_REQUEST);
+            }
+        });
+
+        builder.show();
     }
 }

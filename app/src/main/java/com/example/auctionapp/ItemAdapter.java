@@ -44,21 +44,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             convertView = LayoutInflater.from(activity).inflate(R.layout.item_list_item, parent, false);
         }
 
-//        Thread backgroundThread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true) {
-//                    updateAllitem();
-//                    try {
-//                        Thread.sleep(1000); // Sleep for 1 second (adjust as needed)
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        });
-//        backgroundThread.start();
-
         Item item = itemArray.itemList.get(position);
 
 //        ImageView itemImageView = convertView.findViewById(R.id.itemImageView);
@@ -93,42 +78,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             }
         });
 
-        // Adding Image
-//        Button buttonUploadPicture = convertView.findViewById(R.id.selectImageButton);
-//        buttonUploadPicture.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // Open an image picker to select an image
-//                openImagePicker(position);
-//            }
-//        });
-
-//        handler.post(updateTimeRunnable);
-
         return convertView;
     }
 
-//    public static final Handler handler = new Handler();
-//
     public static void updateAllitem(){
         for(Item a: itemArray.itemList){
             a.updateRemainingTime();
         }
     }
-//
-//    static Runnable updateTimeRunnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            // Update the time here
-//            updateAllitem();
-//            // Schedule the runnable to run again after a delay (e.g., 1 second)
-//            handler.postDelayed(this, 1000);
-//        }
-//    };
-
-//    public static void main(String[] args) {
-//        handler.post(updateTimeRunnable);
-//    }
 
     private void removebuttonwork(final int position){
 
@@ -183,46 +140,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         });
 
         builder.show();
-    }
-
-    // Function to open an image picker
-    private void openImagePicker(final int position) {
-        // Use an image picker library or Android's built-in image picker
-        // Here, we're using Android's built-in image picker for simplicity
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        activity.startActivityForResult(intent, position);
-    }
-
-    // Handle image selection result
-    public void handleImageSelectionResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode >= 0 && requestCode < itemArray.itemList.size()) {
-                Uri selectedImageUri = data.getData();
-                String imagePath = getPathFromUri(selectedImageUri);
-
-                if (imagePath != null) {
-                    // Set the selected image resource ID in the item and update the view
-                    int imageResourceId = Integer.parseInt(imagePath); // Convert the imagePath to an integer
-                    getItem(requestCode).setPictureResource(imageResourceId);
-                    notifyDataSetChanged();
-                }
-            }
-        }
-    }
-
-    // Utility function to get the file path from a URI
-    private String getPathFromUri(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = activity.getContentResolver().query(uri, projection, null, null, null);
-        if (cursor != null) {
-            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            String imagePath = cursor.getString(columnIndex);
-            cursor.close();
-            return imagePath;
-        }
-        return null;
     }
 
 }

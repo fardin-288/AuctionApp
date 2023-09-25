@@ -120,4 +120,23 @@ class itemArray{
     public static long getTotal(){
         return total;
     }
+
+    public static void ItemUpdateTimeRunnable(){
+        Thread backgroundThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    ItemAdapter.updateAllitem();
+//                    getView();
+                    try {
+                        Thread.sleep(1000); // Sleep for 1 second (adjust as needed)
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        backgroundThread.start();
+
+    }
 }

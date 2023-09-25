@@ -19,30 +19,21 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    private static final int ADD_ITEM_REQUEST_CODE = 1;
+    public static final int ADD_ITEM_REQUEST_CODE = 1;
 //    private ArrayList<Item> itemList = new ArrayList<>();
-    private ItemAdapter adapter;
-    private ListView listView;
-    private static final int PICK_IMAGE_REQUEST = 1;
+    public static ItemAdapter adapter;
+    public static ListView listView;
+    public static final int PICK_IMAGE_REQUEST = 1;
+
+    public static void main(String[] args) {
+        HomeFragment myHomeFragment = new HomeFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        Thread backgroundThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    ItemAdapter.updateAllitem();
-                    getView();
-                    try {
-                        Thread.sleep(1000); // Sleep for 1 second (adjust as needed)
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        backgroundThread.start();
+        //Time Update
+        itemArray.ItemUpdateTimeRunnable();
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -55,76 +46,10 @@ public class HomeFragment extends Fragment {
         rootView.findViewById(R.id.btnAddItem).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAddItemDialog();
+                addItemActivity.showAddItemDialog(getContext());
             }
         });
 
         return rootView;
-    }
-
-
-    // Function to show the Add Item dialog
-    private void showAddItemDialog() {
-//
-//        Intent intent = new Intent(requireContext(), addItemActivity.class);
-//        startActivity(intent);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Add Item");
-
-        // Set up the layout for the dialog
-        View viewInflated = LayoutInflater.from(requireContext()).inflate(R.layout.dialogue_add_item, null);
-        final EditText itemNameEditText = viewInflated.findViewById(R.id.editTextItemName);
-        final EditText itemNameEditPrice = viewInflated.findViewById(R.id.editStartingPrice);
-        final EditText itemDescriptionText = viewInflated.findViewById(R.id.editDescription);
-        Button buttonUploadPicture = viewInflated.findViewById(R.id.buttonUploadPicture);
-        // Add more EditText fields for description, price, and picture URL if needed
-
-        builder.setView(viewInflated);
-
-        // Set up the buttons
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Get the item details from the dialog
-                String itemName = itemNameEditText.getText().toString();
-                String itemPriceString = itemNameEditPrice.getText().toString();
-                Float itemPriceFloat = Float.valueOf(itemPriceString);
-                String itemDescription = itemDescriptionText.getText().toString();
-                long currentTime = System.currentTimeMillis();
-                // Add more code to retrieve description, price, and picture URL
-
-                if (!itemName.isEmpty()) {
-                    // Create a new Item object and add it to the list
-                    Item newItem = new Item(itemName,itemDescription, itemPriceFloat,currentTime); // Modify as needed
-
-                    newItem.setUserid();
-
-                    itemArray.itemList.add(newItem);
-                    adapter.notifyDataSetChanged();
-
-                    itemArray.incrementTotal();
-                }
-                dialog.dismiss();
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        buttonUploadPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(requireContext(), "This is a Toast message", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, PICK_IMAGE_REQUEST);
-            }
-        });
-
-        builder.show();
     }
 }

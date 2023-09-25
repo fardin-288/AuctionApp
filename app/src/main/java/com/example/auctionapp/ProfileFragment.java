@@ -144,8 +144,8 @@ public class ProfileFragment extends Fragment {
         AboutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.example.com"));
-                startActivity(websiteIntent);
+                Intent intent = new Intent(getActivity(),about_us_class.class);
+                startActivity(intent);
             }
         });
     }
