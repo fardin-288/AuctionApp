@@ -137,7 +137,7 @@ import java.util.HashMap;
 public class RegistrationActivity extends AppCompatActivity {
 
     private EditText nameEditText, emailEditText, passwordEditText, passwordEditText2;
-    private Button registerButton;
+    private TextView registerButton;
     private FirebaseAuth mAuth;
 
     @Override

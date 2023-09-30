@@ -34,7 +34,7 @@ import java.util.HashMap;
 public class loginActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
-    private Button loginButton;
+    private TextView loginButton;
     private FirebaseAuth mAuth;
     private TextView newdnewaccount;
 
@@ -48,7 +48,7 @@ public class loginActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.login_email);
         passwordEditText = findViewById(R.id.login_password);
         loginButton = findViewById(R.id.login_button);
-        newdnewaccount = findViewById(R.id.newdnewaccount);
+        newdnewaccount = findViewById(R.id.neednewaccount);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
