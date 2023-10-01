@@ -1,34 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#272727</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="platinumgray">#E5E4E2</color>
-    <color name="whitesmoke">#F5F5F5</color>
-    <color name="brightgray">#E8E9EB</color>
-    <color name="searchgray">#F2F3F5</color>
-    <color name="ytgray">#E9E9E9</color>
-    <color name="lightsearchgray">#D1D0CE</color>
-    <color name="red">#E76160</color>
-    <color name="orange">#FFAC1C</color>
-    <color name="light_orange">#FFC000</color>
-    <color name="cat_purple">#9370DB</color>
-    <color name="purple">#3A1F81</color>
-    <color name="dark_cat_purple">#4B0082</color>
-    <color name="darkorange">#CC5500</color>
-    <color name="grey">#ababab</color>
-    <color name="colorPrimary">#CC2E76BE</color>
-    <color name="colorPrimaryDark">#CC073D74</color>
-    <color name="colorAccent">#0A527E</color>
-    <color name="colorBlack">#000000</color>
-    <color name="colorWhite">#fff</color>
-    <color name="colorGray">#F5F1F1</color>
-    <color name="colorgray01">#959595</color>
-    <color name="colorGray02">#f5f0f0</color>
-    <color name="colorGreen">#17581A</color>
-    <color name="colorRed">#F4511E</color>
-    <color name="btnRed">#E61313</color>
-    <color name="btnedit">#2CA7E0</color>
-    <color name="neutral">#0a1b97</color>
-    <color name="colordrawer">#2B2C2E</color>
-    <color name="background_color">#FFFFFFFF</color>
+<color name="black">#FF000000</color>
+<color name="white">#FFFFFFFF</color>
+<color name="colorPrimary">#CC2E76BE</color>
+<color name="colorPrimaryDark">#CC073D74</color>
+<color name="colorAccent">#0A527E</color>
+<color name="colorBlack">#000000</color>
+<color name="colorWhite">#fff</color>
+<color name="colorGray">#F5F1F1</color>
+<color name="colorgray01">#959595</color>
+<color name="colorGray02">#f5f0f0</color>
+<color name="colorGreen">#17581A</color>
+<color name="colorRed">#F4511E</color>
+<color name="btnRed">#E61313</color>
+<color name="btnedit">#2CA7E0</color>
+<color name="neutral">#0a1b97</color>
+<color name="colordrawer">#2B2C2E</color>
+<color name="background_color">#FFFFFFFF</color>
+
 </resources>

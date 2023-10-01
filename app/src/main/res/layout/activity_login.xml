@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".loginActivity">
 
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentTop="true">-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
-<!--        <RelativeLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            tools:ignore="ExtraText">-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="ExtraText">
 
             <TextView
                 android:id="@+id/welcom"
@@ -79,7 +78,7 @@
                 android:padding="8dp" />
 
             <TextView
-                android:id="@+id/forgotPassword"
+                android:id="@+id/forgetp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/login_password"
@@ -90,8 +89,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="17sp"
-                android:textStyle="bold"
-                android:clickable="true"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/login_button"
@@ -123,8 +121,8 @@
                 android:textStyle="bold"
                 android:focusable="true"
                 android:clickable="true" />
-<!--        </RelativeLayout>-->
+        </RelativeLayout>
 
-<!--    </ScrollView>-->
+    </ScrollView>
 
 </LinearLayout>
