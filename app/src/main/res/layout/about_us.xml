@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView01"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Team Member 1" />
+
+    <TextView
+        android:id="@+id/textView02"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name : Fardin Faiyaz \n Roll : 17" />
+
+    <TextView
+        android:id="@+id/textView03"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Team Member 2" />
+
+    <TextView
+        android:id="@+id/textView04"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name : Samiya Sultana Riya \n Roll 22" />
+
+    <TextView
+        android:id="@+id/textView05"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Team Member 3" />
+
+    <TextView
+        android:id="@+id/textView06"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name : Sarower Jahan Rafin \n ROll : 09" />
+
+    <Button
+        android:id="@+id/goBackbutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back" />
+</LinearLayout>

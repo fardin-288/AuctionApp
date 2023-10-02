@@ -52,7 +52,22 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
     implementation("com.google.firebase:firebase-auth-ktx:22.1.1")
+    implementation("com.android.support:support-annotations:28.0.0")
+    implementation("com.google.firebase:firebase-storage:20.1.0")
     testImplementation("junit:junit:4.13.2")
+
+    implementation ("androidx.recyclerview:recyclerview:1.2.1")
+    implementation ("androidx.cardview:cardview:1.0.0")
+    implementation("com.squareup.picasso:picasso:2.3.3")
+    implementation ("androidx.mediarouter:mediarouter:1.2.2")
+    implementation ("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation ("androidx.activity:activity-ktx:1.2.0")
+
+
+
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+
+
 }
