@@ -1,5 +1,6 @@
 package com.example.auctionapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -38,6 +39,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -52,15 +54,17 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         TextView itemPriceTextView = convertView.findViewById(R.id.itemPriceTextView);
         TextView itemTimeRemaining = convertView.findViewById(R.id.itemTimeRemaining);
         TextView itemcurrentWinnerName = convertView.findViewById(R.id.itemcurrentWinnerName);
+        TextView itemCategoryTextView = convertView.findViewById(R.id.itemCategoryTextView);
 
         // Set the item's attributes in the views
-        itemImageView.setImageURI(item.getPictureResource());
+        itemImageView.setImageURI(item.getImgUri());
 //        itemImageView.setImageResource(item.getPictureResource());
         itemNameTextView.setText(item.getName());
         itemDescriptionTextView.setText(item.getDescription());
         itemPriceTextView.setText(String.format(Locale.US, "Tk%.2f", item.getCurrentPrice()));
         itemTimeRemaining.setText(String.format(Locale.US,"time %s", item.getRemainingTime() ));
         itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
+        itemCategoryTextView.setText(String.format("Category : %s" ,Item.categoryString[item.getCategory()]));
 
         // Changing the Price
         Button changePriceButton = convertView.findViewById(R.id.changePriceButton);
@@ -93,7 +97,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        if(getItem(position).getOwnerid() == user ){
+        if(getItem(position).getOwnerID() == user ){
             itemArray.itemList.remove(position);
             Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
         }else{

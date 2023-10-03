@@ -12,10 +12,12 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -61,6 +63,7 @@ public class HomeFragment extends Fragment {
 //    private ArrayList<Item> itemList = new ArrayList<>();
     public static ItemAdapter adapter;
     public static ListView listView;
+    private Spinner spinnerCategory;
     public static final int PICK_IMAGE_REQUEST = 1;
 
 
@@ -74,12 +77,17 @@ public class HomeFragment extends Fragment {
         final EditText itemNameEditText = viewInflated.findViewById(R.id.editTextItemName);
         final EditText itemNameEditPrice = viewInflated.findViewById(R.id.editStartingPrice);
         final EditText itemDescriptionText = viewInflated.findViewById(R.id.editDescription);
+        final Spinner spinnerCategory = viewInflated.findViewById(R.id.spinnerCategory);
         Button buttonUploadPicture = viewInflated.findViewById(R.id.buttonUploadPicture);
         // Add more EditText fields for description, price, and picture URL if needed
 //        imageview = findViewById(R.id.productImgView);
 
         imageview = viewInflated.findViewById(R.id.productImgView);
         builder.setView(viewInflated);
+
+        ArrayAdapter<String> adapterCategory = new ArrayAdapter<String>(getContext(),R.layout.category_spinner_text,R.id.categoryTextView,Item.categoryString);
+        spinnerCategory.setAdapter(adapterCategory);
+//        final int category_Item = spinnerCategory.getSelectedItemPosition();
 
         // Set up the buttons
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
@@ -92,15 +100,14 @@ public class HomeFragment extends Fragment {
                 String itemDescription = itemDescriptionText.getText().toString();
                 String imguri;
                 long currentTime = System.currentTimeMillis();
-                // Add more code to retrieve description, price, and picture URL
 
                 if (!itemName.isEmpty()) {
                     // Create a new Item object and add it to the list
-                    Item newItem = new Item(itemName,itemDescription, itemPriceFloat,currentTime,final_uri); // Modify as needed
-
-                    newItem.setUserid();
+                    final int category_Item = spinnerCategory.getSelectedItemPosition();
+                    Item newItem = new Item(itemName,itemDescription, itemPriceFloat,currentTime,final_uri,category_Item); // Modify as needed
 
                     itemArray.itemList.add(newItem);
+                    newItem.addToDatabase(getContext());
                     HomeFragment.adapter.notifyDataSetChanged();
 
                     itemArray.incrementTotal();
@@ -187,7 +194,16 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        //Time Update
+//        View rootView = inflater.inflate(R.layout.fragment_home,container,false);
+//        listView = rootView.findViewById(R.id.listView);
+//        ArrayAdapter<Item> adapter = new ArrayAdapter<>(
+//                getContext(),
+//                R.layout.fragment_home,
+//                R.layout.item_list_item,
+//                itemArray.itemList
+//        );
+
+//        Time Update
         itemArray.ItemUpdateTimeRunnable();
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
@@ -196,9 +212,6 @@ public class HomeFragment extends Fragment {
         adapter = new ItemAdapter(requireActivity(), itemArray.itemList);
         listView = rootView.findViewById(R.id.listView);
         listView.setAdapter(adapter);
-
-
-
 
 
         // Handle "Add Item" button click to show a dialog
