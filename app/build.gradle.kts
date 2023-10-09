@@ -59,7 +59,7 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx:20.2.2")
     testImplementation("junit:junit:4.13.2")
     implementation("com.google.firebase:firebase-firestore-ktx:24.8.1")
-
+//    implementation ("com.google.firebase:firebase-admin:9.0.0")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
     implementation ("androidx.cardview:cardview:1.0.0")
     implementation("com.squareup.picasso:picasso:2.3.3")

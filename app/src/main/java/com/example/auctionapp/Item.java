@@ -5,6 +5,10 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -53,14 +57,8 @@ public class Item implements Serializable {
         this.currentWinner = null;
         this.imgUri = imgUri;
         this.category = category;
-        this.ownerID = FirebaseAuth.getInstance().getCurrentUser();
+//        this.ownerID = FirebaseAuth.getInstance().getCurrentUser();
     }
-
-//    public Item(String name, String description, Item item, double currentPrice, long startTime, Uri imgUri) {
-//        this.name = name;
-//        this.description = description;
-//        this.
-//    }
 
     public String getName() {
         return name;
@@ -125,15 +123,9 @@ public class Item implements Serializable {
     }
 
     public void addToDatabase(Context context) {
-//        DatabaseReference itemReference = databaseReference.push();
-//        String key = databaseReference.push().getKey();
-//        databaseReference.child(key).setValue(this);
-//        itemReference.setValue(this);
-//        Item item1 = new Item("amid", "okokoko",10.33,500,null);
-////        System.out.println(item1.name);
-//        Toast.makeText(context,this.name,Toast.LENGTH_LONG).show();
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AllItemList");
-//        databaseReference.push().setValue("nirjhar","helloo world");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("ALlItemList");
+        String myKey = databaseReference.getKey();
+        databaseReference.push().setValue(this);
     }
 }
 class itemArray{
