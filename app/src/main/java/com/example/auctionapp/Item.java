@@ -114,6 +114,8 @@ class itemArray{
      static long total = 0;
     public static List<Item> itemList = new ArrayList<Item>();
 
+    public static List<Item> SearchitemList = new ArrayList<>();
+
     public static void incrementTotal(){
         total++;
     }

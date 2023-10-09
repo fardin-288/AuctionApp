@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -81,6 +82,32 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         return convertView;
     }
+
+    //rafin's change to setfilter
+    public void setFilter(ArrayList<Item> filteredItems) {
+//        List<Item> temp = new ArrayList<>();
+//        temp.addAll(itemArray.itemList);
+//        itemArray.itemList.clear();
+//        for(Item x: filteredItems)
+//        {
+////            Toast.makeText(activity, x.getName() + " "+ x.getDescription(), Toast.LENGTH_SHORT).show();
+//            if(itemArray.itemList.contains(x)){
+//                continue;
+//            }
+//            else {
+//                itemArray.itemList.add(x);
+//            }
+//
+//        }
+
+//        Toast.makeText(activity, "New price must be greater than the current price", Toast.LENGTH_SHORT).show();
+        notifyDataSetChanged();
+//        itemArray.itemList.clear();
+//        itemArray.itemList.addAll(temp);
+
+
+    }
+
 
     public static void updateAllitem(){
         for(Item a: itemArray.itemList){
