@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -66,6 +68,7 @@ public class HomeFragment extends Fragment {
     private Spinner spinnerCategory;
     public static final int PICK_IMAGE_REQUEST = 1;
 
+    private Handler handler = new Handler();
 
     void showAddItemDialog(Context context) {
 
@@ -108,6 +111,7 @@ public class HomeFragment extends Fragment {
 
                     itemArray.itemList.add(newItem);
                     newItem.addToDatabase(getContext());
+
                     HomeFragment.adapter.notifyDataSetChanged();
 
                     itemArray.incrementTotal();
@@ -128,9 +132,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 openImageChooser();
-//                Toast.makeText(context, "This is a Toast message", Toast.LENGTH_SHORT).show();
-////                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//////                startActivityForResult(context, HomeFragment.PICK_IMAGE_REQUEST);
             }
         });
 
@@ -189,26 +190,39 @@ public class HomeFragment extends Fragment {
     public static void main(String[] args) {
 
         HomeFragment myHomeFragment = new HomeFragment();
+
+//        public void refresh(){
+//            Thread backgroundThread = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    while (true) {
+//                            myHomeFragment.onCreateView();
+//                        try {
+//                            Thread.sleep(1000); // Sleep for 1 second (adjust as needed)
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            });
+//            backgroundThread.start();
+//
+//        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-//        View rootView = inflater.inflate(R.layout.fragment_home,container,false);
-//        listView = rootView.findViewById(R.id.listView);
-//        ArrayAdapter<Item> adapter = new ArrayAdapter<>(
-//                getContext(),
-//                R.layout.fragment_home,
-//                R.layout.item_list_item,
-//                itemArray.itemList
-//        );
 
 //        Time Update
         itemArray.ItemUpdateTimeRunnable();
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Initialize the adapter and ListView
+/*        RefreshClass refreshClass = new RefreshClass();
+        refreshClass.refresh(rootView,getActivity());*/
+
+//         Initialize the adapter and ListView
         adapter = new ItemAdapter(requireActivity(), itemArray.itemList);
         listView = rootView.findViewById(R.id.listView);
         listView.setAdapter(adapter);
@@ -222,6 +236,38 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+                handler.postDelayed(this, 100);
+            }
+        }, 100);
+
         return rootView;
+    }
+}
+
+class RefreshClass{
+
+    public void refresh(View rootView,Activity activity){
+        Thread backgroundThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    HomeFragment.adapter = new ItemAdapter(activity, itemArray.itemList);
+                    HomeFragment.listView = rootView.findViewById(R.id.listView);
+                    HomeFragment.listView.setAdapter(HomeFragment.adapter);
+                    try {
+                        Thread.sleep(1000); // Sleep for 1 second (adjust as needed)
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        backgroundThread.start();
+
     }
 }
