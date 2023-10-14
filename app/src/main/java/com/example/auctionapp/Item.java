@@ -18,12 +18,50 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Item implements Serializable {
+class ItemforDatabaseupload{
+    String name;
+    String description;
+    private int category;
+    private double currentPrice;
+    private long startTime; // End time in milliseconds
+    private long remainingTime; // Remaining time in milliseconds
+    private Uri imgUri = null;
+    private String ItemKey;
+    private String ownerID;
+    private String currentWinner = null;
 
-    private String name;
-    private String description;
+    public ItemforDatabaseupload(String name, String description, int category, double currentPrice, long startTime, long remainingTime, Uri imgUri, String itemKey, FirebaseUser ownerID, FirebaseUser currentWinner) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.currentPrice = currentPrice;
+        this.startTime = startTime;
+        this.remainingTime = remainingTime;
+        this.imgUri = imgUri;
+        this.ItemKey = itemKey;
+        this.ownerID = ownerID.getUid();
+        this.currentWinner = ownerID.getUid();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public int getCategory() {
         return category;
@@ -33,15 +71,75 @@ public class Item implements Serializable {
         this.category = category;
     }
 
+    public double getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public void setCurrentPrice(double currentPrice) {
+        this.currentPrice = currentPrice;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(long remainingTime) {
+        this.remainingTime = remainingTime;
+    }
+
+    public Uri getImgUri() {
+        return imgUri;
+    }
+
+    public void setImgUri(Uri imgUri) {
+        this.imgUri = imgUri;
+    }
+
+    public String getItemKey() {
+        return ItemKey;
+    }
+
+    public void setItemKey(String itemKey) {
+        ItemKey = itemKey;
+    }
+
+    public String getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    public String getCurrentWinner() {
+        return currentWinner;
+    }
+
+    public void setCurrentWinner(String currentWinner) {
+        this.currentWinner = currentWinner;
+    }
+}
+
+public class Item implements Serializable {
+
+    private String name;
+    private String description;
     private int category;
     public static final String[] categoryString = new String[]{"electronic", "antiques", "instrument"};
     private double currentPrice;
     private long startTime; // End time in milliseconds
     private long remainingTime; // Remaining time in milliseconds
     private Uri imgUri = null;
-
+    private String ItemKey;
     private FirebaseUser ownerID;
-
     private FirebaseUser currentWinner = null;
 
     public Item() {
@@ -57,7 +155,16 @@ public class Item implements Serializable {
         this.currentWinner = null;
         this.imgUri = imgUri;
         this.category = category;
-//        this.ownerID = FirebaseAuth.getInstance().getCurrentUser();
+        this.ownerID =  FirebaseAuth.getInstance().getCurrentUser();
+        this.currentWinner = ownerID;
+    }
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
     }
 
     public String getName() {
@@ -123,9 +230,12 @@ public class Item implements Serializable {
     }
 
     public void addToDatabase(Context context) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("ALlItemList");
-        String myKey = databaseReference.getKey();
-        databaseReference.push().setValue(this);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AllItemList");
+        String key = databaseReference.push().getKey();
+        this.ItemKey = key;
+
+        ItemforDatabaseupload itemforDatabaseupload = new ItemforDatabaseupload(this.name,this.description,this.category,this.currentPrice,this.startTime,this.remainingTime,null,key,this.getOwnerID(),this.getCurrentWinner());
+        databaseReference.child(key).setValue(itemforDatabaseupload);
     }
 }
 class itemArray{
