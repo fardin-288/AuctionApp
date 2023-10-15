@@ -61,6 +61,7 @@ import android.content.ContentResolver;
 import android.content.*;
 public class HomeFragment extends Fragment {
     StorageTask uploadTask;
+    String key;
     private static final int IMAGE_REQUEST =1;
     private Uri imageuri;
     private Item tempItem;
@@ -125,7 +126,7 @@ public class HomeFragment extends Fragment {
 
                     itemArray.itemList.add(newItem);
                      tempItem=newItem;
-                    newItem.addToDatabase(getContext());
+                   key=  newItem.addToDatabase(getContext());
 
                     HomeFragment.adapter.notifyDataSetChanged();
 
@@ -179,16 +180,16 @@ public class HomeFragment extends Fragment {
 
     void saveData(){
 
-        StorageReference ref= storageReference.child(tempItem.getName());
+        StorageReference ref= storageReference.child(key);
 
         ref.putFile(final_uri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Toast.makeText(getActivity().getApplicationContext(), "Image is stored successfully ", Toast.LENGTH_SHORT).show();
-                        String uploadId= databaseReference.push().getKey();
-                        MyItem myItem = new MyItem(tempItem.getName(),tempItem.getDescription(),tempItem.getCategory(),tempItem.getCurrentPrice(),System.currentTimeMillis(),taskSnapshot.getStorage().getDownloadUrl().toString(), auth.getCurrentUser());
-                         databaseReference.child(uploadId).setValue(myItem);
+//                        String uploadId= databaseReference.push().getKey();
+//                        MyItem myItem = new MyItem(tempItem.getName(),tempItem.getDescription(),tempItem.getCategory(),tempItem.getCurrentPrice(),System.currentTimeMillis(),taskSnapshot.getStorage().getDownloadUrl().toString(), auth.getCurrentUser());
+//                         databaseReference.child(key).setValue(myItem);
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {

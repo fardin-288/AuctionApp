@@ -339,13 +339,14 @@ public class Item implements Serializable {
         remainingTime = remainingTime - 1;
     }
 
-    public void addToDatabase(Context context) {
+    public String addToDatabase(Context context) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AllItemList");
         String key = databaseReference.push().getKey();
         this.ItemKey = key;
 
         ItemforDatabaseupload itemforDatabaseupload = new ItemforDatabaseupload(this.name,this.description,this.category,this.currentPrice,this.startTime,this.remainingTime,null,key,this.getOwnerID(),this.getCurrentWinner());
         databaseReference.child(key).setValue(itemforDatabaseupload);
+        return key;
     }
 }
 class itemArray{
