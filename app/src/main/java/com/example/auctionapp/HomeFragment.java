@@ -284,6 +284,7 @@ public class HomeFragment extends Fragment {
         refreshClass.refresh(rootView,getActivity());*/
 
 //         Initialize the adapter and ListView
+        RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
         adapter = new ItemAdapter(requireActivity(), itemArray.itemList);
         listView = rootView.findViewById(R.id.listView);
         listView.setAdapter(adapter);

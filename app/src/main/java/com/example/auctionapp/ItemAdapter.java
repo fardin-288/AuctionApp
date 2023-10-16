@@ -97,7 +97,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        if(getItem(position).getOwnerID() == user ){
+        if(getItem(position).getOwnerID() == user.getUid() ){
             itemArray.itemList.get(position).removeFromDatabase();
             itemArray.itemList.remove(position);
             Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
