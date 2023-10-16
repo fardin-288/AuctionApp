@@ -3,6 +3,7 @@ package com.example.auctionapp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,19 +50,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
+import android.content.ContentResolver;
+import android.content.*;
 public class HomeFragment extends Fragment {
-
+    StorageTask uploadTask;
+    String key;
     private static final int IMAGE_REQUEST =1;
     private Uri imageuri;
+    private Item tempItem;
     private Uri final_uri;
     private ImageView imageview;
     private FirebaseAuth auth;
-
+    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("Upload");
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference("Upload");
     public static final int ADD_ITEM_REQUEST_CODE = 1;
 //    private ArrayList<Item> itemList = new ArrayList<>();
     public static ItemAdapter adapter;
@@ -70,20 +79,26 @@ public class HomeFragment extends Fragment {
 
     private Handler handler = new Handler();
 
+
+//    EditText itemNameEditText;
+//    EditText itemNameEditPrice ;
+//    EditText itemDescriptionText ;
     void showAddItemDialog(Context context) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Add Item");
 
         // Set up the layout for the dialog
-        View viewInflated = LayoutInflater.from(context).inflate(R.layout.dialogue_add_item, null);
-        final EditText itemNameEditText = viewInflated.findViewById(R.id.editTextItemName);
-        final EditText itemNameEditPrice = viewInflated.findViewById(R.id.editStartingPrice);
-        final EditText itemDescriptionText = viewInflated.findViewById(R.id.editDescription);
-        final Spinner spinnerCategory = viewInflated.findViewById(R.id.spinnerCategory);
+        View   viewInflated = LayoutInflater.from(context).inflate(R.layout.dialogue_add_item, null);
+     final EditText    itemNameEditText = viewInflated.findViewById(R.id.editTextItemName);
+      final EditText    itemNameEditPrice = viewInflated.findViewById(R.id.editStartingPrice);
+       final EditText  itemDescriptionText = viewInflated.findViewById(R.id.editDescription);
+       Spinner   spinnerCategory = viewInflated.findViewById(R.id.spinnerCategory);
         Button buttonUploadPicture = viewInflated.findViewById(R.id.buttonUploadPicture);
         // Add more EditText fields for description, price, and picture URL if needed
 //        imageview = findViewById(R.id.productImgView);
+
+        databaseReference= FirebaseDatabase.getInstance().getReference("Upload");
 
         imageview = viewInflated.findViewById(R.id.productImgView);
         builder.setView(viewInflated);
@@ -105,17 +120,28 @@ public class HomeFragment extends Fragment {
                 long currentTime = System.currentTimeMillis();
 
                 if (!itemName.isEmpty()) {
-                    // Create a new Item object and add it to the list
+                     // Create a new Item object and add it to the list
                     final int category_Item = spinnerCategory.getSelectedItemPosition();
                     Item newItem = new Item(itemName,itemDescription, itemPriceFloat,currentTime,final_uri,category_Item); // Modify as needed
 
                     itemArray.itemList.add(newItem);
-                    newItem.addToDatabase(getContext());
+                     tempItem=newItem;
+                   key=  newItem.addToDatabase(getContext());
 
                     HomeFragment.adapter.notifyDataSetChanged();
 
                     itemArray.incrementTotal();
+                    if(uploadTask!=null && uploadTask.isInProgress())
+                    {
+                        Toast.makeText(context.getApplicationContext(), "Upload is in progress", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        saveData();
+                    }
+
                 }
+
                 dialog.dismiss();
             }
         });
@@ -131,14 +157,49 @@ public class HomeFragment extends Fragment {
         buttonUploadPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 openImageChooser();
+//                saveData();
             }
+
+
         });
 
 
         builder.show();
     }
 
+    public String getFileExtension(Uri imageuri)
+    {
+        ContentResolver contentResolver = this.getActivity().getContentResolver();
+        MimeTypeMap mimeTypeMap= MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(imageuri));
+
+    }
+
+
+    void saveData(){
+
+        StorageReference ref= storageReference.child(key);
+
+        ref.putFile(final_uri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Image is stored successfully ", Toast.LENGTH_SHORT).show();
+//                        String uploadId= databaseReference.push().getKey();
+//                        MyItem myItem = new MyItem(tempItem.getName(),tempItem.getDescription(),tempItem.getCategory(),tempItem.getCurrentPrice(),System.currentTimeMillis(),taskSnapshot.getStorage().getDownloadUrl().toString(), auth.getCurrentUser());
+//                         databaseReference.child(key).setValue(myItem);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Image is not stored successfully" + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
 
     void openImageChooser() {
 
