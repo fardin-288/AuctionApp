@@ -178,16 +178,26 @@ class itemArray{
         total++;
     }
 
+    public static boolean ItemArrayDecreaseStatus = false;
+
     public static long getTotal(){
         return total;
     }
 
+    public static void updateAllitem(){
+        for(Item a: itemArray.itemList){
+            a.updateRemainingTime();
+        }
+    }
+
     public static void ItemUpdateTimeRunnable(){
-        Thread backgroundThread = new Thread(new Runnable() {
+        if(ItemArrayDecreaseStatus)return;
+        ItemArrayDecreaseStatus = true;
+        Thread backgroundThreadItemListTime = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
-                    ItemAdapter.updateAllitem();
+                    updateAllitem();
                     try {
                         Thread.sleep(1000); // Sleep for 1 second (adjust as needed)
                     } catch (InterruptedException e) {
@@ -196,7 +206,7 @@ class itemArray{
                 }
             }
         });
-        backgroundThread.start();
+        backgroundThreadItemListTime.start();
 
     }
 }

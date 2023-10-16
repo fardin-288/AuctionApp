@@ -87,12 +87,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         return convertView;
     }
 
-    public static void updateAllitem(){
-        for(Item a: itemArray.itemList){
-            a.updateRemainingTime();
-        }
-    }
-
     private void removebuttonwork(final int position){
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
