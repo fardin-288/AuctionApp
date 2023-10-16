@@ -1,6 +1,7 @@
 package com.example.auctionapp;
 
 import android.content.Context;
+import android.net.ProxyInfo;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,32 +23,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+public class Item implements Serializable {
 
-class ItemforDatabaseupload{
-    String name;
-    String description;
+    private String name;
+    private String description;
     private int category;
     private double currentPrice;
     private long startTime; // End time in milliseconds
     private long remainingTime; // Remaining time in milliseconds
-    private Uri imgUri = null;
-    private String ItemKey;
+    private String itemKey;
     private String ownerID;
     private String currentWinner = null;
     private String currentWinnerName;
 
-    public ItemforDatabaseupload(String name, String description, int category, double currentPrice, long startTime, long remainingTime, Uri imgUri, String itemKey, String ownerID, String currentWinner,String currentWinnerName) {
+    public Item() {
+
+    }
+
+    public Item(String name, String description, double currentPrice, long startTime, Uri imgUri,int category) {
         this.name = name;
         this.description = description;
-        this.category = category;
         this.currentPrice = currentPrice;
         this.startTime = startTime;
-        this.remainingTime = remainingTime;
-        this.imgUri = imgUri;
-        this.ItemKey = itemKey;
-        this.ownerID = ownerID;
+        this.remainingTime = (startTime + 100000) - System.currentTimeMillis();
+        this.currentWinner = null;
+//        this.imgUri = imgUri;
+        this.category = category;
+        this.ownerID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
         this.currentWinner = ownerID;
-        this.currentWinnerName = currentWinnerName;
+        this.currentWinnerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     }
 
     public String getName() {
@@ -98,20 +102,12 @@ class ItemforDatabaseupload{
         this.remainingTime = remainingTime;
     }
 
-    public Uri getImgUri() {
-        return imgUri;
-    }
-
-    public void setImgUri(Uri imgUri) {
-        this.imgUri = imgUri;
-    }
-
     public String getItemKey() {
-        return ItemKey;
+        return itemKey;
     }
 
     public void setItemKey(String itemKey) {
-        ItemKey = itemKey;
+        this.itemKey = itemKey;
     }
 
     public String getOwnerID() {
@@ -130,115 +126,7 @@ class ItemforDatabaseupload{
         this.currentWinner = currentWinner;
     }
 
-    public String getCurrentWinnerName() {
-        return currentWinnerName;
-    }
-
-    public void setCurrentWinnerName(String currentWinnerName) {
-        this.currentWinnerName = currentWinnerName;
-    }
-}
-
-public class Item implements Serializable {
-
-    private String name;
-    private String description;
-    private int category;
-    public static final String[] categoryString = new String[]{"electronic", "antiques", "instrument"};
-    private double currentPrice;
-    private long startTime; // End time in milliseconds
-    private long remainingTime; // Remaining time in milliseconds
-    private Uri imgUri = null;
-    private String ItemKey;
-
-    private String ownerID;
-    private String currentWinner = null;
-    private String currentWinnerName;
-
-    public Item() {
-
-    }
-
-    public Item(String name, String description, double currentPrice, long startTime, Uri imgUri,int category) {
-        this.name = name;
-        this.description = description;
-        this.currentPrice = currentPrice;
-        this.startTime = startTime;
-        this.remainingTime = (startTime + 100000) - System.currentTimeMillis();
-        this.currentWinner = null;
-        this.imgUri = imgUri;
-        this.category = category;
-        this.ownerID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
-        this.currentWinner = ownerID;
-        this.currentWinnerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-    }
-
-    public Item(ItemforDatabaseupload itemforDatabaseupload){
-        this.name = itemforDatabaseupload.getName();
-        this.description = itemforDatabaseupload.getDescription();
-        this.currentPrice = itemforDatabaseupload.getCurrentPrice();
-        this.startTime = itemforDatabaseupload.getStartTime();
-        this.remainingTime = itemforDatabaseupload.getRemainingTime();
-        this.currentWinner = itemforDatabaseupload.getCurrentWinner();
-        this.imgUri = null;
-        this.category = itemforDatabaseupload.getCategory();
-        this.ownerID = itemforDatabaseupload.getOwnerID();
-
-    }
-
-    public String getItemKey() {
-        return ItemKey;
-    }
-
-    public int getCategory() {
-        return category;
-    }
-
-    public void setCategory(int category) {
-        this.category = category;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Uri getImgUri() {
-        return imgUri;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getCurrentPrice() {
-        return currentPrice;
-    }
-
-    public void setCurrentPrice(double currentPrice) {
-        this.currentPrice = currentPrice;
-    }
-
-    public String getRemainingTime() {
-        return remainingTime + "";
-    }
-
-    public String getOwnerID() {
-        return ownerID;
-    }
-
-    public void setOwnerID(FirebaseUser ownerID) {
-        this.ownerID = ownerID.getUid();
-    }
-
-    public void setCurrentWinner() {
+    public void setCurrentWinner(){
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         String FirebaseUserId = user.getUid();
@@ -246,15 +134,12 @@ public class Item implements Serializable {
         this.currentWinner = FirebaseUserId;
     }
 
-    public String getCurrentWinner() {
-        return this.currentWinner;
+    public String getCurrentWinnerName() {
+        return currentWinnerName;
     }
 
-    public String getCurrentWinnerName() {
-        if (currentWinner != null) {
-            return this.currentWinnerName;
-        }
-        return "";
+    public void setCurrentWinnerName(String currentWinnerName) {
+        this.currentWinnerName = currentWinnerName;
     }
 
     public void updateRemainingTime() {
@@ -264,10 +149,8 @@ public class Item implements Serializable {
     public String addToDatabase(Context context) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AllItemList");
         String key = databaseReference.push().getKey();
-        this.ItemKey = key;
-
-        ItemforDatabaseupload itemforDatabaseupload = new ItemforDatabaseupload(this.name,this.description,this.category,this.currentPrice,this.startTime,this.remainingTime,null,key,this.getOwnerID(),this.getCurrentWinner(),this.currentWinnerName);
-        databaseReference.child(key).setValue(itemforDatabaseupload);
+        this.itemKey = key;
+        databaseReference.child(key).setValue(this);
         return key;
     }
 
@@ -278,15 +161,17 @@ public class Item implements Serializable {
     }
 
     public void updatePriceToDatabase(){
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AllItemList").child(ItemKey);
-        databaseReference.child("currentPrice").setValue(this.currentPrice);
-        databaseReference.child("currentWinnerName").setValue(this.currentWinnerName);
-        databaseReference.child("currentWinner").setValue(this.currentWinner);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AllItemList").child(this.getItemKey());
+        databaseReference.child("currentPrice").setValue(this.getCurrentPrice());
+        databaseReference.child("currentWinnerName").setValue(this.getCurrentWinnerName());
+        databaseReference.child("currentWinner").setValue(this.getCurrentWinner());
 
     }
 }
 class itemArray{
     static long total = 0;
+    public static final String[] categoryString = new String[]{"electronic", "antiques", "instrument"};
+
     public static List<Item> itemList = new ArrayList<Item>();
 
     public static void incrementTotal(){

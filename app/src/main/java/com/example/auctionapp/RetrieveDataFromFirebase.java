@@ -11,25 +11,29 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+import java.util.Map;
+
 public class RetrieveDataFromFirebase {
+
+    public static boolean RetrieveDataFromDatabaseStatus = false;
 
     public static void RetrieveDataFromDatabaseAction() {
 
+        if(RetrieveDataFromDatabaseStatus)return;
+
         // Define a reference to your Firebase Realtime Database.
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AllItemList");
+        RetrieveDataFromDatabaseStatus = true;
 
         // Add a listener to retrieve data.
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot itemsnapshot  :dataSnapshot.getChildren()){
-//                    ItemforDatabaseupload itemforDatabaseupload = itemsnapshot.getValue(ItemforDatabaseupload.class);
 
-                    ItemforDatabaseupload itemforDatabaseupload = new ItemforDatabaseupload("name","da",1,100,100,100,null,null,"in","svs","suhuf");
-
-                    Item item = new Item(itemforDatabaseupload);
-                    itemArray.itemList.add(item);
-//                    Log.d("this:", item.getName());
+                    Item item = itemsnapshot.getValue(Item.class);
+                    itemArray.itemList.add(item);;
 
                 }
             }

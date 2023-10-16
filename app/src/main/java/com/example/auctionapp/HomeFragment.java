@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment {
         imageview = viewInflated.findViewById(R.id.productImgView);
         builder.setView(viewInflated);
 
-        ArrayAdapter<String> adapterCategory = new ArrayAdapter<String>(getContext(),R.layout.category_spinner_text,R.id.categoryTextView,Item.categoryString);
+        ArrayAdapter<String> adapterCategory = new ArrayAdapter<String>(getContext(),R.layout.category_spinner_text,R.id.categoryTextView,itemArray.categoryString);
         spinnerCategory.setAdapter(adapterCategory);
 //        final int category_Item = spinnerCategory.getSelectedItemPosition();
 
