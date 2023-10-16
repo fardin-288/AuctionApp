@@ -98,6 +98,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         FirebaseUser user = auth.getCurrentUser();
 
         if(getItem(position).getOwnerID() == user ){
+            itemArray.itemList.get(position).removeFromDatabase();
             itemArray.itemList.remove(position);
             Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
         }else{
@@ -127,6 +128,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                         // Update the item's price and notify the adapter
                         getItem(position).setCurrentPrice(newPrice);
                         getItem(position).setCurrentWinner();
+                        getItem(position).updatePriceToDatabase();
                         notifyDataSetChanged();
 
                     } else {
