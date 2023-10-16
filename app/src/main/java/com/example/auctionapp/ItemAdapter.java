@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ItemAdapter extends ArrayAdapter<Item> {
 
@@ -57,14 +58,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         TextView itemCategoryTextView = convertView.findViewById(R.id.itemCategoryTextView);
 
         // Set the item's attributes in the views
-        itemImageView.setImageURI(item.getImgUri());
+//        itemImageView.setImageURI(item.getImgUri());
 //        itemImageView.setImageResource(item.getPictureResource());
         itemNameTextView.setText(item.getName());
         itemDescriptionTextView.setText(item.getDescription());
         itemPriceTextView.setText(String.format(Locale.US, "Tk%.2f", item.getCurrentPrice()));
         itemTimeRemaining.setText(String.format(Locale.US,"time %s", item.getRemainingTime() ));
         itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
-        itemCategoryTextView.setText(String.format("Category : %s" ,Item.categoryString[item.getCategory()]));
+        itemCategoryTextView.setText(String.format("Category : %s" ,itemArray.categoryString[item.getCategory()]));
 
         // Changing the Price
         Button changePriceButton = convertView.findViewById(R.id.changePriceButton);
@@ -86,18 +87,12 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         return convertView;
     }
 
-    public static void updateAllitem(){
-        for(Item a: itemArray.itemList){
-            a.updateRemainingTime();
-        }
-    }
-
     private void removebuttonwork(final int position){
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        if(getItem(position).getOwnerID() == user ){
+        if(Objects.equals(getItem(position).getOwnerID(), user.getUid())){
             itemArray.itemList.get(position).removeFromDatabase();
             itemArray.itemList.remove(position);
             Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
