@@ -44,8 +44,8 @@ public class Item implements Serializable {
         this.name = name;
         this.description = description;
         this.currentPrice = currentPrice;
-        this.startTime = startTime;
-        this.remainingTime = (startTime + 100000) - System.currentTimeMillis();
+        this.startTime = (startTime + 24*60*60*1000)/1000; // we want seconds
+        this.remainingTime = 24*60*60*1000;// milli seconds
         this.currentWinner = null;
 //        this.imgUri = imgUri;
         this.category = category;

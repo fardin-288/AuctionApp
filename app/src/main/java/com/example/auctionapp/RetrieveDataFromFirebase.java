@@ -33,7 +33,8 @@ public class RetrieveDataFromFirebase {
                 for(DataSnapshot itemsnapshot  :dataSnapshot.getChildren()){
 
                     Item item = itemsnapshot.getValue(Item.class);
-                    itemArray.itemList.add(item);;
+                    item.setRemainingTime((item.getStartTime() - System.currentTimeMillis())/1000);
+                    itemArray.itemList.add(item);
 
                 }
             }
