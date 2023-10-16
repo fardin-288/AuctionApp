@@ -26,6 +26,16 @@
         android:layout_height="wrap_content"
         android:hint="Enter Description" />
 
+    <Spinner
+        android:id="@+id/spinnerCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/spinnerCategoryTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/buttonUploadPicture"
         android:layout_width="match_parent"
