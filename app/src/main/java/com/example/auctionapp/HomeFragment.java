@@ -187,9 +187,6 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Toast.makeText(getActivity().getApplicationContext(), "Image is stored successfully ", Toast.LENGTH_SHORT).show();
-//                        String uploadId= databaseReference.push().getKey();
-//                        MyItem myItem = new MyItem(tempItem.getName(),tempItem.getDescription(),tempItem.getCategory(),tempItem.getCurrentPrice(),System.currentTimeMillis(),taskSnapshot.getStorage().getDownloadUrl().toString(), auth.getCurrentUser());
-//                         databaseReference.child(key).setValue(myItem);
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,11 +23,13 @@ public class RetrieveDataFromFirebase {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot itemsnapshot  :dataSnapshot.getChildren()){
-                    ItemforDatabaseupload itemforDatabaseupload = itemsnapshot.getValue(ItemforDatabaseupload.class);
+//                    ItemforDatabaseupload itemforDatabaseupload = itemsnapshot.getValue(ItemforDatabaseupload.class);
+
+                    ItemforDatabaseupload itemforDatabaseupload = new ItemforDatabaseupload("name","da",1,100,100,100,null,null,"in","svs","suhuf");
 
                     Item item = new Item(itemforDatabaseupload);
-//                    itemArray.itemList.add(item);
-                    Log.d("this:", item.getName());
+                    itemArray.itemList.add(item);
+//                    Log.d("this:", item.getName());
 
                 }
             }
