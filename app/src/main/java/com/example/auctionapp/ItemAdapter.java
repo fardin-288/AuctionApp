@@ -20,11 +20,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ItemAdapter extends ArrayAdapter<Item> {
 
@@ -57,14 +62,25 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         TextView itemCategoryTextView = convertView.findViewById(R.id.itemCategoryTextView);
 
         // Set the item's attributes in the views
-        itemImageView.setImageURI(item.getImgUri());
+//        itemImageView.setImageURI(item.getImgUri());
 //        itemImageView.setImageResource(item.getPictureResource());
         itemNameTextView.setText(item.getName());
         itemDescriptionTextView.setText(item.getDescription());
         itemPriceTextView.setText(String.format(Locale.US, "Tk%.2f", item.getCurrentPrice()));
         itemTimeRemaining.setText(String.format(Locale.US,"time %s", item.getRemainingTime() ));
         itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
-        itemCategoryTextView.setText(String.format("Category : %s" ,Item.categoryString[item.getCategory()]));
+        itemCategoryTextView.setText(String.format("Category : %s" ,itemArray.categoryString[item.getCategory()]));
+
+
+        String fileKey= item.getItemKey();
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference("Upload");
+        StorageReference fileRef = storageRef.child(fileKey);
+        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override    public void onSuccess(Uri uri) {
+                Glide.with(getContext()).load(uri).into(itemImageView);    }
+        });
 
         // Changing the Price
         Button changePriceButton = convertView.findViewById(R.id.changePriceButton);
@@ -86,18 +102,13 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         return convertView;
     }
 
-    public static void updateAllitem(){
-        for(Item a: itemArray.itemList){
-            a.updateRemainingTime();
-        }
-    }
-
     private void removebuttonwork(final int position){
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        if(getItem(position).getOwnerID() == user ){
+        if(Objects.equals(getItem(position).getOwnerID(), user.getUid())){
+            itemArray.itemList.get(position).removeFromDatabase();
             itemArray.itemList.remove(position);
             Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
         }else{
@@ -127,6 +138,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                         // Update the item's price and notify the adapter
                         getItem(position).setCurrentPrice(newPrice);
                         getItem(position).setCurrentWinner();
+                        getItem(position).updatePriceToDatabase();
                         notifyDataSetChanged();
 
                     } else {
