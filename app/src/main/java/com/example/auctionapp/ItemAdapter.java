@@ -70,6 +70,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         itemTimeRemaining.setText(String.format(Locale.US,"time %s", item.getRemainingTime() ));
         itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
         itemCategoryTextView.setText(String.format("Category : %s" ,itemArray.categoryString[item.getCategory()]));
+<<<<<<< HEAD
 
 
         String fileKey= item.getItemKey();
@@ -81,6 +82,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             @Override    public void onSuccess(Uri uri) {
                 Glide.with(getContext()).load(uri).into(itemImageView);    }
         });
+=======
+>>>>>>> cecb89c9f8464695cabd3433de60612e1f52b40d
 
         // Changing the Price
         Button changePriceButton = convertView.findViewById(R.id.changePriceButton);
