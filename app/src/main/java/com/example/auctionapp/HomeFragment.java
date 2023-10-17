@@ -177,6 +177,7 @@ public class HomeFragment extends Fragment {
         });
 
         startRefresh();
+//        itemArray.ItemUpdateTimeRunnable();
 
         return rootView;
     }
@@ -201,34 +202,39 @@ class RefreshClass {
     private static Thread backgroundThread;
 
     public static void refresh(View rootView, Activity activity) {
-        if (!refreshStatus) {
-            refreshStatus = true;
-            backgroundThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    while (refreshStatus) {
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                itemArray.ItemUpdateTimeRunnable();
-                                RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
-                                HomeFragment.adapter = new ItemAdapter(activity, itemArray.itemList);
-                                HomeFragment.listView = rootView.findViewById(R.id.listView);
-                                HomeFragment.listView.setAdapter(HomeFragment.adapter);
-                                HomeFragment.adapter.notifyDataSetChanged();
-                                Log.d("weeee","okkkk");
-                            }
-                        });
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
-            backgroundThread.start();
-        }
+//        if (!refreshStatus) {
+//            refreshStatus = true;
+//            backgroundThread = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    while (refreshStatus) {
+//                        activity.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+////                                itemArray.ItemUpdateTimeRunnable();
+//                                RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+//                                HomeFragment.adapter = new ItemAdapter(activity, itemArray.itemList);
+//                                HomeFragment.listView = rootView.findViewById(R.id.listView);
+//                                HomeFragment.listView.setAdapter(HomeFragment.adapter);
+//                                HomeFragment.adapter.notifyDataSetChanged();
+//                                Log.d("weeee","okkkk");
+//                            }
+//                        });
+//                        try {
+//                            Thread.sleep(1000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            });
+//            backgroundThread.start();
+//        }
+        itemArray.ItemUpdateTimeRunnable();
+        RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+        HomeFragment.adapter = new ItemAdapter(activity, itemArray.itemList);
+        HomeFragment.listView = rootView.findViewById(R.id.listView);
+        HomeFragment.listView.setAdapter(HomeFragment.adapter);
     }
 
     public static void stopRefresh() {

@@ -75,7 +75,9 @@ public class RegistrationActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        // User profile updated successfully\
+                                        //Upload user to Firebase
+                                        User.AddUserToDatabase();
+                                        // User profile updated successfully
                                         showMessage("User created");
                                         Intent mainIntent = new Intent(RegistrationActivity.this, DashboardActivity.class);
                                         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -44,8 +44,8 @@ public class Item implements Serializable {
         this.name = name;
         this.description = description;
         this.currentPrice = currentPrice;
-        this.startTime = (startTime + 24*60*60*1000)/1000; // we want seconds
-        this.remainingTime = 24*60*60*1000;// milli seconds
+        this.remainingTime = 60*1000;// milli seconds
+        this.startTime = (startTime + this.remainingTime); // milliseconds
         this.currentWinner = null;
 //        this.imgUri = imgUri;
         this.category = category;
@@ -95,7 +95,8 @@ public class Item implements Serializable {
     }
 
     public long getRemainingTime() {
-        return remainingTime;
+
+        return (getStartTime() - System.currentTimeMillis())/1000;
     }
 
     public void setRemainingTime(long remainingTime) {
@@ -143,7 +144,22 @@ public class Item implements Serializable {
     }
 
     public void updateRemainingTime() {
+
         remainingTime = remainingTime - 1;
+        if(remainingTime == 0){
+            winActionAfterTime();
+        }
+    }
+
+    public void winActionAfterTime(){
+        //add winner data to Database
+        UserArray.RetrieveFromDatabaseWinSoldItems(this.currentWinner);
+        UserArray.UserWonItemMap.add(this);
+        UserArray.AddToDatabaseWinSoldItems(this.currentWinner);
+        removeFromDatabase();
+
+        //Restore Database to Current User
+        UserArray.RetrieveFromDatabaseWinSoldItems();
     }
 
     public String addToDatabase(Context context) {
@@ -207,6 +223,5 @@ class itemArray{
             }
         });
         backgroundThreadItemListTime.start();
-
     }
 }

@@ -46,6 +46,9 @@ dependencies {
     implementation("com.google.firebase:firebase-database:20.2.2")
     implementation("com.google.firebase:firebase-storage:20.2.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
     implementation ("com.google.firebase:firebase-core:21.1.1")
     implementation ("com.google.firebase:firebase-analytics:21.3.0")
     implementation ("com.google.firebase:firebase-auth:22.1.2")
@@ -70,7 +73,8 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.71828")  // Add Picasso or Glide
     implementation ("com.google.firebase:firebase-storage:20.0.0")  // Add Firebase Storage
 
-
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

@@ -8,7 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +22,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 import java.util.Locale;
@@ -30,12 +39,15 @@ import java.util.Objects;
 public class ItemAdapter extends ArrayAdapter<Item> {
 
     private Activity activity;
+    private Runnable refreshRunnable = null;
+    private Handler handler;
 //    public static List<Item> itemList;
 
 
     public ItemAdapter(Activity activity, List<Item> itemList) {
         super(activity, 0, itemList);
         this.activity = activity;
+        handler = new Handler(Looper.getMainLooper());
 //        this.itemList = itemList;
     }
 
@@ -67,6 +79,17 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
         itemCategoryTextView.setText(String.format("Category : %s" ,itemArray.categoryString[item.getCategory()]));
 
+
+        String fileKey= item.getItemKey();
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference("Upload");
+        StorageReference fileRef = storageRef.child(fileKey);
+        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override    public void onSuccess(Uri uri) {
+                Glide.with(getContext()).load(uri).into(itemImageView);    }
+        });
+
         // Changing the Price
         Button changePriceButton = convertView.findViewById(R.id.changePriceButton);
         changePriceButton.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +104,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             @Override
             public void onClick(View view) {
                 removebuttonwork(position);
+            }
+        });
+
+        Button showItemDescriptionButton = convertView.findViewById(R.id.showItemDescriptionButton);
+        showItemDescriptionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDescription(position);
             }
         });
 
@@ -144,5 +175,39 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         builder.show();
     }
 
+    private void showDescription(final int position) {
+        AlertDialog.Builder builder;
+
+        ItemDescriptionFragment itemDescriptionFragment = new ItemDescriptionFragment(position, activity);
+        builder = itemDescriptionFragment.Build();
+
+        // Set up the buttons
+        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
+        // Remove any existing callbacks before scheduling a new one
+        if (refreshRunnable != null) {
+            handler.removeCallbacks(refreshRunnable);
+        }
+
+        // Refresh the view every second
+        refreshRunnable = new Runnable() {
+            @Override
+            public void run() {
+                notifyDataSetChanged(); // Refresh the view
+                showDescription(position); // Show the description again
+                refreshRunnable = null; // Reset the runnable to null when the task is done
+            }
+        };
+        handler.postDelayed(refreshRunnable, 1000); // Refresh every 1 second (1000 milliseconds)
+    }
+
 }
+
 
