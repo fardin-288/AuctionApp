@@ -20,7 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+
+import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +48,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 //        this.itemList = itemList;
     }
 
+    public void addDataFromFirebase()
+    {
+
+    }
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -54,6 +60,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         if (convertView == null) {
             convertView = LayoutInflater.from(activity).inflate(R.layout.item_list_item, parent, false);
         }
+
+
 
         Item item = itemArray.itemList.get(position);
 

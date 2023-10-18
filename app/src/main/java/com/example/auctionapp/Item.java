@@ -1,27 +1,16 @@
 package com.example.auctionapp;
 
 import android.content.Context;
-import android.net.ProxyInfo;
 import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
-import java.time.Duration;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Item implements Serializable {
 
@@ -29,31 +18,33 @@ public class Item implements Serializable {
     private String description;
     private int category;
     private double currentPrice;
-    private long startTime; // End time in milliseconds
+    private long endTime; // End time in milliseconds
     private long remainingTime; // Remaining time in milliseconds
     private String itemKey;
     private String ownerID;
     private String currentWinner = null;
     private String currentWinnerName;
     private int auctionTimeHours;
+    private String currentWinnerEmail;
 
     public Item() {
 
     }
 
-    public Item(String name, String description, double currentPrice, long startTime, Uri imgUri,int category,int auctionTimeHours) {
+    public Item(String name, String description, double currentPrice, long endTime, Uri imgUri, int category, int auctionTimeHours) {
         this.name = name;
         this.description = description;
         this.currentPrice = currentPrice;
-        this.startTime = (startTime + (long) auctionTimeHours *60*60*1000)/1000; // we want seconds
-        this.remainingTime = (long) auctionTimeHours *60*60*1000;// milli seconds
+        this.endTime = (System.currentTimeMillis() + (long) auctionTimeHours *60*1000); // we want seconds
+        this.remainingTime = (long) auctionTimeHours *60 ;// seconds
         this.currentWinner = null;
 //        this.imgUri = imgUri;
         this.category = category;
         this.ownerID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
-        this.currentWinner = ownerID;
-        this.currentWinnerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        this.currentWinner = "noHighestBidder";
+        this.currentWinnerName = "No Bids Yet";
         this.auctionTimeHours = auctionTimeHours;
+        this.currentWinnerEmail = "";
     }
 
     public String getName() {
@@ -88,16 +79,17 @@ public class Item implements Serializable {
         this.currentPrice = currentPrice;
     }
 
-    public long getStartTime() {
-        return startTime;
+    public long getEndTime() {
+        return endTime;
     }
 
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
     }
 
+    //we want seconds
     public long getRemainingTime() {
-        return remainingTime;
+        return ( this.endTime - System.currentTimeMillis())/1000;
     }
 
     public void setRemainingTime(long remainingTime) {
@@ -153,6 +145,7 @@ public class Item implements Serializable {
     }
 
     public void updateRemainingTime() {
+
         remainingTime = remainingTime - 1;
     }
 

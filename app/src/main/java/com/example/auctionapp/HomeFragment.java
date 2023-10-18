@@ -1,8 +1,10 @@
 package com.example.auctionapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.SearchManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,9 +14,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,10 +28,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
+import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,23 +46,28 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.firebase.ui.database.FirebaseListOptions;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class HomeFragment extends Fragment {
     StorageTask uploadTask;
     String key;
+    MenuItem menuItem;
+    public static SearchView searchView;
     private static final int IMAGE_REQUEST = 1;
     private Uri imageuri;
     private Item tempItem;
     private Uri final_uri;
-    private SearchView searchView;
+
     private ImageView imageview;
     private FirebaseAuth auth;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Upload");
     StorageReference storageReference = FirebaseStorage.getInstance().getReference("Upload");
     public static final int ADD_ITEM_REQUEST_CODE = 1;
-    public static ItemAdapter adapter;
+    public static ItemAdapter adapter,temporaryAdapter;
     public ArrayList<Item> temp = new ArrayList<Item>();
     public static ListView listView;
     private Spinner spinnerCategory;
@@ -93,7 +109,7 @@ public class HomeFragment extends Fragment {
                 if (!itemName.isEmpty()) {
                     // Create a new Item object and add it to the list
                     final int category_Item = spinnerCategory.getSelectedItemPosition();
-                    Item newItem = new Item(itemName, itemDescription, itemPriceFloat, currentTime, final_uri, category_Item,itemAuctionHoursTime);
+                    Item newItem = new Item(itemName, itemDescription, itemPriceFloat, currentTime, final_uri, category_Item, itemAuctionHoursTime);
 
                     itemArray.itemList.add(newItem);
                     tempItem = newItem;
@@ -131,11 +147,11 @@ public class HomeFragment extends Fragment {
         builder.show();
     }
 
-//    public String getFileExtension(Uri imageuri) {
-//        ContentResolver contentResolver = this.getActivity().getContentResolver();
-//        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-//        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(imageuri));
-//    }
+    public String getFileExtension(Uri imageuri) {
+        ContentResolver contentResolver = this.getActivity().getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(imageuri));
+    }
 
     void saveData() {
         StorageReference ref = storageReference.child(key);
@@ -175,26 +191,174 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Handle "Add Item" button click to show a dialog
-        rootView.findViewById(R.id.btnAddItem).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showAddItemDialog(getContext());
-            }
-        });
-
-//        RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
-//        adapter = new ItemAdapter(getActivity(),itemArray.itemList);
-
         RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
         HomeFragment.adapter = new ItemAdapter(getActivity(),itemArray.itemList);
 
         listView = rootView.findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
-        startRefresh();
+        HomeFragment.temporaryAdapter = new ItemAdapter(getActivity(),itemArray.itemList);
 
+        // Handle "Add Item" button click to show a dialog
+        searchView = rootView.findViewById(R.id.HomeSearchViewId);
+        List<Item> temp = new ArrayList<Item>();
+        temp.addAll(itemArray.itemList);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                List<Item> newlist = new ArrayList<Item>();
+                List<Item> temp = new ArrayList<Item>();
+
+                if (s.length()>0)
+
+                {
+                    for(Item x: itemArray.itemList)
+                    {
+                        if (x.getName().toLowerCase().contains(s.toLowerCase())) {
+//                            Toast.makeText(getActivity(), x.getName() + " " + x.getDescription(), Toast.LENGTH_SHORT).show();
+                            newlist.add(x);
+                        }
+
+                    }
+
+                    itemArray.itemList.clear();
+                    itemArray.itemList.addAll(newlist);
+                    temporaryAdapter = new ItemAdapter(getActivity(), itemArray.itemList);
+//                    temporaryAdapter = new ItemAdapter(getActivity(), newlist);
+
+                    listView.setAdapter(temporaryAdapter);
+                }
+                else
+                {
+                    itemArray.itemList.clear();
+                    itemArray.itemList.addAll(temp);
+                    adapter= new ItemAdapter(getActivity(),itemArray.itemList);
+                    listView.setAdapter(adapter);
+                    startRefresh();
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                List<Item> newlist = new ArrayList<Item>();
+
+                if (s.length()>0)
+
+                {
+                    for(Item x: itemArray.itemList)
+                    {
+                        if (x.getName().toLowerCase().contains(s.toLowerCase())) {
+//                            Toast.makeText(getActivity(), x.getName() + " " + x.getDescription(), Toast.LENGTH_SHORT).show();
+                            newlist.add(x);
+                        }
+                    }
+
+                    itemArray.itemList.clear();
+                    itemArray.itemList.addAll(newlist);
+                    temporaryAdapter = new ItemAdapter(getActivity(), itemArray.itemList);
+
+                    listView.setAdapter(temporaryAdapter);
+                }
+                else
+                {
+                    itemArray.itemList.clear();
+                    itemArray.itemList.addAll(temp);
+                    adapter= new ItemAdapter(getActivity(),itemArray.itemList);
+                    listView.setAdapter(adapter);
+                    startRefresh();
+                }
+                return true;
+            }
+        });
+
+        rootView.findViewById(R.id.btnAddItem).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAddItemDialog(getContext());
+            }
+        });
+        startRefresh();
         return rootView;
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//        menuItem = menu.findItem(R.id.searchId);
+//        inflater.inflate(R.menu.menu_item,menu);
+//        searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+//        searchView.setIconified(true);
+//        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                adapter.getFilter().filter(s);
+//
+//                mySearch(s);
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                adapter.getFilter().filter(s);
+//
+//                mySearch(s);
+//                return true;
+//            }
+//        });
+
+
+
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
+
+    private void mySearch(String s) {
+        List<Item> filteredList = new ArrayList<>();
+
+        for (Item item : itemArray.itemList) {
+            if (item.getName().toLowerCase().contains(s.toLowerCase())) {
+                filteredList.add(item);
+                Toast.makeText(getActivity().getApplicationContext(), item.getName(), Toast.LENGTH_SHORT).show();
+
+            }
+        }
+
+
+//        adapter = new ItemAdapter(requireActivity(), filteredList);
+//        .setAdapter(adapter);
+
+//        itemArray.itemList.clear();
+//        itemArray.itemList.addAll(filteredList);
+
+//            adapter = new ArrayAdapter<Item>(this, android.R.layou);
+//        adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1 , filteredList);
+//        listView.setAdapter(adapter);
+
+////        FirebaseListOptions<Item> options = new FirebaseListOptions.Builder
+//        FirebaseListOptions<Item> options = new FirebaseListOptions.Builder<Item>()
+//                .setQuery(FirebaseDatabase.getInstance().getReference().child("AllItemList")
+//                        .orderByChild("name"), Item.class)
+//                .build();
+//
+////        ItemAdapter<Item> adapter1 = new ItemAdapter(options);
+//
+//        FirebaseListAdapter<Item> newadapter= new FirebaseListAdapter<Item>(options) {
+//            @Override
+//            protected void populateView(@NonNull View v, @NonNull Item model, int position) {
+//                Toast.makeText(getActivity().getApplicationContext(), model.getName(), Toast.LENGTH_SHORT).show();
+//            }
+//        };
+//        listView.setAdapter(newadapter);
+
     }
 
     @Override
@@ -234,7 +398,10 @@ class RefreshClass {
                                 // Get the range of visible items in the ListView
                                 int firstVisiblePosition = HomeFragment.listView.getFirstVisiblePosition();
                                 int lastVisiblePosition = HomeFragment.listView.getLastVisiblePosition();
-                                Log.d("listview first last",HomeFragment.listView.getFirstVisiblePosition() + " " + HomeFragment.listView.getLastVisiblePosition());
+
+//                                int firstVisiblePositionSearch = HomeFragment.searchView.getFirstVisiblePosition();
+//                                int lastVisiblePositionSearch = HomeFragment.searchView.getLastVisiblePosition();
+//                                Log.d("listview first last",HomeFragment.listView.getFirstVisiblePosition() + " " + HomeFragment.listView.getLastVisiblePosition());
 
                                 // Iterate through visible items and update their data
                                 for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
@@ -244,6 +411,7 @@ class RefreshClass {
 
                                 // Notify the adapter that the data has changed for visible items
                                 HomeFragment.adapter.notifyDataSetChanged();
+                                HomeFragment.temporaryAdapter.notifyDataSetChanged();
                                 Log.d("listview refreshed",HomeFragment.listView.getFirstVisiblePosition() + " " + HomeFragment.listView.getLastVisiblePosition());
 
                             }
