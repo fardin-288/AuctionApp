@@ -38,8 +38,8 @@ public class RetrieveDataFromFirebase {
                     UserArray.UserWonItemMap.add(item);
 
                 }
-                UserArray.RetrieveFromDatabaseWinSoldItems();
-                UserArray.AddToDatabaseWinSoldItems();
+//                UserArray.RetrieveFromDatabaseWinSoldItems();
+//                UserArray.AddToDatabaseWinSoldItems();
             }
 
             @Override

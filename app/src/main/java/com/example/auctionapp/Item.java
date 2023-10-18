@@ -35,6 +35,7 @@ public class Item implements Serializable {
     private String ownerID;
     private String currentWinner = null;
     private String currentWinnerName;
+    private String currentWinnerEmail;
 
     public Item() {
 
@@ -44,7 +45,7 @@ public class Item implements Serializable {
         this.name = name;
         this.description = description;
         this.currentPrice = currentPrice;
-        this.remainingTime = 60*1000;// milli seconds
+        this.remainingTime = 30*1000;// milli seconds
         this.startTime = (startTime + this.remainingTime); // milliseconds
         this.currentWinner = null;
 //        this.imgUri = imgUri;
@@ -52,6 +53,7 @@ public class Item implements Serializable {
         this.ownerID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
         this.currentWinner = ownerID;
         this.currentWinnerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        this.currentWinnerEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
     }
 
     public String getName() {
@@ -123,6 +125,14 @@ public class Item implements Serializable {
         return currentWinner;
     }
 
+    public String getCurrentWinnerEmail() {
+        return currentWinnerEmail;
+    }
+
+    public void setCurrentWinnerEmail(String currentWinnerEmail) {
+        this.currentWinnerEmail = currentWinnerEmail;
+    }
+
     public void setCurrentWinner(String currentWinner) {
         this.currentWinner = currentWinner;
     }
@@ -151,12 +161,22 @@ public class Item implements Serializable {
         }
     }
 
+    public void removeItemLocalItemList(){
+
+        for(int i=0; i<itemArray.itemList.size(); i++){
+            if(this == itemArray.itemList.get(i)){
+                itemArray.itemList.remove(i);
+            }
+        }
+    }
+
     public void winActionAfterTime(){
         //add winner data to Database
         UserArray.RetrieveFromDatabaseWinSoldItems(this.currentWinner);
         UserArray.UserWonItemMap.add(this);
         UserArray.AddToDatabaseWinSoldItems(this.currentWinner);
         removeFromDatabase();
+        removeItemLocalItemList();
 
         //Restore Database to Current User
         UserArray.RetrieveFromDatabaseWinSoldItems();
