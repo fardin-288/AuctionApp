@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -35,6 +36,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+
 public class HomeFragment extends Fragment {
     StorageTask uploadTask;
     String key;
@@ -42,12 +45,14 @@ public class HomeFragment extends Fragment {
     private Uri imageuri;
     private Item tempItem;
     private Uri final_uri;
+    private SearchView searchView;
     private ImageView imageview;
     private FirebaseAuth auth;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Upload");
     StorageReference storageReference = FirebaseStorage.getInstance().getReference("Upload");
     public static final int ADD_ITEM_REQUEST_CODE = 1;
     public static ItemAdapter adapter;
+    public ArrayList<Item> temp = new ArrayList<Item>();
     public static ListView listView;
     private Spinner spinnerCategory;
     public static final int PICK_IMAGE_REQUEST = 1;
@@ -168,6 +173,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+
+
+
+
+
+
+
         // Handle "Add Item" button click to show a dialog
         rootView.findViewById(R.id.btnAddItem).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,6 +187,8 @@ public class HomeFragment extends Fragment {
                 showAddItemDialog(getContext());
             }
         });
+
+
 
         startRefresh();
 
@@ -201,11 +215,13 @@ class RefreshClass {
     private static Thread backgroundThread;
 
     public static void refresh(View rootView, Activity activity) {
+
         if (!refreshStatus) {
             refreshStatus = true;
             backgroundThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
+
                     while (refreshStatus) {
                         activity.runOnUiThread(new Runnable() {
                             @Override
@@ -217,6 +233,7 @@ class RefreshClass {
                                 HomeFragment.listView.setAdapter(HomeFragment.adapter);
                                 HomeFragment.adapter.notifyDataSetChanged();
                                 Log.d("weeee","okkkk");
+                                refreshStatus=false;
                             }
                         });
                         try {

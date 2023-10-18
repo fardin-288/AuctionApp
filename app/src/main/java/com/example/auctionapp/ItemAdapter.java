@@ -21,12 +21,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -54,6 +58,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         Item item = itemArray.itemList.get(position);
 
         ImageView itemImageView = convertView.findViewById(R.id.itemImageView);
+
+
+
         TextView itemNameTextView = convertView.findViewById(R.id.itemNameTextView);
         TextView itemDescriptionTextView = convertView.findViewById(R.id.itemDescriptionTextView);
         TextView itemPriceTextView = convertView.findViewById(R.id.itemPriceTextView);
@@ -70,20 +77,69 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         itemTimeRemaining.setText(String.format(Locale.US,"time %s", item.getRemainingTime() ));
         itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
         itemCategoryTextView.setText(String.format("Category : %s" ,itemArray.categoryString[item.getCategory()]));
-<<<<<<< HEAD
 
 
-        String fileKey= item.getItemKey();
 
+//        String fileKey= item.getItemKey();
+//        FirebaseStorage storage = FirebaseStorage.getInstance();
+//        StorageReference storageRef = storage.getReference("Upload");
+//        StorageReference fileRef = storageRef.child(fileKey);
+//        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Picasso.get().load(uri).into(itemImageView);
+//                Glide.with(getContext().getApplicationContext()).load(uri).into(itemImageView);
+//            }
+//        });
+
+
+        String fileKey = item.getItemKey();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference("Upload");
-        StorageReference fileRef = storageRef.child(fileKey);
-        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override    public void onSuccess(Uri uri) {
-                Glide.with(getContext()).load(uri).into(itemImageView);    }
-        });
-=======
->>>>>>> cecb89c9f8464695cabd3433de60612e1f52b40d
+        final StorageReference fileRef = storageRef.child(fileKey);
+
+// Check if the local file exists
+        File localFile = new File(getContext().getFilesDir(), fileKey);
+
+        if (localFile.exists()) {
+            // If the local file exists, load it using Picasso or Glide
+            Picasso.get().load(localFile).into(itemImageView);
+            // Alternatively, use Glide
+            // Glide.with(getContext().getApplicationContext()).load(localFile).into(itemImageView);
+        } else {
+            // If the local file does not exist, download from the downloadUri
+            fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Load the image using Picasso or Glide
+                    Picasso.get().load(uri).into(itemImageView);
+                    // Alternatively, use Glide
+                    // Glide.with(getContext().getApplicationContext()).load(uri).into(itemImageView);
+
+                    // Download the image to local storage
+                    downloadImageToLocal(fileRef, localFile);
+                }
+
+                private void downloadImageToLocal(StorageReference fileRef, final File localFile) {
+                    fileRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            // File downloaded successfully to local storage
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure( Exception exception) {
+                            // Handle the error if the file download fails
+                        }
+                    });
+                }
+
+            });
+        }
+
+
+
+
 
         // Changing the Price
         Button changePriceButton = convertView.findViewById(R.id.changePriceButton);
