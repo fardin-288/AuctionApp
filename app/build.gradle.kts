@@ -73,8 +73,7 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.71828")  // Add Picasso or Glide
     implementation ("com.google.firebase:firebase-storage:20.0.0")  // Add Firebase Storage
 
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

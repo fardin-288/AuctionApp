@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -35,6 +36,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+
 public class HomeFragment extends Fragment {
     StorageTask uploadTask;
     String key;
@@ -42,12 +45,14 @@ public class HomeFragment extends Fragment {
     private Uri imageuri;
     private Item tempItem;
     private Uri final_uri;
+    private SearchView searchView;
     private ImageView imageview;
     private FirebaseAuth auth;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Upload");
     StorageReference storageReference = FirebaseStorage.getInstance().getReference("Upload");
     public static final int ADD_ITEM_REQUEST_CODE = 1;
     public static ItemAdapter adapter;
+    public ArrayList<Item> temp = new ArrayList<Item>();
     public static ListView listView;
     private Spinner spinnerCategory;
     public static final int PICK_IMAGE_REQUEST = 1;
@@ -63,6 +68,7 @@ public class HomeFragment extends Fragment {
         final EditText itemNameEditText = viewInflated.findViewById(R.id.editTextItemName);
         final EditText itemNameEditPrice = viewInflated.findViewById(R.id.editStartingPrice);
         final EditText itemDescriptionText = viewInflated.findViewById(R.id.editDescription);
+        final EditText itemAuctionHoursTimeEditText = viewInflated.findViewById(R.id.editAuctionHours);
         spinnerCategory = viewInflated.findViewById(R.id.spinnerCategory);
         Button buttonUploadPicture = viewInflated.findViewById(R.id.buttonUploadPicture);
         imageview = viewInflated.findViewById(R.id.productImgView);
@@ -80,13 +86,14 @@ public class HomeFragment extends Fragment {
                 String itemPriceString = itemNameEditPrice.getText().toString();
                 Float itemPriceFloat = Float.valueOf(itemPriceString);
                 String itemDescription = itemDescriptionText.getText().toString();
+                int itemAuctionHoursTime = Integer.parseInt(itemAuctionHoursTimeEditText.getText().toString());
                 String imguri;
                 long currentTime = System.currentTimeMillis();
 
                 if (!itemName.isEmpty()) {
                     // Create a new Item object and add it to the list
                     final int category_Item = spinnerCategory.getSelectedItemPosition();
-                    Item newItem = new Item(itemName, itemDescription, itemPriceFloat, currentTime, final_uri, category_Item);
+                    Item newItem = new Item(itemName, itemDescription, itemPriceFloat, currentTime, final_uri, category_Item,itemAuctionHoursTime);
 
                     itemArray.itemList.add(newItem);
                     tempItem = newItem;
@@ -124,11 +131,11 @@ public class HomeFragment extends Fragment {
         builder.show();
     }
 
-    public String getFileExtension(Uri imageuri) {
-        ContentResolver contentResolver = this.getActivity().getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(imageuri));
-    }
+//    public String getFileExtension(Uri imageuri) {
+//        ContentResolver contentResolver = this.getActivity().getContentResolver();
+//        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+//        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(imageuri));
+//    }
 
     void saveData() {
         StorageReference ref = storageReference.child(key);
@@ -176,8 +183,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
+//        RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+//        adapter = new ItemAdapter(getActivity(),itemArray.itemList);
+
+        RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+        HomeFragment.adapter = new ItemAdapter(getActivity(),itemArray.itemList);
+
+        listView = rootView.findViewById(R.id.listView);
+        listView.setAdapter(adapter);
+
         startRefresh();
-//        itemArray.ItemUpdateTimeRunnable();
 
         return rootView;
     }
@@ -201,23 +216,71 @@ class RefreshClass {
     private static boolean refreshStatus = false;
     private static Thread backgroundThread;
 
+//    ItemAdapter itemAdapter = new ItemAdapter(act)
+
     public static void refresh(View rootView, Activity activity) {
+        itemArray.ItemUpdateTimeRunnable();
+        if (!refreshStatus) {
+            refreshStatus = true;
+            backgroundThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (refreshStatus) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+//                                HomeFragment.adapter = new ItemAdapter(activity,itemArray.itemList);
+                                // Get the range of visible items in the ListView
+                                int firstVisiblePosition = HomeFragment.listView.getFirstVisiblePosition();
+                                int lastVisiblePosition = HomeFragment.listView.getLastVisiblePosition();
+                                Log.d("listview first last",HomeFragment.listView.getFirstVisiblePosition() + " " + HomeFragment.listView.getLastVisiblePosition());
+
+                                // Iterate through visible items and update their data
+                                for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                                    Item item = HomeFragment.adapter.getItem(i);
+//                                    item.setRemainingTime(item.getRemainingTime());
+                                }
+
+                                // Notify the adapter that the data has changed for visible items
+                                HomeFragment.adapter.notifyDataSetChanged();
+                                Log.d("listview refreshed",HomeFragment.listView.getFirstVisiblePosition() + " " + HomeFragment.listView.getLastVisiblePosition());
+
+                            }
+                        });
+
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            backgroundThread.start();
+        }
+    }
+
+//    public static void refresh(View rootView, Activity activity) {
+//
 //        if (!refreshStatus) {
 //            refreshStatus = true;
 //            backgroundThread = new Thread(new Runnable() {
 //                @Override
 //                public void run() {
+//
 //                    while (refreshStatus) {
 //                        activity.runOnUiThread(new Runnable() {
 //                            @Override
 //                            public void run() {
-////                                itemArray.ItemUpdateTimeRunnable();
+//                                itemArray.ItemUpdateTimeRunnable();
 //                                RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
 //                                HomeFragment.adapter = new ItemAdapter(activity, itemArray.itemList);
 //                                HomeFragment.listView = rootView.findViewById(R.id.listView);
 //                                HomeFragment.listView.setAdapter(HomeFragment.adapter);
 //                                HomeFragment.adapter.notifyDataSetChanged();
 //                                Log.d("weeee","okkkk");
+//                                refreshStatus=false;
 //                            }
 //                        });
 //                        try {
@@ -230,12 +293,7 @@ class RefreshClass {
 //            });
 //            backgroundThread.start();
 //        }
-        itemArray.ItemUpdateTimeRunnable();
-        RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
-        HomeFragment.adapter = new ItemAdapter(activity, itemArray.itemList);
-        HomeFragment.listView = rootView.findViewById(R.id.listView);
-        HomeFragment.listView.setAdapter(HomeFragment.adapter);
-    }
+//    }
 
     public static void stopRefresh() {
         refreshStatus = false;

@@ -35,11 +35,8 @@ public class RetrieveDataFromFirebase {
                     Item item = itemsnapshot.getValue(Item.class);
                     item.setRemainingTime((item.getStartTime() - System.currentTimeMillis())/1000);
                     itemArray.itemList.add(item);
-                    UserArray.UserWonItemMap.add(item);
 
                 }
-//                UserArray.RetrieveFromDatabaseWinSoldItems();
-//                UserArray.AddToDatabaseWinSoldItems();
             }
 
             @Override
