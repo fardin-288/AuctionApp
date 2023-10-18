@@ -173,19 +173,23 @@ class UserArray{
 
     public static void AddToDatabaseWinSoldItems(String Uid){
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("WinnerItemKeyList");
+        RetrieveFromDatabaseWinSoldItems(Uid);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("WinnerItemKeyList").child(Uid);
         databaseReference.removeValue();
 
-        databaseReference.child(Uid).setValue(UserWonItemMap);
+        databaseReference.setValue(UserWonItemMap);
 
     }
 
     public static void AddToDatabaseWinSoldItems(){
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("WinnerItemKeyList");
+        RetrieveFromDatabaseWinSoldItems();
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("WinnerItemKeyList").child(currentUser.getFirebaseUserid());
         databaseReference.removeValue();
 
-        databaseReference.child(currentUser.getKey()).setValue(UserWonItemMap);
+        databaseReference.setValue(UserWonItemMap);
 
     }
 

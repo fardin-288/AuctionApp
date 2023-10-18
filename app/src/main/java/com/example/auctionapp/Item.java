@@ -51,8 +51,8 @@ public class Item implements Serializable {
 //        this.imgUri = imgUri;
         this.category = category;
         this.ownerID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
-        this.currentWinner = ownerID;
-        this.currentWinnerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        this.currentWinner = "noHighestBidder";
+        this.currentWinnerName = "No Bids Yet";
         this.currentWinnerEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
     }
 
@@ -156,7 +156,7 @@ public class Item implements Serializable {
     public void updateRemainingTime() {
 
         remainingTime = remainingTime - 1;
-        if(remainingTime == 0){
+        if(remainingTime <= 0){
             winActionAfterTime();
         }
     }
