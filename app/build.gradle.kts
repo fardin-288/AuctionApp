@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import com.android.build.api.dsl.Lint
 
 plugins {
@@ -39,15 +40,20 @@ android {
     }
 }
 
+//@SuppressLint("GradleCompatible")
 dependencies {
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.8.20")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20")
     implementation ("androidx.fragment:fragment:1.6.1")
+    implementation ("com.firebaseui:firebase-ui-database:8.0.0")
+    implementation ("com.google.firebase:firebase-database:20.2.2")
+
+
     implementation("com.google.firebase:firebase-database:20.2.2")
     implementation("com.google.firebase:firebase-storage:20.2.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+//    implementation ("com.github.bumptech.glide:glide:4.12.0")
+//    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
     implementation ("com.google.firebase:firebase-core:21.1.1")
     implementation ("com.google.firebase:firebase-analytics:21.3.0")
@@ -57,7 +63,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
     implementation("com.google.firebase:firebase-auth-ktx:22.1.2")
-    implementation("com.android.support:support-annotations:28.0.0")
+//    implementation("com.android.support:support-annotations:28.0.0")
     implementation("com.google.firebase:firebase-storage:20.2.1")
     implementation("com.google.firebase:firebase-database-ktx:20.2.2")
     testImplementation("junit:junit:4.13.2")
