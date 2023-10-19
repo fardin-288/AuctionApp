@@ -203,7 +203,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                     double newPrice = Double.parseDouble(newPriceText);
                     if (newPrice > getItem(position).getCurrentPrice()) {
                         // Update the item's price and notify the adapter
-                        getItem(position).setCurrentPrice(newPrice);
+                        getItem(position).setCurrentPrice(newPrice,FirebaseAuth.getInstance().getCurrentUser());
                         getItem(position).setCurrentWinner();
                         getItem(position).updatePriceToDatabase();
                         notifyDataSetChanged();

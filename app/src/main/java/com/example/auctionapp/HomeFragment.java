@@ -327,7 +327,7 @@ public class HomeFragment extends Fragment {
         for (Item item : itemArray.itemList) {
             if (item.getName().toLowerCase().contains(s.toLowerCase())) {
                 filteredList.add(item);
-                Toast.makeText(getActivity().getApplicationContext(), item.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), item.getName(), Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -394,6 +394,7 @@ class RefreshClass {
                             @Override
                             public void run() {
                                 RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+                                if(itemArray.itemList.size() == 0)return;
 //                                HomeFragment.adapter = new ItemAdapter(activity,itemArray.itemList);
                                 // Get the range of visible items in the ListView
                                 int firstVisiblePosition = HomeFragment.listView.getFirstVisiblePosition();

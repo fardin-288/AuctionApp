@@ -22,29 +22,27 @@ public class Item implements Serializable {
     private long remainingTime; // Remaining time in milliseconds
     private String itemKey;
     private String ownerID;
-    private String currentWinner = null;
+    private String currentWinner;
     private String currentWinnerName;
     private int auctionTimeHours;
     private String currentWinnerEmail;
 
     public Item() {
-
     }
 
     public Item(String name, String description, double currentPrice, long endTime, Uri imgUri, int category, int auctionTimeHours) {
         this.name = name;
         this.description = description;
         this.currentPrice = currentPrice;
-        this.endTime = (System.currentTimeMillis() + (long) auctionTimeHours *60*1000); // we want seconds
-        this.remainingTime = (long) auctionTimeHours *60 ;// seconds
-        this.currentWinner = null;
-//        this.imgUri = imgUri;
+        this.endTime = (System.currentTimeMillis() + (long) auctionTimeHours*60*60*1000); // we want seconds
+        this.remainingTime = (long) auctionTimeHours*60*60 ;// seconds
         this.category = category;
         this.ownerID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
         this.currentWinner = "noHighestBidder";
         this.currentWinnerName = "No Bids Yet";
         this.auctionTimeHours = auctionTimeHours;
-        this.currentWinnerEmail = "";
+        this.currentWinnerEmail = "admin@gmail.com";
+        this.itemKey = "noHighestBidder";
     }
 
     public String getName() {
@@ -75,6 +73,13 @@ public class Item implements Serializable {
         return currentPrice;
     }
 
+    public void setCurrentPrice(double currentPrice, FirebaseUser user){
+        this.currentPrice = currentPrice;
+        this.currentWinner = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        this.currentWinnerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        this.currentWinnerEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+    }
+
     public void setCurrentPrice(double currentPrice) {
         this.currentPrice = currentPrice;
     }
@@ -87,7 +92,7 @@ public class Item implements Serializable {
         this.endTime = endTime;
     }
 
-    //we want seconds
+//    we want seconds
     public long getRemainingTime() {
         return ( this.endTime - System.currentTimeMillis())/1000;
     }
@@ -144,9 +149,43 @@ public class Item implements Serializable {
         this.auctionTimeHours = auctionTimeHours;
     }
 
+    public String getCurrentWinnerEmail() {
+        return currentWinnerEmail;
+    }
+
+    public void setCurrentWinnerEmail(String currentWinnerEmail) {
+        this.currentWinnerEmail = currentWinnerEmail;
+    }
+
     public void updateRemainingTime() {
 
         remainingTime = remainingTime - 1;
+        if(remainingTime <= 0){
+            winActionAfterTime();
+        }
+    }
+
+    public void removeItemLocalItemList(){
+
+        for(int i=0; i<itemArray.itemList.size(); i++){
+            if(this == itemArray.itemList.get(i)){
+                itemArray.itemList.remove(i);
+                break;
+            }
+        }
+    }
+
+    public void winActionAfterTime(){
+        //add winner data to Database
+//        UserArray.RetrieveFromDatabaseWinSoldItems(this.currentWinner);
+//        UserArray.UserWonItemMap.add(this);
+//        UserArray.AddToDatabaseWinSoldItems(this.currentWinner);
+        UserArray.AddToDatabaseWinSoldItems(this,this.currentWinner);
+        removeFromDatabase();
+        removeItemLocalItemList();
+
+        //Restore Database to Current User
+//        UserArray.RetrieveFromDatabaseWinSoldItems();
     }
 
     public String addToDatabase(Context context) {
