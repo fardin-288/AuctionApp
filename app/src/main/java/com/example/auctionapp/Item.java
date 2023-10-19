@@ -3,10 +3,15 @@ package com.example.auctionapp;
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,6 +31,8 @@ public class Item implements Serializable {
     private String currentWinnerName;
     private int auctionTimeHours;
     private String currentWinnerEmail;
+    private String ownerEmailId;
+    private String ownerName;
 
     public Item() {
     }
@@ -34,15 +41,17 @@ public class Item implements Serializable {
         this.name = name;
         this.description = description;
         this.currentPrice = currentPrice;
-        this.endTime = (System.currentTimeMillis() + (long) auctionTimeHours*60*60*1000); // we want seconds
-        this.remainingTime = (long) auctionTimeHours*60*60 ;// seconds
+        this.endTime = (System.currentTimeMillis() + (long) auctionTimeHours*60*1000); // we want seconds
+        this.remainingTime = (long) auctionTimeHours*60 ;// seconds
         this.category = category;
         this.ownerID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
         this.currentWinner = "noHighestBidder";
         this.currentWinnerName = "No Bids Yet";
         this.auctionTimeHours = auctionTimeHours;
-        this.currentWinnerEmail = "admin@gmail.com";
+        this.currentWinnerEmail = "no buyer";
         this.itemKey = "noHighestBidder";
+        this.ownerEmailId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        this.ownerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     }
 
     public String getName() {
@@ -78,6 +87,9 @@ public class Item implements Serializable {
         this.currentWinner = FirebaseAuth.getInstance().getCurrentUser().getUid();
         this.currentWinnerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         this.currentWinnerEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+//        RetrieveDataFromFirebase.RetrieveDataFromDatabaseStatus = false;
+//        RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
     }
 
     public void setCurrentPrice(double currentPrice) {
@@ -126,11 +138,9 @@ public class Item implements Serializable {
     }
 
     public void setCurrentWinner(){
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-        String FirebaseUserId = user.getUid();
-
-        this.currentWinner = FirebaseUserId;
+        this.currentWinner = UserArray.currentUser.getFirebaseUserid();
+        this.currentWinnerName = UserArray.currentUser.getName();
+        this.currentWinnerEmail = UserArray.currentUser.getEmail();
     }
 
     public String getCurrentWinnerName() {
@@ -157,9 +167,28 @@ public class Item implements Serializable {
         this.currentWinnerEmail = currentWinnerEmail;
     }
 
+    public String getOwnerEmailId() {
+        return ownerEmailId;
+    }
+
+    public void setOwnerEmailId(String ownerEmailId) {
+        this.ownerEmailId = ownerEmailId;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
     public void updateRemainingTime() {
 
-        remainingTime = remainingTime - 1;
+        if(remainingTime > 0){
+            remainingTime = remainingTime-1;
+        }
+
         if(remainingTime <= 0){
             winActionAfterTime();
         }
@@ -180,6 +209,10 @@ public class Item implements Serializable {
 //        UserArray.RetrieveFromDatabaseWinSoldItems(this.currentWinner);
 //        UserArray.UserWonItemMap.add(this);
 //        UserArray.AddToDatabaseWinSoldItems(this.currentWinner);
+
+        UserArray.RetrieveFromDatabaseSoldItemOfUser();
+        UserArray.AddSoldItemToDatabaseOfUser(this);
+
         UserArray.AddToDatabaseWinSoldItems(this,this.currentWinner);
         removeFromDatabase();
         removeItemLocalItemList();
@@ -187,6 +220,32 @@ public class Item implements Serializable {
         //Restore Database to Current User
 //        UserArray.RetrieveFromDatabaseWinSoldItems();
     }
+
+    public void RetrieveItemPriceFromDatabase() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AllItemList");
+        String key = getItemKey();
+        DatabaseReference childReference = databaseReference.child(key);
+
+        childReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Item newItemTobeUploaded = snapshot.getValue(Item.class);
+
+                if (newItemTobeUploaded != null) {
+                    setCurrentPrice(newItemTobeUploaded.getCurrentPrice());
+                    setCurrentWinner(newItemTobeUploaded.getCurrentWinner());
+                    setCurrentWinnerName(newItemTobeUploaded.getCurrentWinnerName());
+                    setCurrentWinnerEmail(newItemTobeUploaded.getCurrentWinnerEmail());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle any errors here
+            }
+        });
+    }
+
 
     public String addToDatabase(Context context) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AllItemList");
@@ -207,6 +266,7 @@ public class Item implements Serializable {
         databaseReference.child("currentPrice").setValue(this.getCurrentPrice());
         databaseReference.child("currentWinnerName").setValue(this.getCurrentWinnerName());
         databaseReference.child("currentWinner").setValue(this.getCurrentWinner());
+        databaseReference.child("currentWinnerEmail").setValue(this.getCurrentWinnerEmail());
 
     }
 }
@@ -229,6 +289,7 @@ class itemArray{
     public static void updateAllitem(){
         for(Item a: itemArray.itemList){
             a.updateRemainingTime();
+            a.RetrieveItemPriceFromDatabase();
         }
     }
 
@@ -239,6 +300,7 @@ class itemArray{
             @Override
             public void run() {
                 while (true) {
+                    RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
                     updateAllitem();
                     try {
                         Thread.sleep(1000); // Sleep for 1 second (adjust as needed)

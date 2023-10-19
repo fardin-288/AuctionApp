@@ -23,7 +23,7 @@ public class ChatFragment extends Fragment {
         // Initialize itemList with your data (e.g., fetch it from Firebase)
         // itemList = fetchItemListFromFirebase();
 
-        Toast.makeText(getActivity(),UserArray.UserWonItemMap.size()+"",Toast.LENGTH_SHORT);
+//        Toast.makeText(getActivity(),UserArray.UserWonItemMap.size()+"",Toast.LENGTH_SHORT);
 
         UserArray.RetrieveFromDatabaseWinSoldItems();
 

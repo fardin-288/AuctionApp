@@ -35,6 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -203,6 +204,17 @@ public class HomeFragment extends Fragment {
         searchView = rootView.findViewById(R.id.HomeSearchViewId);
         List<Item> temp = new ArrayList<Item>();
         temp.addAll(itemArray.itemList);
+
+        //Refresh when swiping down
+        SwipeRefreshLayout swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                RetrieveDataFromFirebase.RetrieveDataFromDatabaseStatus = false;
+                RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -406,7 +418,15 @@ class RefreshClass {
 
                                 // Iterate through visible items and update their data
                                 for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+
+                                    //if item removed realtime
+                                    if(i <= itemArray.itemList.size()){
+                                        break;
+                                    }
+//                                    itemArray.itemList.get(i).RetrieveItemPriceFromDatabase();
+
                                     Item item = HomeFragment.adapter.getItem(i);
+                                    item.RetrieveItemPriceFromDatabase();
 //                                    item.setRemainingTime(item.getRemainingTime());
                                 }
 

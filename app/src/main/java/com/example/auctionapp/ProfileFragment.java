@@ -37,7 +37,7 @@ public class ProfileFragment extends Fragment {
     private TextView profileEmailTextView;
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
-    private Button logoutButton,EmailButton,CallButton,AboutButton;
+    private Button logoutButton,EmailButton,CallButton,AboutButton,SoldItemButton;
 
     private ImageView profileImageView;
     private Button selectImageButton;
@@ -55,6 +55,7 @@ public class ProfileFragment extends Fragment {
         EmailButton = view.findViewById(R.id.EmailButton);
         AboutButton = view.findViewById(R.id.Aboutbutton);
         CallButton = view.findViewById(R.id.CallButton);
+        SoldItemButton = view.findViewById(R.id.SoldItemButton);
 
         auth = FirebaseAuth.getInstance();
         String userName = auth.getCurrentUser().getDisplayName();
@@ -130,22 +131,18 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        EmailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create an intent with the ACTION_DIAL action and the "tel:" scheme
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-
-                // Set the phone number to dial
-                emailIntent.setData(Uri.parse("mailto:"));
-                startActivity(emailIntent);
-            }
-        });
-
         AboutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(),about_us_class.class);
+                startActivity(intent);
+            }
+        });
+
+        SoldItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),soldItemClass.class);
                 startActivity(intent);
             }
         });

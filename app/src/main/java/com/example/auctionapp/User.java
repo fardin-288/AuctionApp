@@ -151,6 +151,8 @@ class UserArray{
 
     public static void RetrieveFromDatabaseWinSoldItems(){
 
+        //here we also store items user sold
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("WinnerItemKeyList").child(currentUser.getFirebaseUserid());
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -161,6 +163,7 @@ class UserArray{
 
                     Item item = itemSnapshot.getValue(Item.class);
                     UserWonItemMap.add(item);
+
                 }
             }
 
@@ -200,6 +203,62 @@ class UserArray{
 
     }
 
+    public static void RetrieveFromDatabaseSoldItemOfUser(){
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("SellerItemKeyList").child(currentUser.getFirebaseUserid());
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserSoldItemMap.clear();
+
+                for(DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
+
+                    Item item = itemSnapshot.getValue(Item.class);
+                    UserSoldItemMap.add(item);
+                }
+
+                Log.d("retrieved array size", UserSoldItemMap.size()+"");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public static void RetrieveFromDatabaseSoldItemOfUser(String ownerID){
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("SellerItemKeyList").child(ownerID);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserSoldItemMap.clear();
+
+                for(DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
+
+                    Item item = itemSnapshot.getValue(Item.class);
+                    UserSoldItemMap.add(item);
+                }
+
+                Log.d("retrieved array size", UserSoldItemMap.size()+"");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public static void AddSoldItemToDatabaseOfUser(Item item){
+        RetrieveFromDatabaseSoldItemOfUser(item.getOwnerID());
+        UserSoldItemMap.add(item);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("SellerItemKeyList").child(item.getOwnerID());
+        databaseReference.setValue(UserSoldItemMap);
+    }
+
     public static void UpdateUserListFromDatabase() {
 
         Thread thread = new Thread(new Runnable() {
@@ -218,19 +277,3 @@ class UserArray{
         thread.start();
     }
 }
-//
-//class UserItems{
-//
-//    public static ArrayList<String> UserWonItemMap;
-//    public static ArrayList<String> UserSoldItemMap;
-//
-//    public static void RetrieveFromDatabaseWinSoldItems(){
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("WinnerItemKeyList");
-//
-//    }
-//
-////    public static void AddToDatabaseWinSoldItems(){
-////        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("WinnerItemKeyList");
-////        DatabaseReference.child(UserArray.)
-////    }
-//};

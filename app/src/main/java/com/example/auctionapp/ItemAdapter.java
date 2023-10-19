@@ -208,6 +208,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                         getItem(position).updatePriceToDatabase();
                         notifyDataSetChanged();
 
+                        RetrieveDataFromFirebase.RetrieveDataFromDatabaseStatus = false;
+                        RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+
                     } else {
                         // Show an error toast if the new price is not greater
                         Toast.makeText(activity, "New price must be greater than the current price", Toast.LENGTH_SHORT).show();

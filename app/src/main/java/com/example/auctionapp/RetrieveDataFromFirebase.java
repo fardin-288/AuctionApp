@@ -26,6 +26,8 @@ public class RetrieveDataFromFirebase {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AllItemList");
         RetrieveDataFromDatabaseStatus = true;
 
+        itemArray.itemList.clear();
+
         // Add a listener to retrieve data.
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

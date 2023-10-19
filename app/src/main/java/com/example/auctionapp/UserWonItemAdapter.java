@@ -55,8 +55,8 @@ public class UserWonItemAdapter extends RecyclerView.Adapter<UserWonItemAdapter.
             itemName.setText(item.getName());
             itemDescription.setText(item.getDescription());
             itemPrice.setText(String.valueOf(item.getCurrentPrice()));
-            sellerName.setText(item.getCurrentWinnerName());
-            sellerEmail.setText(item.getCurrentWinnerEmail());
+            sellerName.setText(item.getOwnerName());
+            sellerEmail.setText(item.getOwnerEmailId());
         }
     }
 }
