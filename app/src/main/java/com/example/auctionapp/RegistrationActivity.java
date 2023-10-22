@@ -3,10 +3,13 @@ package com.example.auctionapp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText nameEditText, emailEditText, passwordEditText, passwordEditText2;
     private Button registerButton;
     private FirebaseAuth mAuth;
+    private ImageButton backImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class RegistrationActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.register_password);
         passwordEditText2 = findViewById(R.id.register_password2);
         registerButton = findViewById(R.id.register_button);
+        backImage = (ImageButton) findViewById(R.id.back_image);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +56,17 @@ public class RegistrationActivity extends AppCompatActivity {
                 registerUser();
             }
         });
+
+        backImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("MyApp", "Back image clicked");
+                startActivity(new Intent(RegistrationActivity.this, loginActivity.class));
+                finish();
+//                Toast.makeText(RegistrationActivity.this, "you clicked it", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void registerUser() {
