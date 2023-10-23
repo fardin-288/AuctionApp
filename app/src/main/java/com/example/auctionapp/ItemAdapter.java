@@ -88,17 +88,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
 
 
-//        String fileKey= item.getItemKey();
-//        FirebaseStorage storage = FirebaseStorage.getInstance();
-//        StorageReference storageRef = storage.getReference("Upload");
-//        StorageReference fileRef = storageRef.child(fileKey);
-//        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Picasso.get().load(uri).into(itemImageView);
-//                Glide.with(getContext().getApplicationContext()).load(uri).into(itemImageView);
-//            }
-//        });
 
 
         String fileKey = item.getItemKey();
@@ -106,7 +95,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         StorageReference storageRef = storage.getReference("Upload");
         final StorageReference fileRef = storageRef.child(fileKey);
 
-// Check if the local file exists
+        // Check if the local file exists
         File localFile = new File(getContext().getFilesDir(), fileKey);
 
         if (localFile.exists()) {
@@ -203,10 +192,13 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                     double newPrice = Double.parseDouble(newPriceText);
                     if (newPrice > getItem(position).getCurrentPrice()) {
                         // Update the item's price and notify the adapter
-                        getItem(position).setCurrentPrice(newPrice);
+                        getItem(position).setCurrentPrice(newPrice,FirebaseAuth.getInstance().getCurrentUser());
                         getItem(position).setCurrentWinner();
                         getItem(position).updatePriceToDatabase();
                         notifyDataSetChanged();
+
+                        RetrieveDataFromFirebase.RetrieveDataFromDatabaseStatus = false;
+                        RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
 
                     } else {
                         // Show an error toast if the new price is not greater

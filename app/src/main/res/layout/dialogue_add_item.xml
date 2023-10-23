@@ -26,6 +26,13 @@
         android:layout_height="wrap_content"
         android:hint="Enter Description" />
 
+    <EditText
+        android:id="@+id/editAuctionHours"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Hours of Auction"
+        android:inputType="numberDecimal"/>
+
     <Spinner
         android:id="@+id/spinnerCategory"
         android:layout_width="match_parent"

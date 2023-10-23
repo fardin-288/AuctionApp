@@ -26,6 +26,8 @@ public class RetrieveDataFromFirebase {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AllItemList");
         RetrieveDataFromDatabaseStatus = true;
 
+        itemArray.itemList.clear();
+
         // Add a listener to retrieve data.
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -33,7 +35,7 @@ public class RetrieveDataFromFirebase {
                 for(DataSnapshot itemsnapshot  :dataSnapshot.getChildren()){
 
                     Item item = itemsnapshot.getValue(Item.class);
-                    item.setRemainingTime((item.getStartTime() - System.currentTimeMillis())/1000);
+                    item.setRemainingTime(item.getRemainingTime());
                     itemArray.itemList.add(item);
 
                 }

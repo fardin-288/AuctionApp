@@ -18,7 +18,8 @@
         <activity android:name=".forgotPasswordActivity"/>
         <activity android:name=".loginActivity" />
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".addItemActivity" />
+        <activity android:name=".soldItemClass"/>
+<!--        <activity android:name=".addItemActivity" />-->
         <activity android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>

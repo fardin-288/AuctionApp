@@ -35,6 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -56,7 +57,7 @@ public class HomeFragment extends Fragment {
     StorageTask uploadTask;
     String key;
     MenuItem menuItem;
-    SearchView searchView;
+    public static SearchView searchView;
     private static final int IMAGE_REQUEST = 1;
     private Uri imageuri;
     private Item tempItem;
@@ -84,6 +85,7 @@ public class HomeFragment extends Fragment {
         final EditText itemNameEditText = viewInflated.findViewById(R.id.editTextItemName);
         final EditText itemNameEditPrice = viewInflated.findViewById(R.id.editStartingPrice);
         final EditText itemDescriptionText = viewInflated.findViewById(R.id.editDescription);
+        final EditText itemAuctionHoursTimeEditText = viewInflated.findViewById(R.id.editAuctionHours);
         spinnerCategory = viewInflated.findViewById(R.id.spinnerCategory);
         Button buttonUploadPicture = viewInflated.findViewById(R.id.buttonUploadPicture);
         imageview = viewInflated.findViewById(R.id.productImgView);
@@ -101,13 +103,14 @@ public class HomeFragment extends Fragment {
                 String itemPriceString = itemNameEditPrice.getText().toString();
                 Float itemPriceFloat = Float.valueOf(itemPriceString);
                 String itemDescription = itemDescriptionText.getText().toString();
+                int itemAuctionHoursTime = Integer.parseInt(itemAuctionHoursTimeEditText.getText().toString());
                 String imguri;
                 long currentTime = System.currentTimeMillis();
 
                 if (!itemName.isEmpty()) {
                     // Create a new Item object and add it to the list
                     final int category_Item = spinnerCategory.getSelectedItemPosition();
-                    Item newItem = new Item(itemName, itemDescription, itemPriceFloat, currentTime, final_uri, category_Item);
+                    Item newItem = new Item(itemName, itemDescription, itemPriceFloat, currentTime, final_uri, category_Item, itemAuctionHoursTime);
 
                     itemArray.itemList.add(newItem);
                     tempItem = newItem;
@@ -143,12 +146,6 @@ public class HomeFragment extends Fragment {
         });
 
         builder.show();
-    }
-
-    public String getFileExtension(Uri imageuri) {
-        ContentResolver contentResolver = this.getActivity().getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(imageuri));
     }
 
     void saveData() {
@@ -188,10 +185,31 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+        HomeFragment.adapter = new ItemAdapter(getActivity(),itemArray.itemList);
+
+        listView = rootView.findViewById(R.id.listView);
+        listView.setAdapter(adapter);
+
+        HomeFragment.temporaryAdapter = new ItemAdapter(getActivity(),itemArray.itemList);
+
         // Handle "Add Item" button click to show a dialog
         searchView = rootView.findViewById(R.id.HomeSearchViewId);
         List<Item> temp = new ArrayList<Item>();
         temp.addAll(itemArray.itemList);
+
+        //Refresh when swiping down
+        SwipeRefreshLayout swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                RetrieveDataFromFirebase.RetrieveDataFromDatabaseStatus = false;
+                RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -278,36 +296,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-//        menuItem = menu.findItem(R.id.searchId);
-//        inflater.inflate(R.menu.menu_item,menu);
-//        searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
-//        searchView.setIconified(true);
-//        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                adapter.getFilter().filter(s);
-//
-//                mySearch(s);
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                adapter.getFilter().filter(s);
-//
-//                mySearch(s);
-//                return true;
-//            }
-//        });
 
-
-
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
 
     private void mySearch(String s) {
         List<Item> filteredList = new ArrayList<>();
@@ -315,38 +304,10 @@ public class HomeFragment extends Fragment {
         for (Item item : itemArray.itemList) {
             if (item.getName().toLowerCase().contains(s.toLowerCase())) {
                 filteredList.add(item);
-                Toast.makeText(getActivity().getApplicationContext(), item.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), item.getName(), Toast.LENGTH_SHORT).show();
 
             }
         }
-
-
-//        adapter = new ItemAdapter(requireActivity(), filteredList);
-//        .setAdapter(adapter);
-
-//        itemArray.itemList.clear();
-//        itemArray.itemList.addAll(filteredList);
-
-//            adapter = new ArrayAdapter<Item>(this, android.R.layou);
-//        adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1 , filteredList);
-//        listView.setAdapter(adapter);
-
-////        FirebaseListOptions<Item> options = new FirebaseListOptions.Builder
-//        FirebaseListOptions<Item> options = new FirebaseListOptions.Builder<Item>()
-//                .setQuery(FirebaseDatabase.getInstance().getReference().child("AllItemList")
-//                        .orderByChild("name"), Item.class)
-//                .build();
-//
-////        ItemAdapter<Item> adapter1 = new ItemAdapter(options);
-//
-//        FirebaseListAdapter<Item> newadapter= new FirebaseListAdapter<Item>(options) {
-//            @Override
-//            protected void populateView(@NonNull View v, @NonNull Item model, int position) {
-//                Toast.makeText(getActivity().getApplicationContext(), model.getName(), Toast.LENGTH_SHORT).show();
-//            }
-//        };
-//        listView.setAdapter(newadapter);
-
     }
 
     @Override
@@ -368,28 +329,52 @@ class RefreshClass {
     private static boolean refreshStatus = false;
     private static Thread backgroundThread;
 
-    public static void refresh(View rootView, Activity activity) {
+//    ItemAdapter itemAdapter = new ItemAdapter(act)
 
+    public static void refresh(View rootView, Activity activity) {
+        itemArray.ItemUpdateTimeRunnable();
         if (!refreshStatus) {
             refreshStatus = true;
             backgroundThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-
                     while (refreshStatus) {
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                itemArray.ItemUpdateTimeRunnable();
                                 RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
-                                HomeFragment.adapter = new ItemAdapter(activity, itemArray.itemList);
-                                HomeFragment.listView = rootView.findViewById(R.id.listView);
-                                HomeFragment.listView.setAdapter(HomeFragment.adapter);
+                                if(itemArray.itemList.size() == 0)return;
+//                                HomeFragment.adapter = new ItemAdapter(activity,itemArray.itemList);
+                                // Get the range of visible items in the ListView
+                                int firstVisiblePosition = HomeFragment.listView.getFirstVisiblePosition();
+                                int lastVisiblePosition = HomeFragment.listView.getLastVisiblePosition();
+
+//                                int firstVisiblePositionSearch = HomeFragment.searchView.getFirstVisiblePosition();
+//                                int lastVisiblePositionSearch = HomeFragment.searchView.getLastVisiblePosition();
+//                                Log.d("listview first last",HomeFragment.listView.getFirstVisiblePosition() + " " + HomeFragment.listView.getLastVisiblePosition());
+
+                                // Iterate through visible items and update their data
+                                for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+
+                                    //if item removed realtime
+                                    if(i <= itemArray.itemList.size()){
+                                        break;
+                                    }
+//                                    itemArray.itemList.get(i).RetrieveItemPriceFromDatabase();
+
+                                    Item item = HomeFragment.adapter.getItem(i);
+                                    item.RetrieveItemPriceFromDatabase();
+//                                    item.setRemainingTime(item.getRemainingTime());
+                                }
+
+                                // Notify the adapter that the data has changed for visible items
                                 HomeFragment.adapter.notifyDataSetChanged();
-                                Log.d("weeee","okkkk");
-                                refreshStatus=false;
+                                HomeFragment.temporaryAdapter.notifyDataSetChanged();
+                                Log.d("listview refreshed",HomeFragment.listView.getFirstVisiblePosition() + " " + HomeFragment.listView.getLastVisiblePosition());
+
                             }
                         });
+
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
@@ -401,6 +386,40 @@ class RefreshClass {
             backgroundThread.start();
         }
     }
+
+//    public static void refresh(View rootView, Activity activity) {
+//
+//        if (!refreshStatus) {
+//            refreshStatus = true;
+//            backgroundThread = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                    while (refreshStatus) {
+//                        activity.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                itemArray.ItemUpdateTimeRunnable();
+//                                RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+//                                HomeFragment.adapter = new ItemAdapter(activity, itemArray.itemList);
+//                                HomeFragment.listView = rootView.findViewById(R.id.listView);
+//                                HomeFragment.listView.setAdapter(HomeFragment.adapter);
+//                                HomeFragment.adapter.notifyDataSetChanged();
+//                                Log.d("weeee","okkkk");
+//                                refreshStatus=false;
+//                            }
+//                        });
+//                        try {
+//                            Thread.sleep(1000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            });
+//            backgroundThread.start();
+//        }
+//    }
 
     public static void stopRefresh() {
         refreshStatus = false;
