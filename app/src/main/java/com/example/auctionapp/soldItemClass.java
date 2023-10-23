@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class soldItemClass extends AppCompatActivity {
     private RecyclerView soldItemRecycleView;
-    private UserWonItemAdapter userWonItemAdapter;
+    private UserSoldItemAdapter userSoldItemAdapter;
     private Button goBackbuttonFromSoldItemView;
 
     @Override
@@ -27,12 +27,8 @@ public class soldItemClass extends AppCompatActivity {
 
         UserArray.RetrieveFromDatabaseSoldItemOfUser();
         Log.d("map size",UserArray.UserSoldItemMap.size()+"");
-        userWonItemAdapter = new UserWonItemAdapter(UserArray.UserSoldItemMap);
-        soldItemRecycleView.setAdapter(userWonItemAdapter);
-
-//        Toast.makeText(this,UserArray.currentUser.firebaseUserid,Toast.LENGTH_SHORT).show();
-
-//        Log.d("size of sold items", UserArray.UserSoldItemMap.size()+"");
+        userSoldItemAdapter = new UserSoldItemAdapter(UserArray.UserSoldItemMap);
+        soldItemRecycleView.setAdapter(userSoldItemAdapter);
 
         goBackbuttonFromSoldItemView = findViewById(R.id.goBackbuttonFromSoldItemView);
         goBackbuttonFromSoldItemView.setOnClickListener(new View.OnClickListener() {

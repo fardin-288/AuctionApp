@@ -36,13 +36,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class ItemAdapter extends ArrayAdapter<Item> {
- private    File localFile;
+public class UserBidItemAdapter extends ArrayAdapter<Item> {
+    private    File localFile;
     private Activity activity;
+    private int FinalPosition;
 //    public static List<Item> itemList;
 
 
-    public ItemAdapter(Activity activity, List<Item> itemList) {
+    public UserBidItemAdapter(Activity activity, List<Item> itemList) {
         super(activity, 0, itemList);
         this.activity = activity;
 //        this.itemList = itemList;
@@ -61,13 +62,18 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             convertView = LayoutInflater.from(activity).inflate(R.layout.item_list_item, parent, false);
         }
 
+        RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+        Item item = getItem(position);
 
-        Item item = itemArray.itemList.get(position);
+        for(int i=0; i< itemArray.itemList.size(); i++){
+            if(Objects.equals(item.getItemKey(), itemArray.itemList.get(i).getItemKey())){
+                FinalPosition = i;
+                break;
+            }
+        }
+
 
         ImageView itemImageView = convertView.findViewById(R.id.itemImageView);
-
-
-
         TextView itemNameTextView = convertView.findViewById(R.id.itemNameTextView);
         TextView itemDescriptionTextView = convertView.findViewById(R.id.itemDescriptionTextView);
         TextView itemPriceTextView = convertView.findViewById(R.id.itemPriceTextView);
@@ -91,7 +97,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         final StorageReference fileRef = storageRef.child(fileKey);
 
         // Check if the local file exists
-         localFile = new File(getContext().getFilesDir(), fileKey);
+        localFile = new File(getContext().getFilesDir(), fileKey);
 
         if (localFile.exists()) {
             // If the local file exists, load it using Picasso or Glide
@@ -146,8 +152,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             @Override
             public void onClick(View view) {
                 //for testing it is commented out
-                showChangePriceDialog(position);
-                Toast.makeText(getContext(),position+"",Toast.LENGTH_SHORT).show();
+                showChangePriceDialog(FinalPosition);
+                Toast.makeText(getContext(),FinalPosition+"",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -155,14 +161,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         removeItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removebuttonwork(position);
+                removebuttonwork(FinalPosition);
             }
         });
 
         return convertView;
     }
 
-     void openDialog(Item item) {
+    void openDialog(Item item) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.details_dailog, null);
         dialogBuilder.setView(dialogView);
@@ -172,21 +178,21 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         TextView dialogText = dialogView.findViewById(R.id.dialogText);
         Button dialogButton = dialogView.findViewById(R.id.dialogButton);
 
-         String fileKey = item.getItemKey();
-         FirebaseStorage storage = FirebaseStorage.getInstance();
-         StorageReference storageRef = storage.getReference("Upload");
-         final StorageReference fileRef = storageRef.child(fileKey);
+        String fileKey = item.getItemKey();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference("Upload");
+        final StorageReference fileRef = storageRef.child(fileKey);
 
-         File tempLocalFile = new File(getContext().getFilesDir(), item.getItemKey());
-         Picasso.get().load(tempLocalFile).into(dialogImage);
+        File tempLocalFile = new File(getContext().getFilesDir(), item.getItemKey());
+        Picasso.get().load(tempLocalFile).into(dialogImage);
 
 
         dialogText.setText(item.getDescription());
-         AlertDialog dialog = dialogBuilder.create();
+        AlertDialog dialog = dialogBuilder.create();
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               dialog.dismiss();
+                dialog.dismiss();
             }
         });
         dialog.show();
@@ -224,12 +230,13 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                 String newPriceText = newPriceEditText.getText().toString();
                 if (!newPriceText.isEmpty()) {
                     double newPrice = Double.parseDouble(newPriceText);
-                    if (newPrice > getItem(position).getCurrentPrice()) {
+                    if (newPrice > itemArray.itemList.get(position).getCurrentPrice()) {
+
                         // Update the item's price and notify the adapter
-                        getItem(position).setCurrentPrice(newPrice,FirebaseAuth.getInstance().getCurrentUser());
-                        getItem(position).setCurrentWinner();
-                        getItem(position).updatePriceToDatabase();
-                        UserBidItemsCurrent.addItemToUserCurrentBidItemListDatabase(getItem(position));
+                        itemArray.itemList.get(position).setCurrentPrice(newPrice,FirebaseAuth.getInstance().getCurrentUser());
+                        itemArray.itemList.get(position).setCurrentWinner();
+                        itemArray.itemList.get(position).updatePriceToDatabase();
+                        UserBidItemsCurrent.addItemToUserCurrentBidItemListDatabase(itemArray.itemList.get(position));
                         notifyDataSetChanged();
 
                         RetrieveDataFromFirebase.RetrieveDataFromDatabaseStatus = false;

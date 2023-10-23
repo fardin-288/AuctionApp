@@ -388,40 +388,6 @@ class RefreshClass {
         }
     }
 
-//    public static void refresh(View rootView, Activity activity) {
-//
-//        if (!refreshStatus) {
-//            refreshStatus = true;
-//            backgroundThread = new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//                    while (refreshStatus) {
-//                        activity.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                itemArray.ItemUpdateTimeRunnable();
-//                                RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
-//                                HomeFragment.adapter = new ItemAdapter(activity, itemArray.itemList);
-//                                HomeFragment.listView = rootView.findViewById(R.id.listView);
-//                                HomeFragment.listView.setAdapter(HomeFragment.adapter);
-//                                HomeFragment.adapter.notifyDataSetChanged();
-//                                Log.d("weeee","okkkk");
-//                                refreshStatus=false;
-//                            }
-//                        });
-//                        try {
-//                            Thread.sleep(1000);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//            });
-//            backgroundThread.start();
-//        }
-//    }
-
     public static void stopRefresh() {
         refreshStatus = false;
         if (backgroundThread != null) {

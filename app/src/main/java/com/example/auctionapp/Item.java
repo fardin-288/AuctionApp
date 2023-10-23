@@ -46,7 +46,7 @@ public class Item implements Serializable {
         this.name = name;
         this.description = description;
         this.currentPrice = currentPrice;
-        this.endTime = (System.currentTimeMillis() + (long) auctionTimeHours*60*1000); // we want seconds
+        this.endTime = (System.currentTimeMillis() + (long) auctionTimeHours*1000); // we want seconds
         this.remainingTime = (long) auctionTimeHours*60 ;// seconds
         this.category = category;
         this.ownerID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -218,6 +218,9 @@ public class Item implements Serializable {
 
         UserArray.RetrieveFromDatabaseSoldItemOfUser();
         UserArray.AddSoldItemToDatabaseOfUser(this);
+
+        UserBidItemsCurrent.RetrieveUserCurrentBidItemFromDatabase();
+        UserBidItemsCurrent.removeItemFromUserCurrentBidItemListDatabase(this);
 
         UserArray.AddToDatabaseWinSoldItems(this,this.currentWinner);
         removeFromDatabase();
