@@ -2,6 +2,11 @@ package com.example.auctionapp;
 
 import android.content.Context;
 import android.net.Uri;
+<<<<<<< HEAD
+=======
+
+import androidx.annotation.NonNull;
+>>>>>>> Fardin
 
 import androidx.annotation.NonNull;
 
@@ -13,11 +18,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+<<<<<<< HEAD
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+=======
+
+>>>>>>> Fardin
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +49,7 @@ public class Item implements Serializable {
     private String ownerName;
 
     public Item() {
+<<<<<<< HEAD
     }
 
     public Item(String name, String description, double currentPrice, long endTime, Uri imgUri, int category, int auctionTimeHours) {
@@ -59,6 +69,26 @@ public class Item implements Serializable {
         this.ownerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     }
 
+=======
+    }
+
+    public Item(String name, String description, double currentPrice, long endTime, Uri imgUri, int category, int auctionTimeHours) {
+        this.name = name;
+        this.description = description;
+        this.currentPrice = currentPrice;
+        this.endTime = (System.currentTimeMillis() + (long) auctionTimeHours*60*1000); // we want seconds
+        this.remainingTime = (long) auctionTimeHours*60 ;// seconds
+        this.category = category;
+        this.ownerID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
+        this.currentWinner = "noHighestBidder";
+        this.currentWinnerName = "No Bids Yet";
+        this.auctionTimeHours = auctionTimeHours;
+        this.currentWinnerEmail = "no buyer";
+        this.itemKey = "noHighestBidder";
+        this.ownerEmailId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        this.ownerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+    }
+>>>>>>> Fardin
 
     public String getName() {
         return name;

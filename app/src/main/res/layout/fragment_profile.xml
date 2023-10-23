@@ -114,4 +114,10 @@
 
 
 
+    <Button
+        android:id="@+id/SoldItemButton"
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
+        android:text="Sold Items" />
+
 </LinearLayout>
