@@ -92,6 +92,7 @@ public class ProfileFragment extends Fragment {
             // If the local file exists, load it using Picasso or Glide
             Picasso.get().load(localFile).into(profileImageView);
             // Alternatively, use Glide
+
             // Glide.with(getContext().getApplicationContext()).load(localFile).into(itemImageView);
         } else {
             // If the local file does not exist, download from the downloadUri
@@ -100,11 +101,6 @@ public class ProfileFragment extends Fragment {
                 public void onSuccess(Uri uri) {
                     // Load the image using Picasso or Glide
                     Picasso.get().load(uri).into(profileImageView);
-                    // Alternatively, use Glide
-                    // Glide.with(getContext().getApplicationContext()).load(uri).into(itemImageView);
-
-                    // Download the image to local storage
-//                    downloadImageToLocal(fileRef, localFile);
                 }
 
                 private void downloadImageToLocal(StorageReference fileRef, final File localFile) {
@@ -113,6 +109,7 @@ public class ProfileFragment extends Fragment {
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                             // File downloaded successfully to local storage
                             Picasso.get().load(localFile).into(profileImageView);
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -246,8 +243,6 @@ public class ProfileFragment extends Fragment {
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // Image uploaded successfully
-                            // You can save the download URL to Firebase Database or perform other actions
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

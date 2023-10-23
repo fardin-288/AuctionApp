@@ -37,7 +37,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class ItemAdapter extends ArrayAdapter<Item> {
-
+ private    File localFile;
     private Activity activity;
 //    public static List<Item> itemList;
 
@@ -75,10 +75,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         TextView itemTimeRemaining = convertView.findViewById(R.id.itemTimeRemaining);
         TextView itemcurrentWinnerName = convertView.findViewById(R.id.itemcurrentWinnerName);
         TextView itemCategoryTextView = convertView.findViewById(R.id.itemCategoryTextView);
-
-        // Set the item's attributes in the views
-//        itemImageView.setImageURI(item.getImgUri());
-//        itemImageView.setImageResource(item.getPictureResource());
         itemNameTextView.setText(item.getName());
         itemDescriptionTextView.setText(item.getDescription());
         itemPriceTextView.setText(String.format(Locale.US, "Tk%.2f", item.getCurrentPrice()));
@@ -96,7 +92,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         final StorageReference fileRef = storageRef.child(fileKey);
 
         // Check if the local file exists
-        File localFile = new File(getContext().getFilesDir(), fileKey);
+         localFile = new File(getContext().getFilesDir(), fileKey);
 
         if (localFile.exists()) {
             // If the local file exists, load it using Picasso or Glide
@@ -115,6 +111,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
                     // Download the image to local storage
                     downloadImageToLocal(fileRef, localFile);
+
                 }
 
                 private void downloadImageToLocal(StorageReference fileRef, final File localFile) {
@@ -122,6 +119,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                             // File downloaded successfully to local storage
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -134,6 +132,13 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             });
         }
 
+
+        itemImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog(item);
+            }
+        });
 
 
 
@@ -156,6 +161,36 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         });
 
         return convertView;
+    }
+
+     void openDialog(Item item) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.details_dailog, null);
+        dialogBuilder.setView(dialogView);
+
+        // Get references to views in the custom dialog layout
+        ImageView dialogImage = dialogView.findViewById(R.id.dialogImage);
+        TextView dialogText = dialogView.findViewById(R.id.dialogText);
+        Button dialogButton = dialogView.findViewById(R.id.dialogButton);
+
+         String fileKey = item.getItemKey();
+         FirebaseStorage storage = FirebaseStorage.getInstance();
+         StorageReference storageRef = storage.getReference("Upload");
+         final StorageReference fileRef = storageRef.child(fileKey);
+
+         File tempLocalFile = new File(getContext().getFilesDir(), item.getItemKey());
+         Picasso.get().load(tempLocalFile).into(dialogImage);
+
+
+        dialogText.setText(item.getDescription());
+         AlertDialog dialog = dialogBuilder.create();
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     private void removebuttonwork(final int position){
