@@ -192,21 +192,53 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         dialog.show();
     }
 
-    private void removebuttonwork(final int position){
-
+    private void removebuttonwork(final int position) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        if(Objects.equals(getItem(position).getOwnerID(), user.getUid())){
-            itemArray.itemList.get(position).removeFromDatabase();
-            itemArray.itemList.remove(position);
-            Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getContext(), "not owner", Toast.LENGTH_SHORT).show();
+        if (Objects.equals(getItem(position).getOwnerID(), user.getUid())) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Confirm Removal");
+            builder.setMessage("Are you sure you want to remove this item?");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    itemArray.itemList.get(position).removeFromDatabase();
+                    itemArray.itemList.remove(position);
+                    notifyDataSetChanged();
+                    dialog.dismiss();
+                    Toast.makeText(getContext(), "Item removed successfully.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            Toast.makeText(getContext(), "You are not the owner of this item.", Toast.LENGTH_SHORT).show();
         }
-
-        notifyDataSetChanged();
     }
+
+
+//    private void removebuttonwork(final int position){
+//
+//        FirebaseAuth auth = FirebaseAuth.getInstance();
+//        FirebaseUser user = auth.getCurrentUser();
+//
+//        if(Objects.equals(getItem(position).getOwnerID(), user.getUid())){
+//            itemArray.itemList.get(position).removeFromDatabase();
+//            itemArray.itemList.remove(position);
+//            Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
+//        }else{
+//            Toast.makeText(getContext(), "not owner", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        notifyDataSetChanged();
+//    }
 
     private void showChangePriceDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);

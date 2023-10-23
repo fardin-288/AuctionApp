@@ -161,7 +161,7 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
         removeItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removebuttonwork(FinalPosition);
+                removebuttonwork(position);
             }
         });
 
@@ -198,21 +198,28 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
         dialog.show();
     }
 
-    private void removebuttonwork(final int position){
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-
-        if(Objects.equals(getItem(position).getOwnerID(), user.getUid())){
-            itemArray.itemList.get(position).removeFromDatabase();
-            itemArray.itemList.remove(position);
-            Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getContext(), "not owner", Toast.LENGTH_SHORT).show();
-        }
-
-        notifyDataSetChanged();
+    private void removebuttonwork(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Confirm Removal");
+        builder.setMessage("Are you sure you want to remove this item from Bids List?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                UserBidItemsCurrent.removeItemFromUserCurrentBidItemListDatabase(getItem(position));
+                notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
+
 
     private void showChangePriceDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
