@@ -409,12 +409,89 @@
 
 
 
-<!--&lt;!&ndash; fragment_profile.xml &ndash;&gt;-->
+    <!--&lt;!&ndash; fragment_profile.xml &ndash;&gt;-->
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    android:orientation="vertical"-->
+    <!--    android:padding="16dp"-->
+    <!--    tools:context=".ProfileFragment">-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/profileName"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Profile Name"-->
+    <!--        android:textSize="18sp"-->
+    <!--        android:textStyle="bold" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/profileEmail"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Profile Email"-->
+    <!--        android:textSize="16sp" />-->
+    <!--    -->
+
+    <!--    <com.google.android.material.imageview.ShapeableImageView-->
+    <!--        android:id="@+id/profileImageView"-->
+    <!--        android:layout_width="150dp"-->
+    <!--        android:layout_height="150dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        app:shapeAppearanceOverlay="@style/circular"-->
+    <!--        android:src="@drawable/iphone"-->
+    <!--        android:scaleType="centerCrop" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/selectImageButton"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Select Image"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:layout_marginTop="16dp"/>-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/logoutButton"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Logout"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:layout_marginTop="16dp"/>-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/CallButton"-->
+    <!--        android:layout_width="104dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Call Us" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/EmailButton"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Email Us" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/Aboutbutton"-->
+    <!--        android:layout_width="102dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="About" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/SoldItemButton"-->
+    <!--        android:layout_width="102dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Sold Items" />-->
+
+    <!--</LinearLayout>-->
+
+
+    <!--&lt;!&ndash; fragment_profile.xml &ndash;&gt;-->
 <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--    xmlns:tools="http://schemas.android.com/tools"-->
 <!--    android:layout_width="match_parent"-->
 <!--    android:layout_height="match_parent"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
 <!--    android:orientation="vertical"-->
 <!--    android:padding="16dp"-->
 <!--    tools:context=".ProfileFragment">-->
@@ -429,26 +506,28 @@
 
 <!--    <TextView-->
 <!--        android:id="@+id/profileEmail"-->
-<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
+<!--       android:gravity="center"-->
 <!--        android:text="Profile Email"-->
 <!--        android:textSize="16sp" />-->
-<!--    -->
 
-<!--    <com.google.android.material.imageview.ShapeableImageView-->
+<!--    &lt;!&ndash; Add an ImageView to display the selected image &ndash;&gt;-->
+<!--    <ImageView-->
 <!--        android:id="@+id/profileImageView"-->
-<!--        android:layout_width="150dp"-->
-<!--        android:layout_height="150dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
 <!--        android:layout_gravity="center"-->
-<!--        app:shapeAppearanceOverlay="@style/circular"-->
-<!--        android:src="@drawable/iphone"-->
-<!--        android:scaleType="centerCrop" />-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:src="@drawable/splash" />-->
 
+<!--    &lt;!&ndash; Add a Button for selecting an image &ndash;&gt;-->
 <!--    <Button-->
 <!--        android:id="@+id/selectImageButton"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
-<!--        android:text="Select Image"-->
+<!--        android:background="@color/icongray"-->
+<!--        android:text="   Select Image   "-->
 <!--        android:layout_gravity="center"-->
 <!--        android:layout_marginTop="16dp"/>-->
 
@@ -460,28 +539,68 @@
 <!--        android:layout_gravity="center"-->
 <!--        android:layout_marginTop="16dp"/>-->
 
-<!--    <Button-->
-<!--        android:id="@+id/CallButton"-->
-<!--        android:layout_width="104dp"-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
-<!--        android:text="Call Us" />-->
+<!--        android:layout_margin="10dp"-->
 
-<!--    <Button-->
-<!--        android:id="@+id/EmailButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Email Us" />-->
+<!--        android:orientation="horizontal" >-->
+<!--        <Button-->
+<!--            android:id="@+id/CallButton"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@color/cat_purple"-->
+<!--            android:text="HelpLine"-->
+<!--            android:layout_marginRight="5dp"-->
+<!--            android:layout_weight="1"/>-->
 
-<!--    <Button-->
-<!--        android:id="@+id/Aboutbutton"-->
-<!--        android:layout_width="102dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="About" />-->
+<!--        <Button-->
+<!--            android:id="@+id/EmailButton"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="#D35ED1"-->
+<!--            android:backgroundTint="@color/backPurple"-->
+<!--            android:text="Email Us" />-->
 
-<!--    <Button-->
-<!--        android:id="@+id/SoldItemButton"-->
-<!--        android:layout_width="102dp"-->
+
+<!--    </LinearLayout>-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
-<!--        android:text="Sold Items" />-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:orientation="horizontal" >-->
+
+<!--        <Button-->
+<!--            android:id="@+id/Aboutbutton"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="#D35ED1"-->
+<!--            android:backgroundTint="@color/backPurple"-->
+<!--            android:layout_marginRight="5dp"-->
+<!--            android:text="About" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/SoldItemButton"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@color/cat_purple"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:text="Sold Items" />-->
+
+
+
+
+<!--    </LinearLayout>-->
+
+
+
+
+
+
 
 <!--</LinearLayout>-->

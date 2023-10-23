@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -27,15 +29,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 public class ProfileFragment extends Fragment {
 
     private TextView profileNameTextView;
     private TextView profileEmailTextView;
     private DatabaseReference databaseReference;
+//    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ProfileImage");
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference("ProfileImage");
     private FirebaseAuth auth;
     private Button logoutButton,EmailButton,CallButton,AboutButton,SoldItemButton;
 
@@ -43,7 +51,7 @@ public class ProfileFragment extends Fragment {
     private Button selectImageButton;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
-
+    String fileKey ;
 
     @Nullable
     @Override
@@ -64,16 +72,62 @@ public class ProfileFragment extends Fragment {
         profileNameTextView.setText(userName);
         profileEmailTextView.setText(userEmail);
 
+
         profileImageView = view.findViewById(R.id.profileImageView);
         selectImageButton = view.findViewById(R.id.selectImageButton);
 
+
+         fileKey = auth.getCurrentUser().getUid() + ".jpg" ;
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference("profile_images");
+        final StorageReference fileRef = storageRef.child(fileKey);
+
+        // Check if the local file exists
+        File localFile = new File(getContext().getFilesDir(), fileKey);
+
+
+
+
+        if (localFile.exists() && false) {
+            // If the local file exists, load it using Picasso or Glide
+            Picasso.get().load(localFile).into(profileImageView);
+            // Alternatively, use Glide
+
+            // Glide.with(getContext().getApplicationContext()).load(localFile).into(itemImageView);
+        } else {
+            // If the local file does not exist, download from the downloadUri
+            fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Load the image using Picasso or Glide
+                    Picasso.get().load(uri).into(profileImageView);
+                }
+
+                private void downloadImageToLocal(StorageReference fileRef, final File localFile) {
+                    fileRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            // File downloaded successfully to local storage
+                            Picasso.get().load(localFile).into(profileImageView);
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure( Exception exception) {
+                            // Handle the error if the file download fails
+                            Toast.makeText(getActivity().getApplicationContext(), "ImageFailed To Load", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+            });
+        }
         selectImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openImageChooser();
             }
         });
-
         return view;
     }
 
@@ -149,17 +203,46 @@ public class ProfileFragment extends Fragment {
     }
 
     private void uploadImageToFirebase() {
+
+         fileKey = auth.getCurrentUser().getUid() + ".jpg" ;
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference("profile_images");
+        final StorageReference fileRef = storageRef.child(fileKey);
+        File localFile = new File(getContext().getFilesDir(), fileKey);
+
+        if (localFile.exists()) {
+            // If the local file exists, delete it
+            localFile.delete();
+        }
+
+        fileRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getActivity().getApplicationContext(), "Ager image delete", Toast.LENGTH_SHORT).show();
+                saveData();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(getActivity().getApplicationContext(), "Ager image  delete hoy na", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+
+    private void saveData() {
         if (imageUri != null) {
+
             StorageReference storageReference = FirebaseStorage.getInstance().getReference()
                     .child("profile_images") // You can customize this storage path
-                    .child(auth.getCurrentUser().getUid() + ".jpg");
+                    .child(fileKey);
 
             storageReference.putFile(imageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // Image uploaded successfully
-                            // You can save the download URL to Firebase Database or perform other actions
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

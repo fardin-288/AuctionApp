@@ -47,9 +47,10 @@ dependencies {
     implementation ("androidx.fragment:fragment:1.6.1")
     implementation ("com.firebaseui:firebase-ui-database:8.0.0")
     implementation ("com.google.firebase:firebase-database:20.2.2")
+    implementation ("com.firebaseui:firebase-ui-database:8.0.0")
 
     implementation ("com.airbnb.android:lottie:6.1.0")
-    implementation ("com.google.android.material:material:1.7.0")
+
 
     implementation("com.google.firebase:firebase-database:20.2.2")
     implementation("com.google.firebase:firebase-storage:20.2.1")
