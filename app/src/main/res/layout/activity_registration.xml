@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
 <!--                <ImageView-->
 <!--                    android:id="@+id/back_image"-->
@@ -21,12 +21,29 @@
 <!--                    android:src="@drawable/back" />-->
                 <ImageButton
                     android:id="@+id/back_image"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/back"
+                    android:layout_width="34dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/backk"
                     android:background="@color/searchgray"
                     />
         </LinearLayout>
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--                <ImageButton-->
+<!--                    android:id="@+id/imageButton"-->
+<!--                    android:layout_width="35dp"-->
+<!--                    android:layout_height="29dp"-->
+<!--                    android:background="@color/white"-->
+<!--                    android:src="@drawable/back"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
         <ScrollView
             android:id="@+id/scrollView3"
