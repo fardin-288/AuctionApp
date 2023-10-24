@@ -65,6 +65,8 @@ public class ProfileFragment extends Fragment {
         CallButton = view.findViewById(R.id.CallButton);
         SoldItemButton = view.findViewById(R.id.SoldItemButton);
 
+        UserArray.RetrieveFromDatabaseSoldItemOfUser();
+
         auth = FirebaseAuth.getInstance();
         String userName = auth.getCurrentUser().getDisplayName();
         String userEmail = auth.getCurrentUser().getEmail();
