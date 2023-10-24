@@ -95,7 +95,7 @@ public class ProfileFragment extends Fragment {
             downloadImageToLocal(localFile);
 
             // Set an empty image while the download is in progress
-            profileImageView.setImageResource(R.drawable.cat);
+            profileImageView.setImageResource(R.drawable.pb);
         }
 
         selectImageButton.setOnClickListener(new View.OnClickListener() {
