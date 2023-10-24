@@ -3,6 +3,7 @@
     <color name="black">#272727</color>
     <color name="white">#FFFFFFFF</color>
     <color name="platinumgray">#E5E4E2</color>
+    <color name="profilePurple">#555AC3</color>
     <color name="whitesmoke">#F5F5F5</color>
     <color name="ghostwhite">#F8F8FF</color>
     <color name="linkwhite">#EEEEFF</color>
@@ -31,6 +32,7 @@
     <color name="colorPrimaryDark">#CC073D74</color>
     <color name="colorAccent">#0A527E</color>
     <color name="colorBlack">#000000</color>
+    <color name="light_green">#A4C639</color>
     <color name="colorWhite">#fff</color>
     <color name="colorGray">#F5F1F1</color>
     <color name="colorgray01">#959595</color>
@@ -42,5 +44,4 @@
     <color name="neutral">#0a1b97</color>
     <color name="colordrawer">#2B2C2E</color>
     <color name="background_color">#FFFFFFFF</color>
-    <color name="light_green">#A4C639</color>
 </resources>
