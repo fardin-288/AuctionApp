@@ -54,26 +54,18 @@ import java.util.List;
 
 
 public class HomeFragment extends Fragment {
+
     StorageTask uploadTask;
     String key;
-    MenuItem menuItem;
     public static SearchView searchView;
     private static final int IMAGE_REQUEST = 1;
     private Uri imageuri;
-    private Item tempItem;
     private Uri final_uri;
-
     private ImageView imageview;
-    private FirebaseAuth auth;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Upload");
     StorageReference storageReference = FirebaseStorage.getInstance().getReference("Upload");
-    public static final int ADD_ITEM_REQUEST_CODE = 1;
     public static ItemAdapter adapter,temporaryAdapter;
-    public ArrayList<Item> temp = new ArrayList<Item>();
     public static ListView listView;
     private Spinner spinnerCategory;
-    public static final int PICK_IMAGE_REQUEST = 1;
-    private static boolean UIRefreshStatus = false;
     private View rootView;
 
     void showAddItemDialog(Context context) {
@@ -108,13 +100,28 @@ public class HomeFragment extends Fragment {
                 Float itemPriceFloat = Float.valueOf(itemPriceString);
                 String itemDescription = itemDescriptionText.getText().toString();
 
-                int itemAuctionDaysTime = Integer.parseInt(itemAuctionDaysTimeEditText.getText().toString());
-                int itemAuctionHoursTime = Integer.parseInt(itemAuctionHoursTimeEditText.getText().toString());
-                int itemAuctionMinutesTime = Integer.parseInt(itemAuctionMinutesTimeEditText.getText().toString());
+                int itemAuctionDaysTime = 0;
+                int itemAuctionHoursTime = 0;
+                int itemAuctionMinutesTime = 0;
+
+                if(!itemAuctionDaysTimeEditText.getText().toString().isEmpty()){
+                    itemAuctionDaysTime = Integer.parseInt(itemAuctionDaysTimeEditText.getText().toString());
+                }
+                if(!itemAuctionHoursTimeEditText.getText().toString().isEmpty()){
+                    itemAuctionHoursTime = Integer.parseInt(itemAuctionHoursTimeEditText.getText().toString());
+                }
+                if(!itemAuctionMinutesTimeEditText.getText().toString().isEmpty()){
+                    itemAuctionMinutesTime = Integer.parseInt(itemAuctionMinutesTimeEditText.getText().toString());
+                }
+
+
+
+//                int itemAuctionDaysTime = Integer.parseInt(itemAuctionDaysTimeEditText.getText().toString());
+//                int itemAuctionHoursTime = Integer.parseInt(itemAuctionHoursTimeEditText.getText().toString());
+//                int itemAuctionMinutesTime = Integer.parseInt(itemAuctionMinutesTimeEditText.getText().toString());
 
                 long itemAuctionTimeTotalInSeconds = itemAuctionDaysTime*24*60*60 + itemAuctionHoursTime*60*60 + itemAuctionMinutesTime*60;
 
-                String imguri;
                 long currentTime = System.currentTimeMillis();
 
                 if (!itemName.isEmpty()) {
@@ -123,7 +130,6 @@ public class HomeFragment extends Fragment {
                     Item newItem = new Item(itemName, itemDescription, itemPriceFloat, currentTime, final_uri, category_Item, itemAuctionTimeTotalInSeconds);
 
                     itemArray.itemList.add(newItem);
-                    tempItem = newItem;
                     key = newItem.addToDatabase(getContext());
 
                     HomeFragment.adapter.notifyDataSetChanged();

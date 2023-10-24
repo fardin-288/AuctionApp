@@ -302,12 +302,11 @@ class itemArray{
             formattedTime.append(seconds).append(" second").append(seconds > 1 ? "s" : "");
         }
 
-        // Handle the case when the duration is less than a minute
+//         Handle the case when the duration is less than a minute
         if (formattedTime.length() == 0) {
             formattedTime.append("Less than a minute");
         } else {
-            // Remove the trailing ", " if present
-            formattedTime.setLength(formattedTime.length() - 2);
+            formattedTime.setLength(formattedTime.length());
         }
 
         return formattedTime.toString();
