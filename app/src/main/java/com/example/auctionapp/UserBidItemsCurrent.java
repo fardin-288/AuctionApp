@@ -42,11 +42,17 @@ public class UserBidItemsCurrent {
 
     public static void updateItemToCurrentBidItemListDatabase(Item item){
         RetrieveUserCurrentBidItemFromDatabase();
+        boolean flag = true;
 
-        for(int i=0; i< itemArray.itemList.size(); i++){
+        for(int i = 0; i< itemArray.itemList.size() && flag; i++){
             if(Objects.equals(itemArray.itemList.get(i).getItemKey(),item.getItemKey())){
-                UserCurrentBidItemList.set(i,itemArray.itemList.get(i));
-                break;
+                for(int j=0; j< UserBidItemsCurrent.UserCurrentBidItemList.size(); j++){
+                    if(Objects.equals(item.getItemKey(),UserBidItemsCurrent.UserCurrentBidItemList.get(j).getItemKey())){
+                        UserBidItemsCurrent.UserCurrentBidItemList.set(j,itemArray.itemList.get(i));
+                        flag = false;
+                        break;
+                    }
+                }
             }
         }
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("UserCurrentBidItems").child(UserArray.currentUser.getFirebaseUserid());

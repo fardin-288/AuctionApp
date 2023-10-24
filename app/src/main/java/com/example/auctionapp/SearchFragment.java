@@ -86,7 +86,7 @@ class BidItemRefreshClass {
                                 for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
 
                                     //if item removed realtime
-//                                    if(i <= UserBidItemsCurrent.UserCurrentBidItemList.size() || UserBidItemsCurrent.UserCurrentBidItemList.size() == 0){
+//                                    if(i >= UserBidItemsCurrent.UserCurrentBidItemList.size() || UserBidItemsCurrent.UserCurrentBidItemList.size() == 0){
 //                                        break;
 //                                    }
                                     Item item = SearchFragment.adapter.getItem(i);
