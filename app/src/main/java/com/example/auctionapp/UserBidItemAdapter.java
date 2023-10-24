@@ -89,8 +89,12 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
         TextView itemCategoryTextView = convertView.findViewById(R.id.itemCategoryTextView);
         itemNameTextView.setText(item.getName());
         itemDescriptionTextView.setText(item.getDescription());
+
+        long TimeRemainingInSeconds = item.getRemainingTime();
+        String timeInStandardFormat = itemArray.TimeSecondToStandardStringFormat(TimeRemainingInSeconds);
+
         itemPriceTextView.setText(String.format(Locale.US, "Tk%.2f", item.getCurrentPrice()));
-        itemTimeRemaining.setText(String.format(Locale.US,"time %s", item.getRemainingTime() ));
+        itemTimeRemaining.setText(String.format(Locale.US,"Time %s", timeInStandardFormat ));
         itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
         itemCategoryTextView.setText(String.format("Category : %s" ,itemArray.categoryString[item.getCategory()]));
 

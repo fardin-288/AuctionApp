@@ -74,10 +74,15 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         TextView itemTimeRemaining = convertView.findViewById(R.id.itemTimeRemaining);
         TextView itemcurrentWinnerName = convertView.findViewById(R.id.itemcurrentWinnerName);
         TextView itemCategoryTextView = convertView.findViewById(R.id.itemCategoryTextView);
+
+
+        long TimeRemainingInSeconds = item.getRemainingTime();
+        String timeInStandardFormat = itemArray.TimeSecondToStandardStringFormat(TimeRemainingInSeconds);
+
         itemNameTextView.setText(item.getName());
         itemDescriptionTextView.setText(item.getDescription());
-        itemPriceTextView.setText(String.format(Locale.US, "Tk%.2f", item.getCurrentPrice()));
-        itemTimeRemaining.setText(String.format(Locale.US,"time %s", item.getRemainingTime() ));
+        itemPriceTextView.setText(String.format(Locale.US, "%s", item.getCurrentPrice()));
+        itemTimeRemaining.setText(String.format(Locale.US,"Time %s",timeInStandardFormat  ));
         itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
         itemCategoryTextView.setText(String.format("Category : %s" ,itemArray.categoryString[item.getCategory()]));
 

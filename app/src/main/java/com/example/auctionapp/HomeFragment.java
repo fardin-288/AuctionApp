@@ -85,7 +85,11 @@ public class HomeFragment extends Fragment {
         final EditText itemNameEditText = viewInflated.findViewById(R.id.editTextItemName);
         final EditText itemNameEditPrice = viewInflated.findViewById(R.id.editStartingPrice);
         final EditText itemDescriptionText = viewInflated.findViewById(R.id.editDescription);
+
+        final EditText itemAuctionDaysTimeEditText = viewInflated.findViewById(R.id.editAuctionDays);
         final EditText itemAuctionHoursTimeEditText = viewInflated.findViewById(R.id.editAuctionHours);
+        final EditText itemAuctionMinutesTimeEditText = viewInflated.findViewById(R.id.editAuctionMinutes);
+
         spinnerCategory = viewInflated.findViewById(R.id.spinnerCategory);
         Button buttonUploadPicture = viewInflated.findViewById(R.id.buttonUploadPicture);
         imageview = viewInflated.findViewById(R.id.productImgView);
@@ -103,14 +107,20 @@ public class HomeFragment extends Fragment {
                 String itemPriceString = itemNameEditPrice.getText().toString();
                 Float itemPriceFloat = Float.valueOf(itemPriceString);
                 String itemDescription = itemDescriptionText.getText().toString();
+
+                int itemAuctionDaysTime = Integer.parseInt(itemAuctionDaysTimeEditText.getText().toString());
                 int itemAuctionHoursTime = Integer.parseInt(itemAuctionHoursTimeEditText.getText().toString());
+                int itemAuctionMinutesTime = Integer.parseInt(itemAuctionMinutesTimeEditText.getText().toString());
+
+                long itemAuctionTimeTotalInSeconds = itemAuctionDaysTime*24*60*60 + itemAuctionHoursTime*60*60 + itemAuctionMinutesTime*60;
+
                 String imguri;
                 long currentTime = System.currentTimeMillis();
 
                 if (!itemName.isEmpty()) {
                     // Create a new Item object and add it to the list
                     final int category_Item = spinnerCategory.getSelectedItemPosition();
-                    Item newItem = new Item(itemName, itemDescription, itemPriceFloat, currentTime, final_uri, category_Item, itemAuctionHoursTime);
+                    Item newItem = new Item(itemName, itemDescription, itemPriceFloat, currentTime, final_uri, category_Item, itemAuctionTimeTotalInSeconds);
 
                     itemArray.itemList.add(newItem);
                     tempItem = newItem;
