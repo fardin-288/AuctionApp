@@ -1,9 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.AuctionApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.AuctionApp" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorButtonNormal">@color/explorePurple</item>
+
     </style>
 
     <style name="Theme.AuctionApp" parent="Base.Theme.AuctionApp" />
 </resources>
+
+
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <!--<item name="colorButtonNormal">@color/your_button_color</item>-->
+    <!--</style>-->
