@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -36,13 +37,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class ItemAdapter extends ArrayAdapter<Item> {
- private    File localFile;
+public class UserBidItemAdapter extends ArrayAdapter<Item> {
+    private    File localFile;
     private Activity activity;
+    private int FinalPosition;
 //    public static List<Item> itemList;
 
 
-    public ItemAdapter(Activity activity, List<Item> itemList) {
+    public UserBidItemAdapter(Activity activity, List<Item> itemList) {
         super(activity, 0, itemList);
         this.activity = activity;
 //        this.itemList = itemList;
@@ -61,28 +63,38 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             convertView = LayoutInflater.from(activity).inflate(R.layout.item_list_item, parent, false);
         }
 
+        RetrieveDataFromFirebase.RetrieveDataFromDatabaseAction();
+        Item item = getItem(position);
 
-        Item item = itemArray.itemList.get(position);
+        for(int i=0; i< itemArray.itemList.size(); i++){
+            if(Objects.equals(item.getItemKey(), itemArray.itemList.get(i).getItemKey())){
+                FinalPosition = i;
+                break;
+            }
+        }
+
+        if(Objects.equals(item.getCurrentWinner(), UserArray.currentUser.getKey())){
+            convertView.setBackgroundColor(Color.parseColor("green"));
+        }else{
+            convertView.setBackgroundColor(Color.parseColor("red"));
+        }
+
 
         ImageView itemImageView = convertView.findViewById(R.id.itemImageView);
-
-
-
         TextView itemNameTextView = convertView.findViewById(R.id.itemNameTextView);
         TextView itemDescriptionTextView = convertView.findViewById(R.id.itemDescriptionTextView);
         TextView itemPriceTextView = convertView.findViewById(R.id.itemPriceTextView);
         TextView itemTimeRemaining = convertView.findViewById(R.id.itemTimeRemaining);
         TextView itemcurrentWinnerName = convertView.findViewById(R.id.itemcurrentWinnerName);
         TextView itemCategoryTextView = convertView.findViewById(R.id.itemCategoryTextView);
-
+        itemNameTextView.setText(item.getName());
+        itemDescriptionTextView.setText(item.getDescription());
 
         long TimeRemainingInSeconds = item.getRemainingTime();
         String timeInStandardFormat = itemArray.TimeSecondToStandardStringFormat(TimeRemainingInSeconds);
 
-        itemNameTextView.setText(item.getName());
-        itemDescriptionTextView.setText(item.getDescription());
-        itemPriceTextView.setText(String.format(Locale.US, "%s", item.getCurrentPrice()));
-        itemTimeRemaining.setText(String.format(Locale.US,"Time %s",timeInStandardFormat  ));
+        itemPriceTextView.setText(String.format(Locale.US, "Tk%.2f", item.getCurrentPrice()));
+        itemTimeRemaining.setText(String.format(Locale.US,"Time %s", timeInStandardFormat ));
         itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
         itemCategoryTextView.setText(String.format("Category : %s" ,itemArray.categoryString[item.getCategory()]));
 
@@ -96,7 +108,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         final StorageReference fileRef = storageRef.child(fileKey);
 
         // Check if the local file exists
-         localFile = new File(getContext().getFilesDir(), fileKey);
+        localFile = new File(getContext().getFilesDir(), fileKey);
 
         if (localFile.exists()) {
             // If the local file exists, load it using Picasso or Glide
@@ -151,8 +163,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             @Override
             public void onClick(View view) {
                 //for testing it is commented out
-                showChangePriceDialog(position);
-                Toast.makeText(getContext(),position+"",Toast.LENGTH_SHORT).show();
+                showChangePriceDialog(FinalPosition);
+                Toast.makeText(getContext(),FinalPosition+"",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -167,7 +179,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         return convertView;
     }
 
-     void openDialog(Item item) {
+    void openDialog(Item item) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.details_dailog, null);
         dialogBuilder.setView(dialogView);
@@ -177,73 +189,48 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         TextView dialogText = dialogView.findViewById(R.id.dialogText);
         Button dialogButton = dialogView.findViewById(R.id.dialogButton);
 
-         String fileKey = item.getItemKey();
-         FirebaseStorage storage = FirebaseStorage.getInstance();
-         StorageReference storageRef = storage.getReference("Upload");
-         final StorageReference fileRef = storageRef.child(fileKey);
+        String fileKey = item.getItemKey();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference("Upload");
+        final StorageReference fileRef = storageRef.child(fileKey);
 
-         File tempLocalFile = new File(getContext().getFilesDir(), item.getItemKey());
-         Picasso.get().load(tempLocalFile).into(dialogImage);
+        File tempLocalFile = new File(getContext().getFilesDir(), item.getItemKey());
+        Picasso.get().load(tempLocalFile).into(dialogImage);
 
 
         dialogText.setText(item.getDescription());
-         AlertDialog dialog = dialogBuilder.create();
+        AlertDialog dialog = dialogBuilder.create();
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               dialog.dismiss();
+                dialog.dismiss();
             }
         });
         dialog.show();
     }
 
     private void removebuttonwork(final int position) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-
-        if (Objects.equals(getItem(position).getOwnerID(), user.getUid())) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Confirm Removal");
-            builder.setMessage("Are you sure you want to remove this item?");
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    itemArray.itemList.get(position).removeFromDatabase();
-                    itemArray.itemList.remove(position);
-                    notifyDataSetChanged();
-                    dialog.dismiss();
-                    Toast.makeText(getContext(), "Item removed successfully.", Toast.LENGTH_SHORT).show();
-                }
-            });
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        } else {
-            Toast.makeText(getContext(), "You are not the owner of this item.", Toast.LENGTH_SHORT).show();
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Confirm Removal");
+        builder.setMessage("Are you sure you want to remove this item from Bids List?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                UserBidItemsCurrent.removeItemFromUserCurrentBidItemListDatabase(getItem(position));
+                notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
-
-//    private void removebuttonwork(final int position){
-//
-//        FirebaseAuth auth = FirebaseAuth.getInstance();
-//        FirebaseUser user = auth.getCurrentUser();
-//
-//        if(Objects.equals(getItem(position).getOwnerID(), user.getUid())){
-//            itemArray.itemList.get(position).removeFromDatabase();
-//            itemArray.itemList.remove(position);
-//            Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
-//        }else{
-//            Toast.makeText(getContext(), "not owner", Toast.LENGTH_SHORT).show();
-//        }
-//
-//        notifyDataSetChanged();
-//    }
 
     private void showChangePriceDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -261,12 +248,13 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                 String newPriceText = newPriceEditText.getText().toString();
                 if (!newPriceText.isEmpty()) {
                     double newPrice = Double.parseDouble(newPriceText);
-                    if (newPrice > getItem(position).getCurrentPrice()) {
+                    if (newPrice > itemArray.itemList.get(position).getCurrentPrice()) {
+
                         // Update the item's price and notify the adapter
-                        getItem(position).setCurrentPrice(newPrice,FirebaseAuth.getInstance().getCurrentUser());
-                        getItem(position).setCurrentWinner();
-                        getItem(position).updatePriceToDatabase();
-                        UserBidItemsCurrent.addItemToUserCurrentBidItemListDatabase(getItem(position));
+                        itemArray.itemList.get(position).setCurrentPrice(newPrice,FirebaseAuth.getInstance().getCurrentUser());
+                        itemArray.itemList.get(position).setCurrentWinner();
+                        itemArray.itemList.get(position).updatePriceToDatabase();
+                        UserBidItemsCurrent.addItemToUserCurrentBidItemListDatabase(itemArray.itemList.get(position));
                         notifyDataSetChanged();
 
                         RetrieveDataFromFirebase.RetrieveDataFromDatabaseStatus = false;

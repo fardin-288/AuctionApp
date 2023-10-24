@@ -3,6 +3,7 @@
     <color name="black">#272727</color>
     <color name="white">#FFFFFFFF</color>
     <color name="platinumgray">#E5E4E2</color>
+    <color name="profilePurple">#555AC3</color>
     <color name="whitesmoke">#F5F5F5</color>
     <color name="ghostwhite">#F8F8FF</color>
     <color name="linkwhite">#EEEEFF</color>
@@ -13,6 +14,7 @@
     <color name="lightPurple">#E3E0F1</color>
     <color name="priceOrange">#EC5800</color>
     <color name="backPurple">#E0B0FF</color>
+    <color name="transparent">#00FFFFFF</color>
     <color name="lightblue">#f2f1f6</color>
     <color name="explorePurple">#363B9A</color>
     <color name="ytgray">#E9E9E9</color>
@@ -30,6 +32,7 @@
     <color name="colorPrimaryDark">#CC073D74</color>
     <color name="colorAccent">#0A527E</color>
     <color name="colorBlack">#000000</color>
+    <color name="light_green">#A4C639</color>
     <color name="colorWhite">#fff</color>
     <color name="colorGray">#F5F1F1</color>
     <color name="colorgray01">#959595</color>

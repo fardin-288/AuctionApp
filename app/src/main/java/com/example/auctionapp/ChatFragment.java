@@ -14,16 +14,10 @@ import java.util.List;
 public class ChatFragment extends Fragment {
     private RecyclerView recyclerView;
     private UserWonItemAdapter userWonItemAdapter;
-    private List<Item> itemList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
-
-        // Initialize itemList with your data (e.g., fetch it from Firebase)
-        // itemList = fetchItemListFromFirebase();
-
-//        Toast.makeText(getActivity(),UserArray.UserWonItemMap.size()+"",Toast.LENGTH_SHORT);
 
         UserArray.RetrieveFromDatabaseWinSoldItems();
 
@@ -35,9 +29,4 @@ public class ChatFragment extends Fragment {
 
         return view;
     }
-
-    // Fetch the item list from Firebase or any other data source
-    // You can implement your code to retrieve the item list here
-    // For example, use Firebase Realtime Database to fetch the data.
-    // Return a list of Item objects.
 }

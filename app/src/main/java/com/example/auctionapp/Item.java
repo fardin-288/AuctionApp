@@ -34,7 +34,7 @@ public class Item implements Serializable {
     private String ownerID;
     private String currentWinner;
     private String currentWinnerName;
-    private int auctionTimeHours;
+    private long auctionTimeHours;
     private String currentWinnerEmail;
     private String ownerEmailId;
     private String ownerName;
@@ -42,12 +42,12 @@ public class Item implements Serializable {
     public Item() {
     }
 
-    public Item(String name, String description, double currentPrice, long endTime, Uri imgUri, int category, int auctionTimeHours) {
+    public Item(String name, String description, double currentPrice, long endTime, Uri imgUri, int category, long auctionTimeHours) {
         this.name = name;
         this.description = description;
         this.currentPrice = currentPrice;
-        this.endTime = (System.currentTimeMillis() + (long) auctionTimeHours*60*1000); // we want seconds
-        this.remainingTime = (long) auctionTimeHours*60 ;// seconds
+        this.endTime = (System.currentTimeMillis() + auctionTimeHours*1000); // we want seconds
+        this.remainingTime = (long) auctionTimeHours ;// seconds
         this.category = category;
         this.ownerID =  FirebaseAuth.getInstance().getCurrentUser().getUid();
         this.currentWinner = "noHighestBidder";
@@ -157,7 +157,7 @@ public class Item implements Serializable {
         this.currentWinnerName = currentWinnerName;
     }
 
-    public int getAuctionTimeHours() {
+    public long getAuctionTimeHours() {
         return auctionTimeHours;
     }
 
@@ -219,6 +219,9 @@ public class Item implements Serializable {
         UserArray.RetrieveFromDatabaseSoldItemOfUser();
         UserArray.AddSoldItemToDatabaseOfUser(this);
 
+        UserBidItemsCurrent.RetrieveUserCurrentBidItemFromDatabase();
+        UserBidItemsCurrent.removeItemFromUserCurrentBidItemListDatabase(this);
+
         UserArray.AddToDatabaseWinSoldItems(this,this.currentWinner);
         removeFromDatabase();
         removeItemLocalItemList();
@@ -277,6 +280,39 @@ public class Item implements Serializable {
     }
 }
 class itemArray{
+
+    public static String TimeSecondToStandardStringFormat(long TotalTimeSeconds) {
+        long days = TotalTimeSeconds / (60 * 60 * 24);
+        long hours = (TotalTimeSeconds % (60 * 60 * 24)) / (60 * 60);
+        long minutes = (TotalTimeSeconds % (60 * 60)) / 60;
+        long seconds = TotalTimeSeconds % 60;
+
+        StringBuilder formattedTime = new StringBuilder();
+
+        if (days > 0) {
+            formattedTime.append(days).append(" day").append(days > 1 ? "s" : "").append(", ");
+        }
+        if (hours > 0) {
+            formattedTime.append(hours).append(" hour").append(hours > 1 ? "s" : "").append(", ");
+        }
+        if (minutes > 0) {
+            formattedTime.append(minutes).append(" minute").append(minutes > 1 ? "s" : "").append(", ");
+        }
+        if (seconds > 0) {
+            formattedTime.append(seconds).append(" second").append(seconds > 1 ? "s" : "");
+        }
+
+        // Handle the case when the duration is less than a minute
+        if (formattedTime.length() == 0) {
+            formattedTime.append("Less than a minute");
+        } else {
+            // Remove the trailing ", " if present
+            formattedTime.setLength(formattedTime.length() - 2);
+        }
+
+        return formattedTime.toString();
+    }
+
     static long total = 0;
     public static final String[] categoryString = new String[]{"electronic", "antiques", "instrument"};
 

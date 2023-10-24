@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -11,14 +10,14 @@
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Search"
-        android:icon="@drawable/baseline_search_24"
+        android:title="Bids"
+        android:icon="@drawable/baseline_favorite_24"
         android:id="@+id/search"/>
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Chat"
-        android:icon="@drawable/baseline_chat_24"
+        android:title="Seller"
+        android:icon="@drawable/baseline_email_24"
         android:id="@+id/chat"/>
     <item
         android:layout_width="wrap_content"

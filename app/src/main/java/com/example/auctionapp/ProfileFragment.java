@@ -65,6 +65,8 @@ public class ProfileFragment extends Fragment {
         CallButton = view.findViewById(R.id.CallButton);
         SoldItemButton = view.findViewById(R.id.SoldItemButton);
 
+        UserArray.RetrieveFromDatabaseSoldItemOfUser();
+
         auth = FirebaseAuth.getInstance();
         String userName = auth.getCurrentUser().getDisplayName();
         String userEmail = auth.getCurrentUser().getEmail();
@@ -77,51 +79,23 @@ public class ProfileFragment extends Fragment {
         selectImageButton = view.findViewById(R.id.selectImageButton);
 
 
-         fileKey = auth.getCurrentUser().getUid() + ".jpg" ;
+        fileKey = auth.getCurrentUser().getUid() + ".jpg" ;
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference("profile_images");
         final StorageReference fileRef = storageRef.child(fileKey);
 
-        // Check if the local file exists
-        File localFile = new File(getContext().getFilesDir(), fileKey);
+        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profileImageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(getActivity().getApplicationContext(), "ImageFailed To Load", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-
-
-
-        if (localFile.exists() && false) {
-            // If the local file exists, load it using Picasso or Glide
-            Picasso.get().load(localFile).into(profileImageView);
-            // Alternatively, use Glide
-
-            // Glide.with(getContext().getApplicationContext()).load(localFile).into(itemImageView);
-        } else {
-            // If the local file does not exist, download from the downloadUri
-            fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    // Load the image using Picasso or Glide
-                    Picasso.get().load(uri).into(profileImageView);
-                }
-
-                private void downloadImageToLocal(StorageReference fileRef, final File localFile) {
-                    fileRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            // File downloaded successfully to local storage
-                            Picasso.get().load(localFile).into(profileImageView);
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure( Exception exception) {
-                            // Handle the error if the file download fails
-                            Toast.makeText(getActivity().getApplicationContext(), "ImageFailed To Load", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
-            });
-        }
         selectImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,16 +178,10 @@ public class ProfileFragment extends Fragment {
 
     private void uploadImageToFirebase() {
 
-         fileKey = auth.getCurrentUser().getUid() + ".jpg" ;
+        fileKey = auth.getCurrentUser().getUid() + ".jpg" ;
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference("profile_images");
         final StorageReference fileRef = storageRef.child(fileKey);
-        File localFile = new File(getContext().getFilesDir(), fileKey);
-
-        if (localFile.exists()) {
-            // If the local file exists, delete it
-            localFile.delete();
-        }
 
         fileRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -225,6 +193,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onFailure(Exception e) {
                 Toast.makeText(getActivity().getApplicationContext(), "Ager image  delete hoy na", Toast.LENGTH_SHORT).show();
+                saveData();
             }
         });
 
@@ -272,8 +241,4 @@ public class ProfileFragment extends Fragment {
                 .show();
     }
 }
-
-
-
-
 

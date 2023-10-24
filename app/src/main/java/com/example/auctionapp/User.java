@@ -217,7 +217,7 @@ class UserArray{
                     UserSoldItemMap.add(item);
                 }
 
-                Log.d("retrieved array size", UserSoldItemMap.size()+"");
+//                Log.d("retrieved array size", UserSoldItemMap.size()+"");
             }
 
             @Override
