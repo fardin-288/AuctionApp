@@ -32,6 +32,7 @@
     <color name="colorPrimaryDark">#CC073D74</color>
     <color name="colorAccent">#0A527E</color>
     <color name="colorBlack">#000000</color>
+    <color name="light_green">#A4C639</color>
     <color name="colorWhite">#fff</color>
     <color name="colorGray">#F5F1F1</color>
     <color name="colorgray01">#959595</color>
