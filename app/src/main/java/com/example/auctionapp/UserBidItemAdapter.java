@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -70,6 +71,12 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
                 FinalPosition = i;
                 break;
             }
+        }
+
+        if(Objects.equals(item.getCurrentWinner(), UserArray.currentUser.getKey())){
+            convertView.setBackgroundColor(Color.parseColor("green"));
+        }else{
+            convertView.setBackgroundColor(Color.parseColor("red"));
         }
 
 

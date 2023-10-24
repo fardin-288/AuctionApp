@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- item_list_item.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/itemImageView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="150dp"-->
+    <!--        android:scaleType="centerCrop"-->
+    <!--&lt;!&ndash;        android:src="@drawable/placeholder_image" &lt;!&ndash; Default image or placeholder &ndash;&gt;&ndash;&gt;-->
+    <!--    />-->
+
+    <ImageView
+        android:id="@+id/itemImageView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/splash" />
+
+    <TextView
+        android:id="@+id/itemNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#D4DBCAE8"
+        android:text="Item Name"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/itemDescriptionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Description"
+        android:textSize="14sp"
+        />
+
+    <TextView
+        android:id="@+id/itemPriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price: $0.00"
+        android:textSize="16sp"
+        />
+    <TextView
+        android:id="@+id/itemTimeRemaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time"
+        android:textSize="16sp"
+        />
+    <TextView
+        android:id="@+id/itemcurrentWinnerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="time"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/itemCategoryTextView"
+        android:layout_width="154dp"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+
+        android:orientation="horizontal" >
+
+
+        <Button
+            android:id="@+id/changePriceButton"
+            android:layout_margin="5dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Change Price" />
+
+        <Button
+            android:id="@+id/removeItemButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:text="remove" />
+    </LinearLayout>
+
+</LinearLayout>

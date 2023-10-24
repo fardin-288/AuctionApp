@@ -91,11 +91,17 @@ public class UserBidItemsCurrent {
     public static void removeItemFromUserCurrentBidItemListDatabase(Item item){
         RetrieveUserCurrentBidItemFromDatabase();
 
-        for(Item selectedItem : UserCurrentBidItemList){
-            if(selectedItem.getItemKey() == item.getItemKey()){
-                UserCurrentBidItemList.remove(selectedItem);
+        for(int i=0; i< UserCurrentBidItemList.size(); i++){
+            if(Objects.equals(UserCurrentBidItemList.get(i).getItemKey(),item.getItemKey())){
+                UserCurrentBidItemList.remove(i);
             }
         }
+
+//        for(Item selectedItem : UserCurrentBidItemList){
+//            if(Objects.equals(selectedItem.getItemKey(), item.getItemKey())){
+//                UserCurrentBidItemList.remove(selectedItem);
+//            }
+//        }
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("UserCurrentBidItems").child(UserArray.currentUser.getFirebaseUserid());
         databaseReference.setValue(UserCurrentBidItemList);

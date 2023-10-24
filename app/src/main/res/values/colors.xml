@@ -42,4 +42,5 @@
     <color name="neutral">#0a1b97</color>
     <color name="colordrawer">#2B2C2E</color>
     <color name="background_color">#FFFFFFFF</color>
+    <color name="light_green">#A4C639</color>
 </resources>
