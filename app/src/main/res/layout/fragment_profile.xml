@@ -175,6 +175,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
 
+<<<<<<< HEAD
                 <TextView
                     android:id="@+id/galT"
                     android:layout_width="wrap_content"
@@ -403,3 +404,12 @@
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+=======
+    <Button
+        android:id="@+id/SoldItemButton"
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
+        android:text="Sold Items" />
+
+</LinearLayout>
+>>>>>>> b8c702b0af231d51155376d258a4cb6caaeb685a

@@ -102,6 +102,10 @@ public class ProfileFragment extends Fragment {
                 openImageChooser();
             }
         });
+<<<<<<< HEAD
+=======
+
+>>>>>>> Fardin
         return view;
     }
 

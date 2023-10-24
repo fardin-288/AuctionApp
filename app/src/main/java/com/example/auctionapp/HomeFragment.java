@@ -158,6 +158,15 @@ public class HomeFragment extends Fragment {
         builder.show();
     }
 
+<<<<<<< HEAD
+=======
+    public String getFileExtension(Uri imageuri) {
+        ContentResolver contentResolver = this.getActivity().getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(imageuri));
+    }
+
+>>>>>>> Fardin
     void saveData() {
         StorageReference ref = storageReference.child(key);
         ref.putFile(final_uri)
@@ -165,7 +174,10 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Toast.makeText(getActivity().getApplicationContext(), "Image is stored successfully", Toast.LENGTH_SHORT).show();
+<<<<<<< HEAD
 
+=======
+>>>>>>> Fardin
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -307,8 +319,42 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+<<<<<<< HEAD
 
 
+=======
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//        menuItem = menu.findItem(R.id.searchId);
+//        inflater.inflate(R.menu.menu_item,menu);
+//        searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+//        searchView.setIconified(true);
+//        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                adapter.getFilter().filter(s);
+//
+//                mySearch(s);
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                adapter.getFilter().filter(s);
+//
+//                mySearch(s);
+//                return true;
+//            }
+//        });
+
+
+
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
+
+>>>>>>> Fardin
     private void mySearch(String s) {
         List<Item> filteredList = new ArrayList<>();
 
@@ -319,6 +365,37 @@ public class HomeFragment extends Fragment {
 
             }
         }
+<<<<<<< HEAD
+=======
+
+
+//        adapter = new ItemAdapter(requireActivity(), filteredList);
+//        .setAdapter(adapter);
+
+//        itemArray.itemList.clear();
+//        itemArray.itemList.addAll(filteredList);
+
+//            adapter = new ArrayAdapter<Item>(this, android.R.layou);
+//        adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1 , filteredList);
+//        listView.setAdapter(adapter);
+
+////        FirebaseListOptions<Item> options = new FirebaseListOptions.Builder
+//        FirebaseListOptions<Item> options = new FirebaseListOptions.Builder<Item>()
+//                .setQuery(FirebaseDatabase.getInstance().getReference().child("AllItemList")
+//                        .orderByChild("name"), Item.class)
+//                .build();
+//
+////        ItemAdapter<Item> adapter1 = new ItemAdapter(options);
+//
+//        FirebaseListAdapter<Item> newadapter= new FirebaseListAdapter<Item>(options) {
+//            @Override
+//            protected void populateView(@NonNull View v, @NonNull Item model, int position) {
+//                Toast.makeText(getActivity().getApplicationContext(), model.getName(), Toast.LENGTH_SHORT).show();
+//            }
+//        };
+//        listView.setAdapter(newadapter);
+
+>>>>>>> Fardin
     }
 
     @Override
