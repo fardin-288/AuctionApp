@@ -131,7 +131,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onFailure(Exception e) {
                 // Handle the error if the file download fails
-                Toast.makeText(getActivity(), "ImageFailed To Load", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "ImageFailed To Load", Toast.LENGTH_SHORT).show();
             }
         });
     }

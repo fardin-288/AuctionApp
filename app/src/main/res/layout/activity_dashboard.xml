@@ -35,7 +35,6 @@
         app:menu="@menu/navigation_bar"
         app:labelVisibilityMode="unlabeled"
         app:itemRippleColor="@color/transparent"
-        android:background="@color/transparent"
         app:itemIconTint="@drawable/item_selector"/>
 
     <FrameLayout

@@ -153,12 +153,12 @@
                                 <Button
                                     android:id="@+id/register_button"
                                     android:layout_width="match_parent"
-                                    android:layout_height="45dp"
+                                    android:layout_height="50dp"
                                     android:layout_marginTop="25dp"
-                                    android:background="@drawable/explore_btn"
                                     android:gravity="center"
                                     android:text="Create Account"
                                     android:textColor="@color/white"
+                                    android:backgroundTint="@color/explorePurple"
                                     android:textSize="18dp"
                                     android:textStyle="bold" />
 

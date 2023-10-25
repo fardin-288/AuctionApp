@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.AuctionApp" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Base.Theme.AuctionApp" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorButtonNormal">@color/explorePurple</item>
 
     </style>

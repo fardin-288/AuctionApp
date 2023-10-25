@@ -229,6 +229,22 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     }
 
 
+//    private void removebuttonwork(final int position){
+//
+//        FirebaseAuth auth = FirebaseAuth.getInstance();
+//        FirebaseUser user = auth.getCurrentUser();
+//
+//        if(Objects.equals(getItem(position).getOwnerID(), user.getUid())){
+//            itemArray.itemList.get(position).removeFromDatabase();
+//            itemArray.itemList.remove(position);
+//            Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
+//        }else{
+//            Toast.makeText(getContext(), "not owner", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        notifyDataSetChanged();
+//    }
+
     private void showChangePriceDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("Change Price");
