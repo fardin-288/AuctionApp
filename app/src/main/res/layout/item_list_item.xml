@@ -3,7 +3,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="16dp">
 
 <!--    <ImageView-->
 <!--        android:id="@+id/itemImageView"-->
@@ -15,45 +16,92 @@
 
     <ImageView
         android:id="@+id/itemImageView"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/splash" />
+        android:src="@drawable/cat"
+        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/itemNameTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/profilePurple"
         android:text="Item Name"
-        android:textSize="18sp"
-        />
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/itemDescriptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Item Description"
         android:textSize="14sp"
         />
 
     <TextView
         android:id="@+id/itemPriceTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="288dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Price: $0.00"
-        android:textSize="16sp"
-        />
+        android:textColor="@color/priceOrange"
+        android:textSize="16sp" />
+
     <TextView
         android:id="@+id/itemTimeRemaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Price: $0.00"
+        android:layout_marginTop="10dp"
+        android:text="time"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/itemcurrentWinnerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/light_green"
+        android:text="Name Hidden"
         android:textSize="16sp"
         />
 
-    <Button
-        android:id="@+id/changePriceButton"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/itemCategoryTextView"
+        android:layout_width="154dp"
         android:layout_height="wrap_content"
-        android:text="Change Price" />
+        android:layout_marginTop="10dp"
+        android:text="TextView" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+
+        android:orientation="horizontal" >
+
+
+        <Button
+            android:id="@+id/changePriceButton"
+            android:layout_margin="5dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/profilePurple"
+            android:text="Change Price" />
+
+        <Button
+            android:id="@+id/removeItemButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/profilePurple"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:text="remove" />
+    </LinearLayout>
+
 </LinearLayout>

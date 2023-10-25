@@ -3,6 +3,8 @@ package com.example.auctionapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.example.auctionapp.R;
 import com.example.auctionapp.databinding.ActivityDashboardBinding;
 
@@ -15,6 +17,12 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //setting current user and data user
+        UserArray.getCurrentUser();
+        UserArray.RetrieveFromDatabaseWinSoldItems();
+
+        Log.d("user nameee", UserArray.currentUser.name);
 
         // Set the initial fragment
         replaceFragment(new HomeFragment());

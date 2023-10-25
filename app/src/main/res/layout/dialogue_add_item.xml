@@ -1,35 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <!-- dialog_add_item.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="30dp"
+    android:layout_marginTop="20dp">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Enter Your Product Details"
+        android:textColor="@color/profilePurple"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:gravity="center"/>
 
     <EditText
+        android:layout_marginTop="30dp"
         android:id="@+id/editTextItemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
         android:hint="Enter Item Name" />
 
     <EditText
         android:id="@+id/editStartingPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="5dp"
+        android:inputType="number"
         android:hint="Enter Starting Price" />
 
     <EditText
         android:id="@+id/editDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
         android:hint="Enter Description" />
+
+    <!-- Horizontal LinearLayout for Time -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="14dp">
+
+        <EditText
+
+            android:id="@+id/editAuctionDays"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:hint="Days"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/editAuctionHours"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="Hours"
+            android:layout_marginStart="2dp"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/editAuctionMinutes"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="Minutes"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="14dp"
+            android:inputType="numberDecimal" />
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/spinnerCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="14dp"/>
+
+    <TextView
+        android:id="@+id/spinnerCategoryTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/buttonUploadPicture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Upload Picture" />
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/profilePurple"
+        android:gravity="center"
+        android:text="Upload Picture"
+        android:textSize="18dp" />
+
+    <ImageView
+        android:id="@+id/productImgView"
+        android:layout_width="404dp"
+        android:layout_height="352dp"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
-
-
