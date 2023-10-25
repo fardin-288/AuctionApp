@@ -13,7 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AuctionApp">
-        <activity android:name=".DashboardActivity"/>
+        <activity
+            android:name=".DashboardActivity"
+            android:windowSoftInputMode="adjustPan"
+        />
         <activity android:name=".about_us_class"/>
         <activity android:name=".forgotPasswordActivity"/>
         <activity android:name=".loginActivity" />

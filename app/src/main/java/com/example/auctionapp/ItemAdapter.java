@@ -61,6 +61,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             convertView = LayoutInflater.from(activity).inflate(R.layout.item_list_item, parent, false);
         }
 
+        if(position >= itemArray.itemList.size()){
+            return  convertView;
+        }
 
         Item item = itemArray.itemList.get(position);
 
@@ -81,8 +84,8 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         itemNameTextView.setText(item.getName());
         itemDescriptionTextView.setText(item.getDescription());
-        itemPriceTextView.setText(String.format(Locale.US, "%s", item.getCurrentPrice()));
-        itemTimeRemaining.setText(String.format(Locale.US,"Time %s",timeInStandardFormat  ));
+        itemPriceTextView.setText(String.format(Locale.US, "Current Bid: %s", item.getCurrentPrice()));
+        itemTimeRemaining.setText(String.format(Locale.US,"Time : %s",timeInStandardFormat  ));
         itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
         itemCategoryTextView.setText(String.format("Category : %s" ,itemArray.categoryString[item.getCategory()]));
 

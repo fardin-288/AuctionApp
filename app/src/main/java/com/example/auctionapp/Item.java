@@ -307,7 +307,7 @@ class itemArray{
             formattedTime.append("Less than a minute");
         } else {
             // Remove the trailing ", " if present
-            formattedTime.setLength(formattedTime.length() - 2);
+            formattedTime.setLength(formattedTime.length());
         }
 
         return formattedTime.toString();
