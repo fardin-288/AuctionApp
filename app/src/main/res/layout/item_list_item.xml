@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="16dp">
+    android:layout_margin="10dp"
+    android:background="@drawable/custom_border">
 
 <!--    <ImageView-->
 <!--        android:id="@+id/itemImageView"-->
@@ -18,9 +19,9 @@
         android:id="@+id/itemImageView"
         android:layout_width="350dp"
         android:layout_height="350dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:src="@drawable/cat"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
     <TextView
         android:id="@+id/itemNameTextView"
@@ -39,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="4dp"
         android:text="Item Description"
         android:textSize="14sp"
         />
@@ -48,6 +50,7 @@
         android:layout_width="288dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="4dp"
         android:text="Price: $0.00"
         android:textColor="@color/priceOrange"
         android:textSize="16sp" />
@@ -56,6 +59,7 @@
         android:id="@+id/itemTimeRemaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="10dp"
         android:text="time"
         android:textSize="16sp" />
@@ -63,6 +67,7 @@
         android:id="@+id/itemcurrentWinnerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="10dp"
         android:textColor="@color/light_green"
         android:text="Name Hidden"
@@ -73,6 +78,7 @@
         android:id="@+id/itemCategoryTextView"
         android:layout_width="154dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="10dp"
         android:text="TextView" />
 
