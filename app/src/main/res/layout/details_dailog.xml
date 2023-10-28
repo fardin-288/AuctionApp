@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="25dp"
     android:layout_margin="5dp">
 
     <!-- Custom dialog content, such as TextViews, ImageViews, Buttons, etc. -->
@@ -22,9 +22,11 @@
         android:layout_below="@+id/dialogImage"/>
 
     <Button
+        android:layout_marginTop="20dp"
         android:id="@+id/dialogButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="OK"
+        android:backgroundTint="@color/profilePurple"
         android:layout_below="@+id/dialogText"/>
 </LinearLayout>
