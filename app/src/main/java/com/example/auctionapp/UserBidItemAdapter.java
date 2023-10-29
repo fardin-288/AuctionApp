@@ -74,7 +74,7 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
         }
 
         if(Objects.equals(item.getCurrentWinner(), UserArray.currentUser.getKey())){
-            convertView.setBackgroundColor(Color.parseColor("green"));
+            convertView.setBackgroundColor(Color.parseColor("#9AF78D"));
         }else{
             convertView.setBackgroundColor(Color.parseColor("red"));
         }
