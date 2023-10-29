@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- item_list_item.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="10dp"
-    android:background="@drawable/custom_border">
+    >
 
 <!--    <ImageView-->
 <!--        android:id="@+id/itemImageView"-->
@@ -15,99 +16,113 @@
 <!--&lt;!&ndash;        android:src="@drawable/placeholder_image" &lt;!&ndash; Default image or placeholder &ndash;&gt;&ndash;&gt;-->
 <!--    />-->
 
-    <ImageView
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:cardCornerRadius="8dp"-->
+<!--        app:cardElevation="13dp"-->
+<!--        app:cardUseCompatPadding="true">-->
+
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/itemImageView"
-        android:layout_width="350dp"
-        android:layout_height="350dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
         android:scaleType="fitXY"
         android:src="@drawable/cat"
-        android:layout_gravity="center" />
+        app:shapeAppearanceOverlay="@style/rectangle" />
 
     <TextView
-        android:id="@+id/itemNameTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@color/profilePurple"
-        android:text="Item Name"
-        android:textColor="@color/white"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/itemDescriptionTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="4dp"
-        android:text="Item Description"
-        android:textSize="14sp"
-        />
-
-    <TextView
-        android:id="@+id/itemPriceTextView"
-        android:layout_width="288dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="4dp"
-        android:text="Price: $0.00"
-        android:textColor="@color/priceOrange"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/itemTimeRemaining"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="10dp"
-        android:text="time"
-        android:textSize="16sp" />
-    <TextView
-        android:id="@+id/itemcurrentWinnerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/light_green"
-        android:text="Name Hidden"
-        android:textSize="16sp"
-        />
-
-    <TextView
-        android:id="@+id/itemCategoryTextView"
-        android:layout_width="154dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="10dp"
-        android:text="TextView" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-
-        android:orientation="horizontal" >
-
-
-        <Button
-            android:id="@+id/changePriceButton"
-            android:layout_margin="5dp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:id="@+id/itemNameTextView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/profilePurple"
-            android:text="Change Price" />
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Item Name"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/removeItemButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/profilePurple"
-            android:layout_margin="5dp"
+        <TextView
+            android:id="@+id/itemDescriptionTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="remove" />
-    </LinearLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:text="Item Description"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/itemPriceTextView"
+            android:layout_width="288dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:text="Price: $0.00"
+            android:textColor="@color/priceOrange"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/itemTimeRemaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:text="time"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/itemcurrentWinnerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:text="Name Hidden"
+            android:textColor="@color/light_green"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/itemCategoryTextView"
+            android:layout_width="154dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:text="TextView" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/changePriceButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/profilePurple"
+                android:text="Change Price" />
+
+            <Button
+                android:id="@+id/removeItemButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/profilePurple"
+                android:text="remove" />
+        </LinearLayout>
+
+<!--    </androidx.cardview.widget.CardView>-->
+
 
 </LinearLayout>

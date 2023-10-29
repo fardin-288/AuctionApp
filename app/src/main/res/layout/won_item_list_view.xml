@@ -25,8 +25,8 @@
                 android:id="@+id/item_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="11dp"
                 android:layout_marginEnd="16dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -35,11 +35,11 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_marginTop="10dp"
                 android:id="@+id/item_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -64,17 +64,16 @@
                     android:layout_height="wrap_content"
                     android:text="Price:"
                     android:textColor="@color/profilePurple"
-                    android:textStyle="bold"
                     android:textSize="15sp"
-                    />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/item_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/priceOrange"/>
+                    android:textColor="@color/priceOrange"
+                    android:textSize="15sp" />
             </LinearLayout>
 
 
@@ -108,7 +107,6 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,45 +124,42 @@
                     android:layout_height="wrap_content"
                     android:text="Seller Email:"
                     android:textColor="@color/profilePurple"
-                    android:textStyle="bold"
                     android:textSize="15sp"
-                    />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/sellerEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:textSize="15sp"
-                    />
+                    android:textSize="15sp" />
             </LinearLayout>
 
-<!--            <TextView-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:id="@+id/sellerName"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="16dp"-->
-<!--                android:layout_marginEnd="16dp"-->
-<!--                android:textSize="18sp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/item_price" />-->
+            <!--            <TextView-->
+            <!--                android:layout_marginTop="10dp"-->
+            <!--                android:id="@+id/sellerName"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="16dp"-->
+            <!--                android:layout_marginEnd="16dp"-->
+            <!--                android:textSize="18sp"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/item_price" />-->
 
-<!--            <TextView-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:id="@+id/sellerEmail"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="16dp"-->
-<!--                android:layout_marginEnd="16dp"-->
-<!--                android:textSize="18sp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/sellerName"/>-->
+            <!--            <TextView-->
+            <!--                android:layout_marginTop="10dp"-->
+            <!--                android:id="@+id/sellerEmail"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="16dp"-->
+            <!--                android:layout_marginEnd="16dp"-->
+            <!--                android:textSize="18sp"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/sellerName"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     </androidx.cardview.widget.CardView>
