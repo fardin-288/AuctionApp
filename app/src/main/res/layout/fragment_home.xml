@@ -21,7 +21,7 @@
         <SearchView
             android:id="@+id/HomeSearchViewId"
             android:layout_width="328dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:background="@drawable/search_bar"
             android:drawableStart="@drawable/searchicon"
             android:drawablePadding="8dp"

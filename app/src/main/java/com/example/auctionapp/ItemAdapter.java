@@ -84,10 +84,10 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         itemNameTextView.setText(item.getName());
         itemDescriptionTextView.setText(item.getDescription());
-        itemPriceTextView.setText(String.format(Locale.US, "Current Bid: %s", item.getCurrentPrice()));
-        itemTimeRemaining.setText(String.format(Locale.US,"Time : %s",timeInStandardFormat  ));
-        itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
-        itemCategoryTextView.setText(String.format("Category : %s" ,itemArray.categoryString[item.getCategory()]));
+        itemPriceTextView.setText(String.format(Locale.US, "%s", item.getCurrentPrice()));
+        itemTimeRemaining.setText(String.format(Locale.US,"%s",timeInStandardFormat  ));
+        itemcurrentWinnerName.setText(String.format(Locale.US,"%s", item.getCurrentWinnerName()));
+        itemCategoryTextView.setText(String.format("%s" ,itemArray.categoryString[item.getCategory()]));
 
 
 
