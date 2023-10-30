@@ -250,7 +250,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
     private void showChangePriceDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Change Price");
+        //builder.setTitle("Change Price");
 
         // Set up the layout for the dialog
         View viewInflated = LayoutInflater.from(activity).inflate(R.layout.dialog_change_price, null);

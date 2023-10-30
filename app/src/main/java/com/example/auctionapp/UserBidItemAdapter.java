@@ -93,10 +93,10 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
         long TimeRemainingInSeconds = item.getRemainingTime();
         String timeInStandardFormat = itemArray.TimeSecondToStandardStringFormat(TimeRemainingInSeconds);
 
-        itemPriceTextView.setText(String.format(Locale.US, "Tk%.2f", item.getCurrentPrice()));
-        itemTimeRemaining.setText(String.format(Locale.US,"Time %s", timeInStandardFormat ));
-        itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
-        itemCategoryTextView.setText(String.format("Category : %s" ,itemArray.categoryString[item.getCategory()]));
+        itemPriceTextView.setText(String.format(Locale.US, "%.2f", item.getCurrentPrice()));
+        itemTimeRemaining.setText(String.format(Locale.US,"%s", timeInStandardFormat ));
+        itemcurrentWinnerName.setText(String.format(Locale.US,"%s", item.getCurrentWinnerName()));
+        itemCategoryTextView.setText(String.format("%s" ,itemArray.categoryString[item.getCategory()]));
 
 
 
@@ -234,7 +234,7 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
 
     private void showChangePriceDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Change Price");
+        //builder.setTitle("Change Price");
 
         // Set up the layout for the dialog
         View viewInflated = LayoutInflater.from(activity).inflate(R.layout.dialog_change_price, null);

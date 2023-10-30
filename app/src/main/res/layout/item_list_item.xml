@@ -7,6 +7,7 @@
     android:background="@color/lightblue">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="8dp"
@@ -189,7 +190,7 @@
                     android:layout_height="wrap_content"
                     android:text="Fardin Faiyaz"
                     android:layout_marginStart="10dp"
-                    android:textColor="@color/colorGreen"
+                    android:textColor="#4CBB17"
                     android:textSize="14dp"
                     />
 
@@ -272,11 +273,54 @@
 <!--                    android:text="Remove" />-->
 <!--            </LinearLayout>-->
 
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+
+<!--                android:orientation="horizontal">-->
+
+
+<!--                <Button-->
+<!--                    android:id="@+id/changePriceButton"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:backgroundTint="@color/profilePurple"-->
+<!--                    android:text="Change Bid" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/removeItemButton"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:backgroundTint="@color/profilePurple"-->
+<!--                    android:text="Remove" />-->
+<!--            </LinearLayout>-->
+
+
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
 
                 <Button
@@ -298,8 +342,7 @@
                     android:text="Remove" />
             </LinearLayout>
 
-        </LinearLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
