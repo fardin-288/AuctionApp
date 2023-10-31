@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
 
     void showAddItemDialog(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Add Item");
+//        builder.setTitle("Add Item");
 
         // Set up the layout for the dialog
         View viewInflated = LayoutInflater.from(context).inflate(R.layout.dialogue_add_item, null);
@@ -108,11 +108,21 @@ public class HomeFragment extends Fragment {
                 Float itemPriceFloat = Float.valueOf(itemPriceString);
                 String itemDescription = itemDescriptionText.getText().toString();
 
-                int itemAuctionDaysTime = Integer.parseInt(itemAuctionDaysTimeEditText.getText().toString());
-                int itemAuctionHoursTime = Integer.parseInt(itemAuctionHoursTimeEditText.getText().toString());
-                int itemAuctionMinutesTime = Integer.parseInt(itemAuctionMinutesTimeEditText.getText().toString());
+                int itemAuctionDaysTime = 0;
+                int itemAuctionHoursTime = 0;
+                int itemAuctionMinutesTime = 0;
 
-                long itemAuctionTimeTotalInSeconds = itemAuctionDaysTime*24*60*60 + itemAuctionHoursTime*60*60 + itemAuctionMinutesTime*60;
+                if(!itemAuctionDaysTimeEditText.getText().toString().isEmpty()){
+                    itemAuctionDaysTime = Integer.parseInt(itemAuctionDaysTimeEditText.getText().toString());
+                }
+                if(!itemAuctionHoursTimeEditText.getText().toString().isEmpty()){
+                    itemAuctionHoursTime = Integer.parseInt(itemAuctionHoursTimeEditText.getText().toString());
+                }
+                if(!itemAuctionMinutesTimeEditText.getText().toString().isEmpty()){
+                    itemAuctionMinutesTime = Integer.parseInt(itemAuctionMinutesTimeEditText.getText().toString());
+                }
+
+                long itemAuctionTimeTotalInSeconds = (long) itemAuctionDaysTime *24*60*60 + (long) itemAuctionHoursTime *60*60 + itemAuctionMinutesTime* 60L;
 
                 String imguri;
                 long currentTime = System.currentTimeMillis();
