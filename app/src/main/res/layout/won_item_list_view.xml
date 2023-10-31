@@ -67,11 +67,39 @@
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
+<!--                <TextView-->
+<!--                    android:id="@+id/textView6"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:text="৳ "-->
+<!--                    android:textColor="@color/priceOrange"-->
+<!--                    android:textSize="14dp"-->
+<!--                    android:textStyle="bold" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/itemPriceTextView"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="500.00"-->
+<!--                    android:textColor="@color/priceOrange"-->
+<!--                    android:textSize="14dp"-->
+<!--                    />-->
+
+                <TextView
+                    android:id="@+id/price1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="৳ "
+                    android:textColor="@color/priceOrange"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/item_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:textColor="@color/priceOrange"
                     android:textSize="15sp" />
             </LinearLayout>
