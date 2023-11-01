@@ -33,6 +33,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -88,7 +89,9 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
         long TimeRemainingInSeconds = item.getRemainingTime();
         String timeInStandardFormat = itemArray.TimeSecondToStandardStringFormat(TimeRemainingInSeconds);
 
-        itemPriceTextView.setText(String.format(Locale.US, "%.2f", item.getCurrentPrice()));
+        NumberFormat priceFormat = NumberFormat.getNumberInstance(Locale.US);
+
+        itemPriceTextView.setText(String.format(Locale.US, "%s", priceFormat.format(item.getCurrentPrice())));
         itemTimeRemaining.setText(String.format(Locale.US,"%s", timeInStandardFormat ));
         itemcurrentWinnerName.setText(String.format(Locale.US,"%s", item.getCurrentWinnerName()));
         itemCategoryTextView.setText(String.format("%s" ,itemArray.categoryString[item.getCategory()]));

@@ -280,6 +280,7 @@ package com.example.auctionapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -428,14 +429,18 @@ public class ProfileFragment extends Fragment {
         EmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Create an intent with the ACTION_DIAL action and the "tel:" scheme
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse("mailto:faiyaz.res@gmail.com"));
 
-                // Set the phone number to dial
-                emailIntent.setData(Uri.parse("mailto:"));
-                startActivity(emailIntent);
+                try {
+                    startActivity(emailIntent);
+                } catch (ActivityNotFoundException e) {
+                    // Handle the case where no email client is available on the device
+                    Log.e("email error","no email client found");
+                }
             }
         });
+
 
         AboutButton.setOnClickListener(new View.OnClickListener() {
             @Override

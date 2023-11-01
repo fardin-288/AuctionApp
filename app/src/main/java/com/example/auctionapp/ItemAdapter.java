@@ -32,6 +32,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -82,9 +83,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         long TimeRemainingInSeconds = item.getRemainingTime();
         String timeInStandardFormat = itemArray.TimeSecondToStandardStringFormat(TimeRemainingInSeconds);
 
+        NumberFormat priceFormat = NumberFormat.getNumberInstance(Locale.US);
+
         itemNameTextView.setText(item.getName());
         itemDescriptionTextView.setText(item.getDescription());
-        itemPriceTextView.setText(String.format(Locale.US, "%s", item.getCurrentPrice()));
+        itemPriceTextView.setText(String.format(Locale.US, "%s", priceFormat.format(item.getCurrentPrice())));
         itemTimeRemaining.setText(String.format(Locale.US,"%s",timeInStandardFormat  ));
         itemcurrentWinnerName.setText(String.format(Locale.US,"%s", item.getCurrentWinnerName()));
         itemCategoryTextView.setText(String.format("%s" ,itemArray.categoryString[item.getCategory()]));
@@ -235,7 +238,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        if (Objects.equals(getItem(position).getOwnerID(), user.getUid())) {
+        if (Objects.equals(getItem(position).getOwnerID(), user.getUid()) || Objects.equals(user.getEmail(), "fardin@gmail.com")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle("Confirm Removal");
             builder.setMessage("Are you sure you want to remove this item?");
