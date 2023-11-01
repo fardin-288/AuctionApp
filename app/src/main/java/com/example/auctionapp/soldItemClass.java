@@ -24,12 +24,10 @@ public class soldItemClass extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sold_item_list_view); // Replace 'your_layout' with the layout XML file name
 
-        UserArray.RetrieveFromDatabaseSoldItemOfUser();
-
         soldItemRecycleView = findViewById(R.id.soldItemRecycleView);
         soldItemRecycleView.setLayoutManager(new LinearLayoutManager(this)); // Pass the context as an argument
 
-//        Log.d("map size",UserArray.currentUser.getFirebaseUserid()+"");
+        UserArray.RetrieveFromDatabaseSoldItemOfUser();
         userSoldItemAdapter = new UserSoldItemAdapter(UserArray.UserSoldItemMap);
         soldItemRecycleView.setAdapter(userSoldItemAdapter);
 

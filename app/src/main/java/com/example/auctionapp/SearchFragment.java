@@ -99,7 +99,6 @@ class BidItemRefreshClass {
 
                                 // Notify the adapter that the data has changed for visible items
                                 SearchFragment.adapter.notifyDataSetChanged();
-                                Log.d("brusilov","change");
                             }
                         });
 

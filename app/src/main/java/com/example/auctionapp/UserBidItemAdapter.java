@@ -50,11 +50,6 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
 //        this.itemList = itemList;
     }
 
-    public void addDataFromFirebase()
-    {
-
-    }
-
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -110,7 +105,7 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
         // Check if the local file exists
         localFile = new File(getContext().getFilesDir(), fileKey);
 
-        if (localFile.exists()) {
+        if (false) {
             // If the local file exists, load it using Picasso or Glide
             Picasso.get().load(localFile).into(itemImageView);
             // Alternatively, use Glide
@@ -194,11 +189,41 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
         StorageReference storageRef = storage.getReference("Upload");
         final StorageReference fileRef = storageRef.child(fileKey);
 
-        File tempLocalFile = new File(getContext().getFilesDir(), item.getItemKey());
-        Picasso.get().load(tempLocalFile).into(dialogImage);
+        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Load the image using Picasso or Glide
+                Picasso.get().load(uri).into(dialogImage);
+                // Alternatively, use Glide
+                // Glide.with(getContext().getApplicationContext()).load(uri).into(itemImageView);
 
+                // Download the image to local storage
+                downloadImageToLocal(fileRef, localFile);
+            }
 
-        dialogText.setText(item.getDescription());
+            private void downloadImageToLocal(StorageReference fileRef, final File localFile) {
+                fileRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        // File downloaded successfully to local storage
+//                            Toast.makeText(getContext(), "Image Downloaded" + localFile.getName(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure( Exception exception) {
+                        // Handle the error if the file download fails
+//                            Toast.makeText(getContext(), "Image Download Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        });
+
+//        File tempLocalFile = new File(getContext().getFilesDir(), fileKey);
+//        Picasso.get().load(tempLocalFile).into(dialogImage);
+
+        dialogText.setText(item.getName());
         AlertDialog dialog = dialogBuilder.create();
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
