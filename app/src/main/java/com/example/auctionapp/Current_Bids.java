@@ -2,20 +2,15 @@ package com.example.auctionapp;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-public class SearchFragment extends Fragment {
+public class Current_Bids extends Fragment {
     public static UserBidItemAdapter adapter;
     public static ListView userCurrentBidItemRecyclerView;
     private View rootView;
@@ -79,8 +74,8 @@ class BidItemRefreshClass {
                                 UserBidItemsCurrent.RetrieveUserCurrentBidItemFromDatabase();
                                 if(UserBidItemsCurrent.UserCurrentBidItemList.size() == 0)return;
 
-                                int firstVisiblePosition = SearchFragment.userCurrentBidItemRecyclerView.getFirstVisiblePosition();
-                                int lastVisiblePosition = SearchFragment.userCurrentBidItemRecyclerView.getLastVisiblePosition();
+                                int firstVisiblePosition = Current_Bids.userCurrentBidItemRecyclerView.getFirstVisiblePosition();
+                                int lastVisiblePosition = Current_Bids.userCurrentBidItemRecyclerView.getLastVisiblePosition();
 
                                 // Iterate through visible items and update their data
                                 for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
@@ -89,7 +84,7 @@ class BidItemRefreshClass {
 //                                    if(i >= UserBidItemsCurrent.UserCurrentBidItemList.size() || UserBidItemsCurrent.UserCurrentBidItemList.size() == 0){
 //                                        break;
 //                                    }
-                                    Item item = SearchFragment.adapter.getItem(i);
+                                    Item item = Current_Bids.adapter.getItem(i);
 //                                    item.RetrieveItemPriceFromDatabase();
 
 //                                    Item refreshedItem = UserBidItemsCurrent.RefreshUserCurrentBidItemInfoFromItemListDatabase(item);
@@ -97,8 +92,12 @@ class BidItemRefreshClass {
                                     UserBidItemsCurrent.updateItemToCurrentBidItemListDatabase(item);
                                 }
 
+                                //last Item flicking error
+                                Item item = Current_Bids.adapter.getItem(UserBidItemsCurrent.UserCurrentBidItemList.size()-1);
+                                UserBidItemsCurrent.updateItemToCurrentBidItemListDatabase(item);
+
                                 // Notify the adapter that the data has changed for visible items
-                                SearchFragment.adapter.notifyDataSetChanged();
+                                Current_Bids.adapter.notifyDataSetChanged();
                             }
                         });
 
