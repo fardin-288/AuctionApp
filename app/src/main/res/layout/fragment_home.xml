@@ -1,40 +1,412 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/searchgray"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HomeFragment"
-    android:layout_margin="20dp">
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnAddItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Add Item" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="356dp"
+        android:layout_height="113dp"
+        android:layout_margin="35dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <SearchView
-        android:id="@+id/HomeSearchViewId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnAddItem"
-        android:layout_marginTop="10dp"
-        android:queryHint="Enter a product name" />
+        <SearchView
+            android:id="@+id/HomeSearchViewId"
+            android:layout_width="328dp"
+            android:layout_height="45dp"
+            android:background="@drawable/search_bar"
+            android:drawableStart="@drawable/searchicon"
+            android:drawablePadding="8dp"
+            android:ems="10"
+            android:queryHint="Search anything"
+            android:inputType="text"
+            android:padding="11dp"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Wrap your existing ListView with SwipeRefreshLayout -->
+        <Button
+            android:id="@+id/btnAddItem"
+            android:layout_width="328dp"
+            android:layout_height="50dp"
+            android:textSize="18dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/profilePurple"
+            android:text="Add Item"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/HomeSearchViewId" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/HomeSearchViewId">
+        android:layout_width="344dp"
+        android:layout_height="520dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.428">
 
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/dashboardRecycleView"-->
+<!--            android:layout_width="400dp"-->
+<!--            android:layout_height="621dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.454"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.718" />-->
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:background="@color/searchgray"-->
+    <!--    android:id="@+id/layout"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent">-->
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/constraintLayout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_margin="35dp"-->
+    <!--        android:layout_marginStart="35dp"-->
+    <!--        android:layout_marginTop="35dp"-->
+    <!--        android:layout_marginEnd="35dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/HomeSearchViewId"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@drawable/search_bar"-->
+    <!--            android:drawableStart="@drawable/searchicon"-->
+    <!--            android:drawablePadding="8dp"-->
+    <!--            android:ems="10"-->
+    <!--            android:hint="Search anything"-->
+    <!--            android:inputType="text"-->
+    <!--            android:padding="11dp"-->
+    <!--            android:textSize="12sp"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/btnAddItem"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="16dp"-->
+    <!--            android:backgroundTint="@color/explorePurple"-->
+    <!--            android:text="Add Item"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/HomeSearchViewId" />-->
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!--&lt;!&ndash;    <androidx.constraintlayout.widget.ConstraintLayout&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:id="@+id/constraintLayout1"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:layout_width="330dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:layout_height="511dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:layout_margin="35dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;        tools:layout_editor_absoluteX="88dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;        tools:layout_editor_absoluteY="185dp">&ndash;&gt;-->
+
+
+    <!--        &lt;!&ndash; Wrap your existing ListView with SwipeRefreshLayout &ndash;&gt;-->
+    <!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+    <!--        android:id="@+id/swipeRefreshLayout"-->
+    <!--        android:layout_width="370dp"-->
+    <!--        android:layout_height="513dp"-->
+    <!--        android:layout_below="@+id/btnAddItem"-->
+    <!--        android:layout_marginTop="192dp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--        <ListView-->
+    <!--            android:id="@+id/listView"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent" />-->
+    <!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
+    <!--&lt;!&ndash;    </androidx.constraintlayout.widget.ConstraintLayout>&ndash;&gt;-->
+
+
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    tools:context=".HomeFragment"-->
+    <!--    android:layout_margin="20dp">-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btnAddItem"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="10dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginEnd="10dp"-->
+    <!--        android:layout_marginBottom="10dp"-->
+    <!--        android:text="Add Item" />-->
+
+    <!--    <SearchView-->
+    <!--        android:id="@+id/HomeSearchViewId"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@+id/btnAddItem"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:queryHint="Enter a product name" />-->
+
+    <!--    &lt;!&ndash; Wrap your existing ListView with SwipeRefreshLayout &ndash;&gt;-->
+    <!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+    <!--        android:id="@+id/swipeRefreshLayout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_below="@+id/HomeSearchViewId">-->
+
+    <!--        <ListView-->
+    <!--            android:id="@+id/listView"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent" />-->
+    <!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+    <!--</RelativeLayout>-->
+
+
+
+
+
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:background="@color/searchgray"-->
+<!--    android:id="@+id/layout"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/constraintLayout"-->
+<!--        android:layout_width="356dp"-->
+<!--        android:layout_height="113dp"-->
+<!--        android:layout_margin="35dp"-->
+<!--        android:layout_marginStart="35dp"-->
+<!--        android:layout_marginTop="35dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--        <SearchView-->
+<!--            android:id="@+id/HomeSearchViewId"-->
+<!--            android:layout_width="328dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@drawable/search_bar"-->
+<!--            android:drawableStart="@drawable/searchicon"-->
+<!--            android:drawablePadding="8dp"-->
+<!--            android:ems="10"-->
+<!--            android:queryHint="Search anything"-->
+<!--            android:inputType="text"-->
+<!--            android:padding="11dp"-->
+<!--            android:textSize="12sp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btnAddItem"-->
+<!--            android:layout_width="328dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:textSize="18dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:backgroundTint="@color/profilePurple"-->
+<!--            android:text="Add Item"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/HomeSearchViewId" />-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--        android:id="@+id/swipeRefreshLayout"-->
+<!--        android:layout_width="344dp"-->
+<!--        android:layout_height="520dp"-->
+<!--        android:layout_marginStart="50dp"-->
+<!--        android:layout_marginEnd="50dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.487"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"-->
+<!--        app:layout_constraintVertical_bias="0.428">-->
+
+<!--        <ListView-->
+<!--            android:id="@+id/listView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent" />-->
+
+<!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:background="@color/searchgray"-->
+<!--    android:id="@+id/layout"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/constraintLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="35dp"-->
+<!--        android:layout_marginStart="35dp"-->
+<!--        android:layout_marginTop="35dp"-->
+<!--        android:layout_marginEnd="35dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/HomeSearchViewId"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/search_bar"-->
+<!--            android:drawableStart="@drawable/searchicon"-->
+<!--            android:drawablePadding="8dp"-->
+<!--            android:ems="10"-->
+<!--            android:hint="Search anything"-->
+<!--            android:inputType="text"-->
+<!--            android:padding="11dp"-->
+<!--            android:textSize="12sp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btnAddItem"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:backgroundTint="@color/explorePurple"-->
+<!--            android:text="Add Item"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/HomeSearchViewId" />-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--&lt;!&ndash;    <androidx.constraintlayout.widget.ConstraintLayout&ndash;&gt;-->
+<!--&lt;!&ndash;        android:id="@+id/constraintLayout1"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_width="330dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_height="511dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_margin="35dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        tools:layout_editor_absoluteX="88dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        tools:layout_editor_absoluteY="185dp">&ndash;&gt;-->
+
+
+<!--        &lt;!&ndash; Wrap your existing ListView with SwipeRefreshLayout &ndash;&gt;-->
+<!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--        android:id="@+id/swipeRefreshLayout"-->
+<!--        android:layout_width="370dp"-->
+<!--        android:layout_height="513dp"-->
+<!--        android:layout_below="@+id/btnAddItem"-->
+<!--        android:layout_marginTop="192dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--        <ListView-->
+<!--            android:id="@+id/listView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent" />-->
+<!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
+<!--&lt;!&ndash;    </androidx.constraintlayout.widget.ConstraintLayout>&ndash;&gt;-->
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".HomeFragment"-->
+<!--    android:layout_margin="20dp">-->
+
+<!--    <Button-->
+<!--        android:id="@+id/btnAddItem"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginEnd="10dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:text="Add Item" />-->
+
+<!--    <SearchView-->
+<!--        android:id="@+id/HomeSearchViewId"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/btnAddItem"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:queryHint="Enter a product name" />-->
+
+<!--    &lt;!&ndash; Wrap your existing ListView with SwipeRefreshLayout &ndash;&gt;-->
+<!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--        android:id="@+id/swipeRefreshLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_below="@+id/HomeSearchViewId">-->
+
+<!--        <ListView-->
+<!--            android:id="@+id/listView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent" />-->
+<!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+<!--</RelativeLayout>-->
+
+
+
+
+

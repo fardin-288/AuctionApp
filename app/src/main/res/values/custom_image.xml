@@ -3,4 +3,8 @@
     <style name="circular">
         <item name="cornerSize"> 50% </item>
     </style>
+
+    <style name="rectangle">
+        <item name="cornerSize"> 8% </item>
+    </style>
 </resources>

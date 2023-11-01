@@ -61,6 +61,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             convertView = LayoutInflater.from(activity).inflate(R.layout.item_list_item, parent, false);
         }
 
+        if(position >= itemArray.itemList.size()){
+            return  convertView;
+        }
 
         Item item = itemArray.itemList.get(position);
 
@@ -74,44 +77,17 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         TextView itemTimeRemaining = convertView.findViewById(R.id.itemTimeRemaining);
         TextView itemcurrentWinnerName = convertView.findViewById(R.id.itemcurrentWinnerName);
         TextView itemCategoryTextView = convertView.findViewById(R.id.itemCategoryTextView);
-<<<<<<< HEAD
 
 
         long TimeRemainingInSeconds = item.getRemainingTime();
         String timeInStandardFormat = itemArray.TimeSecondToStandardStringFormat(TimeRemainingInSeconds);
 
-=======
-<<<<<<< HEAD
-=======
-
-        // Set the item's attributes in the views
-//        itemImageView.setImageURI(item.getImgUri());
-//        itemImageView.setImageResource(item.getPictureResource());
->>>>>>> Fardin
->>>>>>> b8c702b0af231d51155376d258a4cb6caaeb685a
         itemNameTextView.setText(item.getName());
         itemDescriptionTextView.setText(item.getDescription());
         itemPriceTextView.setText(String.format(Locale.US, "%s", item.getCurrentPrice()));
-        itemTimeRemaining.setText(String.format(Locale.US,"Time %s",timeInStandardFormat  ));
-        itemcurrentWinnerName.setText(String.format(Locale.US,"Highest Bidder : %s", item.getCurrentWinnerName()));
-        itemCategoryTextView.setText(String.format("Category : %s" ,itemArray.categoryString[item.getCategory()]));
-
-
-
-<<<<<<< HEAD
-=======
-//        String fileKey= item.getItemKey();
-//        FirebaseStorage storage = FirebaseStorage.getInstance();
-//        StorageReference storageRef = storage.getReference("Upload");
-//        StorageReference fileRef = storageRef.child(fileKey);
-//        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Picasso.get().load(uri).into(itemImageView);
-//                Glide.with(getContext().getApplicationContext()).load(uri).into(itemImageView);
-//            }
-//        });
->>>>>>> Fardin
+        itemTimeRemaining.setText(String.format(Locale.US,"%s",timeInStandardFormat  ));
+        itemcurrentWinnerName.setText(String.format(Locale.US,"%s", item.getCurrentWinnerName()));
+        itemCategoryTextView.setText(String.format("%s" ,itemArray.categoryString[item.getCategory()]));
 
 
         String fileKey = item.getItemKey();
@@ -119,15 +95,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         StorageReference storageRef = storage.getReference("Upload");
         final StorageReference fileRef = storageRef.child(fileKey);
 
-<<<<<<< HEAD
         // Check if the local file exists
          localFile = new File(getContext().getFilesDir(), fileKey);
-=======
-// Check if the local file exists
-        File localFile = new File(getContext().getFilesDir(), fileKey);
->>>>>>> Fardin
+//         localFile = null;
 
-        if (localFile.exists()) {
+        if (localFile!=null) {
             // If the local file exists, load it using Picasso or Glide
             Picasso.get().load(localFile).into(itemImageView);
             // Alternatively, use Glide
@@ -144,10 +116,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
                     // Download the image to local storage
                     downloadImageToLocal(fileRef, localFile);
-<<<<<<< HEAD
-
-=======
->>>>>>> Fardin
                 }
 
                 private void downloadImageToLocal(StorageReference fileRef, final File localFile) {
@@ -155,24 +123,23 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                             // File downloaded successfully to local storage
-<<<<<<< HEAD
+//                            Toast.makeText(getContext(), "Image Downloaded" + localFile.getName(), Toast.LENGTH_SHORT).show();
 
-=======
->>>>>>> Fardin
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure( Exception exception) {
                             // Handle the error if the file download fails
+//                            Toast.makeText(getContext(), "Image Download Failed", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
 
             });
+
         }
 
 
-<<<<<<< HEAD
         itemImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,8 +147,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             }
         });
 
-=======
->>>>>>> Fardin
 
         // Changing the Price
         Button changePriceButton = convertView.findViewById(R.id.changePriceButton);
@@ -205,7 +170,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         return convertView;
     }
 
-<<<<<<< HEAD
      void openDialog(Item item) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.details_dailog, null);
@@ -221,11 +185,42 @@ public class ItemAdapter extends ArrayAdapter<Item> {
          StorageReference storageRef = storage.getReference("Upload");
          final StorageReference fileRef = storageRef.child(fileKey);
 
-         File tempLocalFile = new File(getContext().getFilesDir(), item.getItemKey());
-         Picasso.get().load(tempLocalFile).into(dialogImage);
+         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+             @Override
+             public void onSuccess(Uri uri) {
+                 // Load the image using Picasso or Glide
+                 Picasso.get().load(uri).into(dialogImage);
+                 // Alternatively, use Glide
+                 // Glide.with(getContext().getApplicationContext()).load(uri).into(itemImageView);
+
+                 // Download the image to local storage
+                 downloadImageToLocal(fileRef, localFile);
+             }
+
+             private void downloadImageToLocal(StorageReference fileRef, final File localFile) {
+                 fileRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                     @Override
+                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                         // File downloaded successfully to local storage
+//                            Toast.makeText(getContext(), "Image Downloaded" + localFile.getName(), Toast.LENGTH_SHORT).show();
+
+                     }
+                 }).addOnFailureListener(new OnFailureListener() {
+                     @Override
+                     public void onFailure( Exception exception) {
+                         // Handle the error if the file download fails
+//                            Toast.makeText(getContext(), "Image Download Failed", Toast.LENGTH_SHORT).show();
+                     }
+                 });
+             }
+
+         });
+
+//         File tempLocalFile = new File(getContext().getFilesDir(), fileKey);
+//         Picasso.get().load(tempLocalFile).into(dialogImage);
 
 
-        dialogText.setText(item.getDescription());
+        dialogText.setText(item.getName());
          AlertDialog dialog = dialogBuilder.create();
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,14 +231,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         dialog.show();
     }
 
-<<<<<<< HEAD
     private void removebuttonwork(final int position) {
-=======
-=======
->>>>>>> Fardin
-    private void removebuttonwork(final int position){
-
->>>>>>> b8c702b0af231d51155376d258a4cb6caaeb685a
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
@@ -274,26 +262,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         }
     }
 
-
-//    private void removebuttonwork(final int position){
-//
-//        FirebaseAuth auth = FirebaseAuth.getInstance();
-//        FirebaseUser user = auth.getCurrentUser();
-//
-//        if(Objects.equals(getItem(position).getOwnerID(), user.getUid())){
-//            itemArray.itemList.get(position).removeFromDatabase();
-//            itemArray.itemList.remove(position);
-//            Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
-//        }else{
-//            Toast.makeText(getContext(), "not owner", Toast.LENGTH_SHORT).show();
-//        }
-//
-//        notifyDataSetChanged();
-//    }
-
     private void showChangePriceDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Change Price");
+        //builder.setTitle("Change Price");
 
         // Set up the layout for the dialog
         View viewInflated = LayoutInflater.from(activity).inflate(R.layout.dialog_change_price, null);

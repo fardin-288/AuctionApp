@@ -40,7 +40,7 @@ public class DashboardActivity extends AppCompatActivity {
                 replaceFragment(new ProfileFragment());
                 return true;
             } else if (itemId == R.id.search) {
-                replaceFragment(new SearchFragment());
+                replaceFragment(new Current_Bids());
                 return true;
             }
             return false;

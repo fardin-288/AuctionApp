@@ -50,7 +50,6 @@ dependencies {
     implementation ("com.firebaseui:firebase-ui-database:8.0.0")
 
     implementation ("com.airbnb.android:lottie:6.1.0")
-    implementation ("com.google.android.material:material:1.7.0")
 
 
     implementation("com.google.firebase:firebase-database:20.2.2")
@@ -67,6 +66,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
     implementation("com.google.firebase:firebase-auth-ktx:22.1.2")
+//    implementation("com.android.support:support-annotations:28.0.0")
     implementation("com.google.firebase:firebase-storage:20.2.1")
     implementation("com.google.firebase:firebase-database-ktx:20.2.2")
     testImplementation("junit:junit:4.13.2")
