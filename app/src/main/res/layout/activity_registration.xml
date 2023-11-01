@@ -14,15 +14,6 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-                <ImageButton
-                    android:id="@+id/back_image"
-                    android:layout_width="34dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="8dp"
-                    android:src="@drawable/backk"
-                    android:background="@color/searchgray"
-                    />
         </LinearLayout>
 
 
@@ -113,6 +104,18 @@
                                     android:layout_marginTop="25dp"
                                     android:gravity="center"
                                     android:text="Create Account"
+                                    android:textColor="@color/white"
+                                    android:backgroundTint="@color/explorePurple"
+                                    android:textSize="18dp"
+                                    android:textStyle="bold" />
+
+                                <Button
+                                    android:id="@+id/backButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="50dp"
+                                    android:layout_marginTop="25dp"
+                                    android:gravity="center"
+                                    android:text="Go Back"
                                     android:textColor="@color/white"
                                     android:backgroundTint="@color/explorePurple"
                                     android:textSize="18dp"
