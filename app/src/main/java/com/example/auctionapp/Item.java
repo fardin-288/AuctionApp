@@ -213,6 +213,7 @@ public class Item implements Serializable {
     public void winActionAfterTime(){
         //add winner data to Database
 
+        UserArray.RetrieveFromDatabaseSoldItemOfUser(this.getOwnerID());
         UserArray.AddSoldItemToDatabaseOfUser(this);
 
         UserBidItemsCurrent.RetrieveUserCurrentBidItemFromDatabase();
