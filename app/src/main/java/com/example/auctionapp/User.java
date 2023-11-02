@@ -252,7 +252,6 @@ class UserArray{
     }
 
     public static void AddSoldItemToDatabaseOfUser(Item item){
-        RetrieveFromDatabaseSoldItemOfUser(item.getOwnerID());
         UserSoldItemMap.add(item);
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("SellerItemKeyList").child(item.getOwnerID());

@@ -9,7 +9,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/logosplash"
-        android:label="@string/app_name"
+        android:label="Bid Bazaar"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AuctionApp">

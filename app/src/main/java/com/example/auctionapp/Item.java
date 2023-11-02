@@ -212,11 +212,8 @@ public class Item implements Serializable {
 
     public void winActionAfterTime(){
         //add winner data to Database
-//        UserArray.RetrieveFromDatabaseWinSoldItems(this.currentWinner);
-//        UserArray.UserWonItemMap.add(this);
-//        UserArray.AddToDatabaseWinSoldItems(this.currentWinner);
 
-        UserArray.RetrieveFromDatabaseSoldItemOfUser();
+        UserArray.RetrieveFromDatabaseSoldItemOfUser(this.getOwnerID());
         UserArray.AddSoldItemToDatabaseOfUser(this);
 
         UserBidItemsCurrent.RetrieveUserCurrentBidItemFromDatabase();
@@ -227,7 +224,7 @@ public class Item implements Serializable {
         removeItemLocalItemList();
 
         //Restore Database to Current User
-//        UserArray.RetrieveFromDatabaseWinSoldItems();
+        UserArray.RetrieveFromDatabaseWinSoldItems();
     }
 
     public void RetrieveItemPriceFromDatabase() {

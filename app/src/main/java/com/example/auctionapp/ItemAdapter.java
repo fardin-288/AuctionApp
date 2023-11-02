@@ -32,6 +32,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -82,15 +83,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         long TimeRemainingInSeconds = item.getRemainingTime();
         String timeInStandardFormat = itemArray.TimeSecondToStandardStringFormat(TimeRemainingInSeconds);
 
+        NumberFormat priceFormat = NumberFormat.getNumberInstance(Locale.US);
+
         itemNameTextView.setText(item.getName());
         itemDescriptionTextView.setText(item.getDescription());
-        itemPriceTextView.setText(String.format(Locale.US, "%s", item.getCurrentPrice()));
+        itemPriceTextView.setText(String.format(Locale.US, "%s", priceFormat.format(item.getCurrentPrice())));
         itemTimeRemaining.setText(String.format(Locale.US,"%s",timeInStandardFormat  ));
         itemcurrentWinnerName.setText(String.format(Locale.US,"%s", item.getCurrentWinnerName()));
         itemCategoryTextView.setText(String.format("%s" ,itemArray.categoryString[item.getCategory()]));
-
-
-
 
 
         String fileKey = item.getItemKey();
@@ -100,8 +100,9 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
         // Check if the local file exists
          localFile = new File(getContext().getFilesDir(), fileKey);
+//         localFile = null;
 
-        if (localFile.exists()) {
+        if (false) {
             // If the local file exists, load it using Picasso or Glide
             Picasso.get().load(localFile).into(itemImageView);
             // Alternatively, use Glide
@@ -118,7 +119,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
                     // Download the image to local storage
                     downloadImageToLocal(fileRef, localFile);
-
                 }
 
                 private void downloadImageToLocal(StorageReference fileRef, final File localFile) {
@@ -126,17 +126,20 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                             // File downloaded successfully to local storage
+//                            Toast.makeText(getContext(), "Image Downloaded" + localFile.getName(), Toast.LENGTH_SHORT).show();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure( Exception exception) {
                             // Handle the error if the file download fails
+//                            Toast.makeText(getContext(), "Image Download Failed", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
 
             });
+
         }
 
 
@@ -185,11 +188,42 @@ public class ItemAdapter extends ArrayAdapter<Item> {
          StorageReference storageRef = storage.getReference("Upload");
          final StorageReference fileRef = storageRef.child(fileKey);
 
-         File tempLocalFile = new File(getContext().getFilesDir(), item.getItemKey());
-         Picasso.get().load(tempLocalFile).into(dialogImage);
+         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+             @Override
+             public void onSuccess(Uri uri) {
+                 // Load the image using Picasso or Glide
+                 Picasso.get().load(uri).into(dialogImage);
+                 // Alternatively, use Glide
+                 // Glide.with(getContext().getApplicationContext()).load(uri).into(itemImageView);
+
+                 // Download the image to local storage
+                 downloadImageToLocal(fileRef, localFile);
+             }
+
+             private void downloadImageToLocal(StorageReference fileRef, final File localFile) {
+                 fileRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                     @Override
+                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                         // File downloaded successfully to local storage
+//                            Toast.makeText(getContext(), "Image Downloaded" + localFile.getName(), Toast.LENGTH_SHORT).show();
+
+                     }
+                 }).addOnFailureListener(new OnFailureListener() {
+                     @Override
+                     public void onFailure( Exception exception) {
+                         // Handle the error if the file download fails
+//                            Toast.makeText(getContext(), "Image Download Failed", Toast.LENGTH_SHORT).show();
+                     }
+                 });
+             }
+
+         });
+
+//         File tempLocalFile = new File(getContext().getFilesDir(), fileKey);
+//         Picasso.get().load(tempLocalFile).into(dialogImage);
 
 
-        dialogText.setText(item.getDescription());
+        dialogText.setText(item.getName());
          AlertDialog dialog = dialogBuilder.create();
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,7 +238,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        if (Objects.equals(getItem(position).getOwnerID(), user.getUid())) {
+        if (Objects.equals(getItem(position).getOwnerID(), user.getUid()) || Objects.equals(user.getEmail(), "fardin@gmail.com")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle("Confirm Removal");
             builder.setMessage("Are you sure you want to remove this item?");
@@ -230,23 +264,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             Toast.makeText(getContext(), "You are not the owner of this item.", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-//    private void removebuttonwork(final int position){
-//
-//        FirebaseAuth auth = FirebaseAuth.getInstance();
-//        FirebaseUser user = auth.getCurrentUser();
-//
-//        if(Objects.equals(getItem(position).getOwnerID(), user.getUid())){
-//            itemArray.itemList.get(position).removeFromDatabase();
-//            itemArray.itemList.remove(position);
-//            Toast.makeText(getContext(), "owner", Toast.LENGTH_SHORT).show();
-//        }else{
-//            Toast.makeText(getContext(), "not owner", Toast.LENGTH_SHORT).show();
-//        }
-//
-//        notifyDataSetChanged();
-//    }
 
     private void showChangePriceDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);

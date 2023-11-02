@@ -100,13 +100,30 @@ public class HomeFragment extends Fragment {
 
         // Set up the buttons
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 // Get the item details from the dialog
                 String itemName = itemNameEditText.getText().toString();
                 String itemPriceString = itemNameEditPrice.getText().toString();
                 Float itemPriceFloat = Float.valueOf(itemPriceString);
                 String itemDescription = itemDescriptionText.getText().toString();
+
+                if(itemName.equals("")){
+                    Toast.makeText(context, "Please enter an item name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(itemPriceString.equals("")){
+                    Toast.makeText(context, "Please enter an item price", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(final_uri == null){
+                    Toast.makeText(context, "Please select an image", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 int itemAuctionDaysTime = 0;
                 int itemAuctionHoursTime = 0;
@@ -146,7 +163,11 @@ public class HomeFragment extends Fragment {
                     }
                 }
 
-                dialog.dismiss();
+                if(final_uri == null){
+                    Toast.makeText(context.getApplicationContext(), "Please select an image", Toast.LENGTH_SHORT).show();
+                }else{
+                    dialog.dismiss();
+                }
             }
         });
 

@@ -35,6 +35,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button registerButton;
     private FirebaseAuth mAuth;
     private ImageButton backImage;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class RegistrationActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.register_password);
         passwordEditText2 = findViewById(R.id.register_password2);
         registerButton = findViewById(R.id.register_button);
-        backImage = (ImageButton) findViewById(R.id.back_image);
+        backButton =  findViewById(R.id.backButton);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,13 +58,12 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
-        backImage.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
-                Log.d("MyApp", "Back image clicked");
-                startActivity(new Intent(RegistrationActivity.this, loginActivity.class));
-                finish();
-//                Toast.makeText(RegistrationActivity.this, "you clicked it", Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                Intent intent = new Intent(RegistrationActivity.this, loginActivity.class);
+                startActivity(intent);
             }
         });
 
