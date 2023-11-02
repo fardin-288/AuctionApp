@@ -111,40 +111,10 @@
                 </LinearLayout>
 
 
-
-
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="Or Sign In With"
-                    android:textAlignment="center"
-                    android:textSize="18dp" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/signin_facebook"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/fb" />
-
-                    <ImageView
-                        android:id="@+id/signin_google"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/google" />
-
-
-                </LinearLayout>
+                    android:orientation="horizontal"/>
 
             </LinearLayout>
         </LinearLayout>
