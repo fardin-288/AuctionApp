@@ -166,6 +166,14 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
             }
         });
 
+        Button contactSellerButton = convertView.findViewById(R.id.contactSellerButton);
+        contactSellerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contactSellerFunc(position, getContext());
+            }
+        });
+
         Button removeItemButton = convertView.findViewById(R.id.removeItemButton);
         removeItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,6 +243,14 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
             }
         });
         dialog.show();
+    }
+
+    private void contactSellerFunc(int position, Context context) {
+        String sellerEmail = itemArray.itemList.get(position).getOwnerEmailId();
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse("mailto:"+sellerEmail));
+        context.startActivity(emailIntent);
     }
 
     private void removebuttonwork(final int position) {

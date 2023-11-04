@@ -332,6 +332,16 @@
                     android:text="Change Bid" />
 
                 <Button
+                    android:id="@+id/contactSellerButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:textSize="10dp"
+                    android:backgroundTint="@color/profilePurple"
+                    android:text="Contact Seller" />
+
+                <Button
                     android:id="@+id/removeItemButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

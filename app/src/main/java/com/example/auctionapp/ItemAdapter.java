@@ -40,18 +40,11 @@ import java.util.Objects;
 public class ItemAdapter extends ArrayAdapter<Item> {
  private    File localFile;
     private Activity activity;
-//    public static List<Item> itemList;
 
 
     public ItemAdapter(Activity activity, List<Item> itemList) {
         super(activity, 0, itemList);
         this.activity = activity;
-//        this.itemList = itemList;
-    }
-
-    public void addDataFromFirebase()
-    {
-
     }
 
 
@@ -162,6 +155,14 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             }
         });
 
+        Button contactSellerButton = convertView.findViewById(R.id.contactSellerButton);
+        contactSellerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contactSellerFunc(position, getContext());
+            }
+        });
+
         Button removeItemButton = convertView.findViewById(R.id.removeItemButton);
         removeItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,6 +233,15 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             }
         });
         dialog.show();
+    }
+
+
+    private void contactSellerFunc(int position, Context context) {
+        String sellerEmail = itemArray.itemList.get(position).getOwnerEmailId();
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse("mailto:"+sellerEmail));
+        context.startActivity(emailIntent);
     }
 
     private void removebuttonwork(final int position) {
