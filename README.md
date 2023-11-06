@@ -14,12 +14,14 @@ BidBazzar offers a range of features, including:
 - Product Listing with Minimum Bid Prices
 - Real-time Bidding System
 - Winning Auctions with Highest Bids
+- Contacting the buyer and seller
 - Listing Management for Sellers
 - Transaction History
 - Product Search
 - Profile Customization
 - Contacting Authorities
 - Sign Out
+  
 
 ### Tools, Technologies, and Frameworks Used
 - Android Studio for app development
