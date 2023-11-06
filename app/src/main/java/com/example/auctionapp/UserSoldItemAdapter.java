@@ -1,11 +1,15 @@
 package com.example.auctionapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -49,6 +53,24 @@ public class UserSoldItemAdapter extends RecyclerView.Adapter<UserSoldItemAdapte
             itemPrice = itemView.findViewById(R.id.item_price);
             sellerName = itemView.findViewById(R.id.sellerName);
             sellerEmail = itemView.findViewById(R.id.sellerEmail);
+
+            ConstraintLayout wonCardView = itemView.findViewById(R.id.wonCardView);
+            wonCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String SellerEmail = sellerEmail.getText().toString();
+
+                    if(!SellerEmail.equals("")){
+                        Toast.makeText(view.getContext(), "No Buyer", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                    emailIntent.setData(Uri.parse("mailto:"+SellerEmail));
+                    view.getContext().startActivity(emailIntent);
+
+                }
+            });
         }
 
         public void bind(Item item) {
