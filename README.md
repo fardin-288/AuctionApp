@@ -42,7 +42,7 @@ You can find the project's source code on GitHub: [BidBazzar GitHub Repository](
 Watch a demo of the BidBazzar app on YouTube: [BidBazzar Demo](https://www.youtube.com/watch?v=NDRO9Hs3l8Q)
 
 ### APK Link
-
+[BidBazarAPK Link](https://drive.google.com/drive/folders/1JTzq6cRRoTEV2KcF0KFL9afMsppXNXFb?usp=drive_link)
 
 ## Conclusion
 

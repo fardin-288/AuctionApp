@@ -162,7 +162,6 @@ public class UserBidItemAdapter extends ArrayAdapter<Item> {
             public void onClick(View view) {
                 //for testing it is commented out
                 showChangePriceDialog(FinalPosition);
-                Toast.makeText(getContext(),FinalPosition+"",Toast.LENGTH_SHORT).show();
             }
         });
 
